@@ -4,6 +4,10 @@
     - [1.1 Basics](#11-basics)
     - [1.2 查看element的caps](#12-%E6%9F%A5%E7%9C%8Belement%E7%9A%84caps)
 - [2. gst-discoverer](#2-gst-discoverer)
+- [3. debug](#3-debug)
+    - [3.1 打印调试信息](#31-%E6%89%93%E5%8D%B0%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF)
+    - [3.2 获取pipeline图像](#32-%E8%8E%B7%E5%8F%96pipeline%E5%9B%BE%E5%83%8F)
+    - [3.3 环境变量的设置](#33-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E8%AE%BE%E7%BD%AE)
 
 # 1. gst-inspect
 ## 1.1 Basics
@@ -211,4 +215,59 @@ Properties:
   Seekable: yes
   Tags:
       video codec: H.264 (High Profile)
+```
+
+# 3. debug
+[GStreamer基础教程11——调试工具](http://blog.csdn.net/sakulafly/article/details/21559785)
+## 3.1 打印调试信息
+设置环境变量 **GST_DEBUG**
+```
+GST_DEBUG=2
+GST_DEBUG=2,audiotestsrc:5
+GST_DEBUG=2,audio*:5
+```
+## 3.2 获取pipeline图像
+设置**GST_DEBUG_DUMP_DOT_DIR**变量就可以在每次pipeline的状态变化时查看序列图
+
+## 3.3 环境变量的设置
+```dos
+set GSTREAMER_ROOT=%~dp0
+set GST_PLUGIN_SYSTEM_PATH_1_0=%GSTREAMER_ROOT%/lib/gstreamer-1.0
+set GIO_EXTRA_MODULES=%GSTREAMER_ROOT%/lib/gio/modules
+set GST_PLUGIN_SYSTEM_PATH=%GSTREAMER_ROOT%/lib/gstreamer-0.10
+set GST_PLUGIN_SCANNER=%GSTREAMER_ROOT%/libexec/gstreamer-0.10/gst-plugin-scanner
+set GST_PLUGIN_SCANNER_1_0=%GSTREAMER_ROOT%/libexec/gstreamer-1.0/gst-plugin-scanner
+PATH=%GSTREAMER_ROOT%bin;%PATH%
+set GI_TYPELIB_PATH=%GSTREAMER_ROOT%/lib/girepository-1.0
+
+
+start cmd
+```
+
+```bash
+#!/bin/bash
+
+export GSTREAMER_ROOT="d:/gstreamer/1.0/x86_64"
+export CPPFLAGS="-I${GSTREAMER_ROOT}/include ${CPPFLAGS}"
+export GST_REGISTRY_1_0="${HOME}/.cache/gstreamer-1.0/gstreamer-cerbero-registry"
+export XDG_CONFIG_DIRS="${GSTREAMER_ROOT}/etc/xdg${XDG_CONFIG_DIRS:+:$XDG_CONFIG_DIRS}:/etc/xdg"
+export LDFLAGS="-L${GSTREAMER_ROOT}/lib ${LDFLAGS}"
+export XDG_DATA_DIRS="${GSTREAMER_ROOT}/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}:/usr/local/share:/usr/share"
+export GST_PLUGIN_SYSTEM_PATH_1_0="${GSTREAMER_ROOT}/lib/gstreamer-1.0"
+export GIO_EXTRA_MODULES="${GSTREAMER_ROOT}/lib/gio/modules"
+export GST_PLUGIN_SYSTEM_PATH="${GSTREAMER_ROOT}/lib/gstreamer-0.10"
+export GST_PLUGIN_SCANNER="${GSTREAMER_ROOT}/libexec/gstreamer-0.10/gst-plugin-scanner"
+export GST_PLUGIN_SCANNER_1_0="${GSTREAMER_ROOT}/libexec/gstreamer-1.0/gst-plugin-scanner"
+export CFLAGS="-I${GSTREAMER_ROOT}/include ${CFLAGS}"
+export PYTHONPATH="${GSTREAMER_ROOT}/lib/python2.7/site-packages${PYTHONPATH:+:$PYTHONPATH}"
+export PKG_CONFIG_PATH="${GSTREAMER_ROOT}/lib/pkgconfig:${GSTREAMER_ROOT}/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+export PATH="${GSTREAMER_ROOT}/bin${PATH:+:$PATH}:/usr/local/bin:/usr/bin:/bin"
+export GST_REGISTRY="${HOME}/.gstreamer-0.10/gstreamer-cerbero-registry"
+export LD_LIBRARY_PATH="${GSTREAMER_ROOT}/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export CXXFLAGS="-I${GSTREAMER_ROOT}/include ${CXXFLAGS}"
+export GI_TYPELIB_PATH="${GSTREAMER_ROOT}/lib/girepository-1.0"
+
+
+$SHELL "$@"
+
 ```
