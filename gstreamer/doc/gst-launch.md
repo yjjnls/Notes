@@ -7,17 +7,17 @@
     - [1.3 设置pad](#13-%E8%AE%BE%E7%BD%AEpad)
 - [2. Examples](#2-examples)
     - [2.1 直接浏览视频流](#21-%E7%9B%B4%E6%8E%A5%E6%B5%8F%E8%A7%88%E8%A7%86%E9%A2%91%E6%B5%81)
-        - [2.1.1 浏览测试视频](#211-%E6%B5%8F%E8%A7%88%E6%B5%8B%E8%AF%95%E8%A7%86%E9%A2%91)
-        - [2.1.2 浏览ipc码流](#212-%E6%B5%8F%E8%A7%88ipc%E7%A0%81%E6%B5%81)
+        - [2.1.1 test video](#211-test-video)
+        - [2.1.2 ipc码流](#212-ipc%E7%A0%81%E6%B5%81)
             - [2.1.2.1 playbin](#2121-playbin)
             - [2.1.2.2 uridecodebin](#2122-uridecodebin)
             - [2.1.2.3 rtspsrc](#2123-rtspsrc)
     - [2.2 录制视频流](#22-%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E6%B5%81)
-        - [2.2.1 videotestsrc](#221-videotestsrc)
-        - [2.2.2 rtspsrc](#222-rtspsrc)
+        - [2.2.1 test video](#221-test-video)
+        - [2.2.2 ipc](#222-ipc)
     - [2.3 Rtsp推流](#23-rtsp%E6%8E%A8%E6%B5%81)
-        - [2.3.1 filesrc](#231-filesrc)
-        - [2.3.2 rtspsrc](#232-rtspsrc)
+        - [2.3.1 file](#231-file)
+        - [2.3.2 ipc](#232-ipc)
         - [2.3.3 receive](#233-receive)
 
 
@@ -49,11 +49,11 @@ gst-launch-0.10.exe souphttpsrc location=http://docs.gstreamer.com/media/sintel_
 ----------------
 # 2. Examples
 ## 2.1 直接浏览视频流
-### 2.1.1 浏览测试视频
+### 2.1.1 test video
 ```
 gst-launch-1.0 videotestsrc ! autovideosink
 ```
-### 2.1.2 浏览ipc码流
+### 2.1.2 ipc码流
 #### 2.1.2.1 playbin
 ```
 gst-launch-1.0 playbin uri=rtsp://172.16.66.66:554/id=1
@@ -70,7 +70,7 @@ gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! av
 * __avdec_h264__ 将h264码流解码
 
 ## 2.2 录制视频流
-### 2.2.1 videotestsrc
+### 2.2.1 test video
 Encode video to H.264 using x264 and put it into MPEG-TS transport stream:
 ```
 win
@@ -88,7 +88,7 @@ The -e option forces EOS on sources before shutting the pipeline down. This is u
 gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=360 ! x264enc ! mpegtsmux ! filesink location=test.ts
 ```
 
-### 2.2.2 rtspsrc
+### 2.2.2 ipc
 ```
 win
 gst-launch-1.0 -e rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=test2.ts
@@ -101,7 +101,7 @@ gst-launch-1.0 -e rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay !
 - h264parse 可以不用
 
 ## 2.3 Rtsp推流
-### 2.3.1 filesrc 
+### 2.3.1 file 
 ```
 win
 gst-launch-1.0 -v filesrc location="D:\\tmp\\wms\\build\\build.debug\\local\\x86_64\\test.ts" ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
@@ -114,7 +114,7 @@ gst-launch-1.0 -v filesrc location=/mnt/hgfs/wintmp/wms/test.ts ! h264parse ! rt
 ```
 gst-launch-1.0 -v filesrc location="D:\\tmp\\wms\\build\\build.debug\\local\\x86_64\\test.ts" ! tsdemux ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
 ```
-### 2.3.2 rtspsrc 
+### 2.3.2 ipc 
 ```
 win
 gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
