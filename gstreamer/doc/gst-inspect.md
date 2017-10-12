@@ -1,19 +1,16 @@
 <font face="微软雅黑">
 
-- [Basics](#basics)
-    - [不带参数](#%E4%B8%8D%E5%B8%A6%E5%8F%82%E6%95%B0)
-    - [带一个文件名](#%E5%B8%A6%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8D)
-    - [带一个GStreamer的element](#%E5%B8%A6%E4%B8%80%E4%B8%AAgstreamer%E7%9A%84element)
-        - [查看element的caps](#%E6%9F%A5%E7%9C%8Belement%E7%9A%84caps)
+- [1. gst-inspect](#1-gst-inspect)
+    - [1.1 Basics](#11-basics)
+    - [1.2 查看element的caps](#12-%E6%9F%A5%E7%9C%8Belement%E7%9A%84caps)
+- [2. gst-discoverer](#2-gst-discoverer)
 
-# Basics
-## 不带参数
-它会列出所有可用的element，也就是你所有可以使用的元素
-## 带一个文件名
-它会把这个文件作为GStreamer的一个插件，试着打开，然后列出内部所有的element
-## 带一个GStreamer的element
-会列出该element的所有信息
-### 查看element的caps
+# 1. gst-inspect
+## 1.1 Basics
+* 不带参数，它会列出所有可用的element，也就是你所有可以使用的元素
+* 带一个文件名，它会把这个文件作为GStreamer的一个插件，试着打开，然后列出内部所有的element
+* 带一个GStreamer的element，会列出该element的所有信息
+## 1.2 查看element的caps
 ```
 gst-inspect-1.0 videotestsrc
 ```
@@ -202,3 +199,16 @@ Pad Templates:
       ANY
 ```
 表示autovideosink可以接收任何类型的cap。
+
+# 2. gst-discoverer
+参数为文件，可以查看媒体文件的信息。比如查看录制的videotestsrc的录像文件，可以看到它的媒体属性。
+```
+Topology:
+  video: H.264 (High Profile)
+
+Properties:
+  Duration: 0:02:46.347000000
+  Seekable: yes
+  Tags:
+      video codec: H.264 (High Profile)
+```
