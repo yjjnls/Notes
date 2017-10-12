@@ -14,6 +14,11 @@
             - [2.1.2.3 rtspsrc](#2123-rtspsrc)
     - [2.2 录制视频流](#22-%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E6%B5%81)
         - [2.2.1 videotestsrc](#221-videotestsrc)
+        - [2.2.2 rtspsrc](#222-rtspsrc)
+    - [2.3 Rtsp推流](#23-rtsp%E6%8E%A8%E6%B5%81)
+        - [2.3.1 filesrc](#231-filesrc)
+        - [2.3.2 rtspsrc](#232-rtspsrc)
+        - [2.3.3 receive](#233-receive)
 
 
 # 1.Basics
@@ -71,3 +76,23 @@ gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=
 ```
 * __video/x-raw__ 设置流的类型，也可以不设置采用默认类型
 * __x264enc__ 将原始码流编码，再保存成文件
+
+### 2.2.2 rtspsrc
+```
+win
+gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=test2.ts
+
+linux
+gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=/mnt/hgfs/wintmp/wms/test2.ts
+
+```
+- 没有 ! avdec_h264 ! x264enc ,录制的文件无法播放
+- h264parse 可以不要
+
+## 2.3 Rtsp推流
+### 2.3.1 filesrc 
+### 2.3.2 rtspsrc 
+### 2.3.3 receive
+```
+gst-launch-1.0 udpsrc port=5000 ! application/x-rtp, clock-rate=90000,payload=96 ! rtph264depay !  avdec_h264 ! autovideosink
+```
