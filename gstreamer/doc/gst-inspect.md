@@ -230,7 +230,7 @@ GST_DEBUG=2,audio*:5
 设置**GST_DEBUG_DUMP_DOT_DIR**变量就可以在每次pipeline的状态变化时查看序列图
 
 ## 3.3 环境变量的设置
-```dos
+```batch
 set GSTREAMER_ROOT=%~dp0
 set GST_PLUGIN_SYSTEM_PATH_1_0=%GSTREAMER_ROOT%/lib/gstreamer-1.0
 set GIO_EXTRA_MODULES=%GSTREAMER_ROOT%/lib/gio/modules
