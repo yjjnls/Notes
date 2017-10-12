@@ -1,4 +1,24 @@
 
+<font face="微软雅黑">
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+<!-- code_chunk_output -->
+
+* [gst-launch](#gst-launch)
+	* [1.Basics](#1basics)
+		* [设置属性](#设置属性)
+		* [带名称的element](#带名称的element)
+		* [设置pad](#设置pad)
+	* [2.Examples](#2examples)
+		* [浏览视频流](#浏览视频流)
+			* [浏览测试视频](#浏览测试视频)
+			* [浏览ipc码流](#浏览ipc码流)
+				* [playbin](#playbin)
+				* [uridecodebin](#uridecodebin)
+				* [rtspsrc](#rtspsrc)
+		* [录制视频流](#录制视频流)
+
+<!-- /code_chunk_output -->
 
 ## gst-launch
 ### 1.Basics
@@ -46,7 +66,7 @@ gst-launch-1.0 uridecodebin uri=rtsp://172.16.66.66:554/id=1 ! autovideosink
 ```
 gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! avdec_h264 ! autovideosink
 ```
-rtph264depay 用与将rtp包解包
+rtph264depay 用于将rtp包解包
 avdec_h264 将h264码流解码
 
 #### 录制视频流
