@@ -10,13 +10,14 @@
 		* [带名称的element](#带名称的element)
 		* [设置pad](#设置pad)
 	* [2.Examples](#2examples)
-		* [浏览视频流](#浏览视频流)
+		* [直接浏览视频流](#直接浏览视频流)
 			* [浏览测试视频](#浏览测试视频)
 			* [浏览ipc码流](#浏览ipc码流)
 				* [playbin](#playbin)
 				* [uridecodebin](#uridecodebin)
 				* [rtspsrc](#rtspsrc)
 		* [录制视频流](#录制视频流)
+			* [videotestsrc](#videotestsrc)
 
 <!-- /code_chunk_output -->
 
@@ -48,7 +49,7 @@ gst-launch-0.10.exe souphttpsrc location=http://docs.gstreamer.com/media/sintel_
 
 ----------------
 ### 2.Examples
-#### 浏览视频流
+#### 直接浏览视频流
 ##### 浏览测试视频
 ```
 gst-launch-1.0 videotestsrc ! autovideosink
@@ -70,3 +71,9 @@ rtph264depay 用于将rtp包解包
 avdec_h264 将h264码流解码
 
 #### 录制视频流
+##### videotestsrc
+```
+gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=360 ! x264enc ! filesink location=test.ts
+```
+video/x-raw 设置流的类型，也可以不设置采用默认类型
+x264enc 将原始码流编码，再保存成文件
