@@ -71,27 +71,57 @@ gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! av
 
 ## 2.2 录制视频流
 ### 2.2.1 videotestsrc
+Encode video to H.264 using x264 and put it into MPEG-TS transport stream:
 ```
+win
 gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=360 ! x264enc ! filesink location=test.ts
+
+linux
+gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=360 ! x264enc ! filesink location=/mnt/hgfs/wintmp/wms/test.ts
 ```
 * __video/x-raw__ 设置流的类型，也可以不设置采用默认类型
 * __x264enc__ 将原始码流编码，再保存成文件
+The -e option forces EOS on sources before shutting the pipeline down. This is useful when we write to files and want to shut down by killing gst-launch using CTRL+C or with the kill command
+
+也可以加上混合器**mpegtsmux**  
+```
+gst-launch-1.0 -e videotestsrc ! video/x-raw, framerate=25/1, width=640, height=360 ! x264enc ! mpegtsmux ! filesink location=test.ts
+```
 
 ### 2.2.2 rtspsrc
 ```
 win
-gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=test2.ts
+gst-launch-1.0 -e rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=test2.ts
 
 linux
-gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=/mnt/hgfs/wintmp/wms/test2.ts
+gst-launch-1.0 -e rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! avdec_h264 ! x264enc  ! filesink location=/mnt/hgfs/wintmp/wms/test2.ts
 
 ```
 - 没有 ! avdec_h264 ! x264enc ,录制的文件无法播放
-- h264parse 可以不要
+- h264parse 可以不用
 
 ## 2.3 Rtsp推流
 ### 2.3.1 filesrc 
+```
+win
+gst-launch-1.0 -v filesrc location="D:\\tmp\\wms\\build\\build.debug\\local\\x86_64\\test.ts" ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
+
+linux
+gst-launch-1.0 -v filesrc location=/mnt/hgfs/wintmp/wms/test.ts ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=172.16.64.68 port=5000
+```
+**host**为目标ip
+如果录制文件时用了混合器，则在推流时要用相应的解混器，例如**tsdemux**
+```
+gst-launch-1.0 -v filesrc location="D:\\tmp\\wms\\build\\build.debug\\local\\x86_64\\test.ts" ! tsdemux ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
+```
 ### 2.3.2 rtspsrc 
+```
+win
+gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
+
+linux
+gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=172.16.64.58 port=5000
+```
 ### 2.3.3 receive
 ```
 gst-launch-1.0 udpsrc port=5000 ! application/x-rtp, clock-rate=90000,payload=96 ! rtph264depay !  avdec_h264 ! autovideosink
