@@ -110,6 +110,7 @@ linux
 gst-launch-1.0 -v filesrc location=/mnt/hgfs/wintmp/wms/test.ts ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=172.16.64.68 port=5000
 ```
 **host**为目标ip
+
 如果录制文件时用了混合器，则在推流时要用相应的解混器，例如**tsdemux**
 ```
 gst-launch-1.0 -v filesrc location="D:\\tmp\\wms\\build\\build.debug\\local\\x86_64\\test.ts" ! tsdemux ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
