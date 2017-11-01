@@ -1,0 +1,10 @@
+<object type='application/x-vlc-plugin' id='vlc' width="200" height="500" events='True' pluginspage="http://www.videolan.org"
+    codebase="http://downloads.videolan.org/pub/videolan/vlc-webplugins/2.0.6/npapi-vlc-2.0.6.tar.xz">
+    <param name='mrl' value='rtsp://127.0.0.1:8554/test' />
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param value="transparent" name="wmode">
+    <embed id='vlc' wmode="transparent" type="application/x-vlc-plugin" width="800" height="600" pluginspage="http://www.videolan.org"
+        allownetworking="internal" allowscriptaccess="always" quality="high" src="rtsp://127.0.0.1:8554/test">
+</object>
