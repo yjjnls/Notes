@@ -31,3 +31,14 @@ glib-2.0.lib
 GST_PLUGIN_PATH=D:\tmp\wms\build\build.debug\local\x86_64\bin;D:\tmp\wms\build\build.debug\local\x86_64\lib\gstreamer-1.0
 PATH=%PATH%;D:\tmp\wms\build\build.debug\local\x86_64\bin
 ```
+
+## Run
+### command-line
+```
+./test-launch "( videotestsrc ! x264enc ! rtph264pay name=pay0 pt=96 )"
+```
+- 这里的引号一定要有
+### vlc
+```
+rtsp://127.0.0.1:8554/test
+```
