@@ -55,3 +55,16 @@ void setup_video_receive_elements(...)
     rtpdepay, parser, videorepair1, decoder
 
 ```
+
+test-client
+```c
+owr_init(NULL);
+owr_get_capture_sources(OWR_MEDIA_TYPE_AUDIO | OWR_MEDIA_TYPE_VIDEO,
+        (OwrCaptureSourcesCallback)got_local_sources, url);
+owr_run();
+```
+owr_get_capture_sources在owr_loacl模块中设置本地源  
+  
+owr_get_capture_sources
+╰──owr_transport_agent_new
+owr_transport_agent_init
