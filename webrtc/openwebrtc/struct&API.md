@@ -79,9 +79,13 @@ handle_offer (test_client.c)
 ╰───owr_media_session_add_receive_payload(media_session, receive_payload);
 ╰───owr_media_session_set_send_payload(media_session, send_payload); 
 |//添加remote candidate（如果offer中有）  
-╰───owr_session_add_remote_candidate
+╰───remote_candidate = owr_candidate_new(...)
+╰───owr_session_add_remote_candidate(OWR_SESSION(media_session), remote_candidate)
 |//添加remote_candidate/remote source/local candidate/dtls certificate
 ╰───g_signal_connect(media_session, "on-incoming-source", G_CALLBACK(got_remote_source), NULL);
+    ╰ ─ ─ ─ got_remote_source()
+            ╰───owr_media_renderer_set_source()
+                ╰───set_source()
 |//依据local source 设置要发送的source
 ╰───owr_media_session_set_send_source() 
 |//将media_session添加到transport_agent中
