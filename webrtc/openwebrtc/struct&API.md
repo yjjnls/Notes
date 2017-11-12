@@ -81,13 +81,24 @@ handle_offer (test_client.c)
 |//添加remote candidate（如果offer中有）  
 ╰───remote_candidate = owr_candidate_new(...)
 ╰───owr_session_add_remote_candidate(OWR_SESSION(media_session), remote_candidate)
+
 |//添加remote_candidate/remote source/local candidate/dtls certificate
 ╰───g_signal_connect(media_session, "on-incoming-source", G_CALLBACK(got_remote_source), NULL);
     ╰ ─ ─ ─ got_remote_source()
             ╰───owr_media_renderer_set_source()
                 ╰───set_source()
+╰───g_signal_connect(media_session, "on-new-candidate", G_CALLBACK(got_candidate), NULL);
+╰───g_signal_connect(media_session, "on-candidate-gathering-done", G_CALLBACK(candidate_gathering_done), NULL);
+    ╰ ─ ─ ─ candidate_gathering_done()
+            ╰───can_send_answer()──────────────────────────────────────────────────────────────────────────────╮
+╰───g_signal_connect(media_session, "notify::dtls-certificate", G_CALLBACK(got_dtls_certificate), NULL);       |
+    ╰ ─ ─ ─ got_dtls_certificate()                                                                             |
+            ╰───can_send_answer()──────────────────────────────────────────────────────────────────────────────╮
+                                                                                                               |
 |//依据local source 设置要发送的source
 ╰───owr_media_session_set_send_source() 
 |//将media_session添加到transport_agent中
 ╰───owr_transport_agent_add_session(transport_agent, OWR_SESSION(media_session));
 ```
+
+ψ(╰_╯)╰(￣▽￣)╮
