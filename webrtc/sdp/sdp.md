@@ -76,3 +76,32 @@ a=rtpmap:&lt; payload type> &lt; encoding name>/&lt; clock rate>[/< encoding par
 &lt; clock rate >：采样频率  
 &lt; encoding parameters >:对语音编码来说，该参数表示语音声道。  
 对视频编码不提供该参数。
+
+-----
+sdp协商过程中的send payload和receive payload要根据offer中的mode来进行不同的设置
+
+offer中的mode为recvonly
+answer只设置send payload，且mode设为sendonly
+
+offer中的mode为sendonly
+answer只设置receive payload，且mode设为recvonly
+
+offer中的mode为sendrecv
+answer中两个payload都要设置，且mode也设置为sendrecv
+
+answer的mode为snedonly或者sendrecv时，要另外设置ssrc和cname等
+```cpp
+mediaDescription.ssrc_group = it_offer_media_description->ssrc_group;
+if (mediaDescription.ssrc_group.empty())
+    mediaDescription.ssrc_group = "FID";
+mediaDescription.ssrcs.push_back(send_ssrc);
+mediaDescription.ssrcs.push_back(2231627014);
+mediaDescription.cname = cname;
+mediaDescription.mediastreamid = uuid_string_random();
+mediaDescription.mediastreamtrackid = uuid_string_random();
+```
+
+offer的mode为recvonly或者sendrecv，才设置local source
+```c
+on_set_local_source(media_session, media_type, local_sources_);
+```
