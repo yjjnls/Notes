@@ -30,7 +30,7 @@ browser.quit()
 [ref](http://selenium-python.readthedocs.io/api.html)
 
 ## capabilities
-web driver在构造浏览器的时候可以加入相应的参数，来
+web driver在构造浏览器的时候可以加入相应的参数，修改浏览器的特定参数，满足某些情况下的测试环境要求。
 
 
 
