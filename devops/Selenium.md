@@ -29,5 +29,8 @@ browser.quit()
 ```
 [ref](http://selenium-python.readthedocs.io/api.html)
 
+## capabilities
+web driver在构造浏览器的时候可以加入相应的参数，来
+
 
 
