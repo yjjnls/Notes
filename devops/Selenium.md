@@ -40,5 +40,24 @@ desired_capabilities['chromeOptions'] = {
 browser = webdriver.Chrome(desired_capabilities=desired_capabilities)
 ```
 
+## 切换页面
+```python
+for handle in browser.window_handles: 
+    browser.switch_to_window(handle)
+```
+## 等待
+当点击页面上面某个按钮之后，新元素和页面的加载需要等待，可以直接用sleep或者用
+```python
+try:
+    WebDriverWait(browser, 3, 0.5).until(
+        lambda x: x.find_element_by_id('remoteVideo').is_displayed())
+except TimeoutException, e:
+    print '------------'
+    print e.message
+else:
+    video = browser.find_element_by_id('remoteVideo')
+    print 
+```
 
+[ref](http://blog.csdn.net/ping523/article/details/53419622)
 
