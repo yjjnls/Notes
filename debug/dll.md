@@ -1,4 +1,8 @@
 # Policies/Binary Compatibility Issues With C++
+
+https://community.kde.org/Policies/Binary_Compatibility_Issues_With_C%2B%2B
+
+
 所谓“二进制兼容性”指的就是在升级（也可能是 bug fix）库文件的时候，不必重新编译使用这个库的可执行文件或使用这个库的其他库文件，程序的功能不被破坏。
 
 
@@ -14,27 +18,28 @@ int open(const char *pathname, int flags);
 
 **因为这么做会破坏二进制兼容性。对于已经编译好的可执行文件，它调用 open(2) 的参数是写死的，更改头文件并不能影响已经编译好的可执行文件。**比方说这个可执行文件会调用 open(path, 1) 来写 文件，而在新规定中，这表示读 文件，程序就错乱了。
 
+## C++ ABI 的主要内容
+* 函数参数传递的方式，比如 x86-64 用寄存器来传函数的前 4 个整数参数
+* `虚函数的调用`方式，通常是 vptr/vtbl 然后用 vtbl[offset] 来调用
+* struct 和 class 的内存布局，通过`偏移量`来访问数据成员
+* name mangling
+* RTTI 和异常处理的实现（以下本文不考虑异常处理）
+C/C++ 通过头文件暴露出动态库的使用方法，这个“使用方法”主要是给编译器看的，编译器会据此生成二进制代码，然后在运行的时候通过装载器(loader)把可执行文件和动态库绑到一起。**如何判断一个改动是不是二进制兼容，主要就是看头文件暴露的这份“使用说明”能否与新版本的动态库的实际使用方法兼容。因为新的库必然有新的头文件，但是现有的二进制可执行文件还是按旧的头文件来调用动态库。**
+
+
 ## 有哪些情况会破坏库的 ABI
-
-函数参数传递的方式，比如 x86-64 用寄存器来传函数的前 4 个整数参数
-虚函数的调用方式，通常是 vptr/vtbl 然后用 vtbl[offset] 来调用
-struct 和 class 的内存布局，通过偏移量来访问数据成员
-name mangling
-RTTI 和异常处理的实现（以下本文不考虑异常处理）
-C/C++ 通过头文件暴露出动态库的使用方法，这个“使用方法”主要是给编译器看的，编译器会据此生成二进制代码，然后在运行的时候通过装载器(loader)把可执行文件和动态库绑到一起。如何判断一个改动是不是二进制兼容，主要就是看头文件暴露的这份“使用说明”能否与新版本的动态库的实际使用方法兼容。因为新的库必然有新的头文件，但是现有的二进制可执行文件还是按旧的头文件来调用动态库。
-
 这里举一些源代码兼容但是二进制代码不兼容例子
 
-给函数增加默认参数，现有的可执行文件无法传这个额外的参数。
-增加虚函数，会造成 vtbl 里的排列变化。（不要考虑“只在末尾增加”这种取巧行为，因为你的 class 可能已被继承。）
-增加默认模板类型参数，比方说 Foo 改为 Foo >，这会改变 name mangling
-改变 enum 的值，把 enum Color { Red = 3 }; 改为 Red = 4。这会造成错位。当然，由于 enum 自动排列取值，添加 enum 项也是不安全的，除非是在末尾添加。
-给 class Bar 增加数据成员，造成 sizeof(Bar) 变大，以及内部数据成员的 offset 变化，这是不是安全的？通常不是安全的，但也有例外。
+* `给函数增加默认参数`，现有的可执行文件无法传这个额外的参数。
+* `增加虚函数`，会造成 vtbl 里的排列变化。（不要考虑“只在末尾增加”这种取巧行为，因为你的 class 可能已被继承。）
+* 增加默认模板类型参数，比方说 Foo 改为 Foo >，这会改变 name mangling
+* 改变 enum 的值，把 enum Color { Red = 3 }; 改为 Red = 4。这会造成错位。当然，由于 enum 自动排列取值，添加 enum 项也是不安全的，除非是在末尾添加。
+* 给 class Bar 增加数据成员，造成 sizeof(Bar) 变大，以及内部数据成员的 offset 变化，这是不是安全的？通常不是安全的，但也有例外。
 
-如果客户代码里有 new Bar，那么肯定不安全，因为 new 的字节数不够装下新 Bar。相反，如果 library 通过 factory 返回 Bar* （并通过 factory 来销毁对象）或者直接返回 shared_ptr，客户端不需要用到 sizeof(Bar)，那么可能是安全的。 同样的道理，直接定义 Bar bar; 对象（无论是函数局部对象还是作为其他 class 的成员）也有二进制兼容问题。
-如果客户代码里有 Bar* pBar; pBar->memberA = xx;，那么肯定不安全，因为 memberA 的新 Bar 的偏移可能会变。相反，如果只通过成员函数来访问对象的数据成员，客户端不需要用到 data member 的 offsets，那么可能是安全的。
-如果客户调用 pBar->setMemberA(xx); 而 Bar::setMemberA() 是个 inline function，那么肯定不安全，因为偏移量已经被 inline 到客户的二进制代码里了。如果 setMemberA() 是 outline function，其实现位于 shared library 中，会随着 Bar 的更新而更新，那么可能是安全的。
-那么只使用 header-only 的库文件是不是安全呢？不一定。如果你的程序用了 boost 1.36.0，而你依赖的某个 library 在编译的时候用的是 1.33.1，那么你的程序和这个 library 就不能正常工作。因为 1.36.0 和 1.33.1 的 boost::function 的模板参数类型的个数不一样，其中一个多了 allocator。
+* 如果客户代码里有 new Bar，那么肯定不安全，因为 new 的字节数不够装下新 Bar。相反，**如果 library 通过 factory 返回 Bar* （并通过 factory 来销毁对象）或者直接返回 shared_ptr，客户端不需要用到 sizeof(Bar)，那么可能是安全的。** 同样的道理，直接定义 Bar bar; 对象（无论是函数局部对象还是作为其他 class 的成员）也有二进制兼容问题。
+* 如果客户代码里有 Bar* pBar; pBar->memberA = xx;，那么肯定不安全，**因为 memberA 的新 Bar 的偏移可能会变**。相反，如果只通过成员函数来访问对象的数据成员，客户端不需要用到 data member 的 offsets，那么可能是安全的。
+* **如果客户调用 pBar->setMemberA(xx); 而 Bar::setMemberA() 是个 `inline function`，那么肯定不安全，因为偏移量已经被 inline 到客户的二进制代码里了。如果 setMemberA() 是 `outline function`，其实现位于 shared library 中，会随着 Bar 的更新而更新，那么可能是安全的。**
+* 那么只使用 header-only 的库文件是不是安全呢？不一定。如果你的程序用了 boost 1.36.0，而你依赖的某个 library 在编译的时候用的是 1.33.1，那么你的程序和这个 library 就不能正常工作。因为 1.36.0 和 1.33.1 的 boost::function 的模板参数类型的个数不一样，其中一个多了 allocator。
 
 ## 哪些做法多半是安全的
 前面我说“不能轻易修改”，暗示有些改动多半是安全的，这里有一份白名单，欢迎添加更多内容。
