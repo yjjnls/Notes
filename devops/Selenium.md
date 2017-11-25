@@ -31,6 +31,14 @@ browser.quit()
 
 ## capabilities
 web driver在构造浏览器的时候可以加入相应的参数，修改浏览器的特定参数，满足某些情况下的测试环境要求。
+```python
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+desired_capabilities = DesiredCapabilities.CHROME.copy()
+desired_capabilities['chromeOptions'] = {
+    "args": ["--flag-switches-begin","--start-maximized", "--flag-switches-end"]
+}
+browser = webdriver.Chrome(desired_capabilities=desired_capabilities)
+```
 
 
 
