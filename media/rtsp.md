@@ -91,3 +91,18 @@ CSeq: 6
 Session: 1511942897
 
 ```
+
+## 出现异常
+rtsp获取码流时，如果在某一步出错了，那么从response就能看出
+
+```
+DESCRIBE rtsp://172.16.66.66/id=33 RTSP/1.0
+CSeq: 2
+User-Agent: GStreamer/1.12.2
+Accept: application/sdp
+Date: Wed, 29 Nov 2017 08:29:39 GMT
+
+RTSP/1.0 404 Not Found
+CSeq: 2
+Date: Wed, Nov 29 2017 08:28:06 GMT
+```
