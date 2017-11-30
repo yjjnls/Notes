@@ -33,7 +33,9 @@ GstElement *rtspsrc = gst_element_factory_make("rtspsrc", "src");
 ```
 第一个参数是element的类型，第二个参数是element的名字  
 还可以用g_object_set来设置element的属性  
-An element can be retrieved from a bin with `gst_bin_get_by_name()`, using the elements name. `gst_bin_get_by_name_recurse_up()` is mainly used for internal purposes and will query the parent bins when the element is not found in the current bin.
+
+
+An element can be retrieved from a bin with `gst_bin_get_by_name()`, using the elements name. It gets the element with the given name from a bin. This function **recurses into child bins**. `gst_bin_get_by_name_recurse_up()` is mainly used for internal purposes and will **query the parent bins** when the element is not found in the current bin.
 ```cpp
 g_object_set(G_OBJECT(rtspsrc), "location", data.url.c_str(), NULL);
 ```
@@ -44,7 +46,7 @@ gboolean `gst_bin_add`(GstBin *bin, GstElement *element);
 void `gst_bin_add_many`(GstBin *bin, GstElement *element_1, ...);  
 gboolean `gst_bin_remove`(GstBin *bin, GstElement *element);  
 
- 
+
 The “element-added” signal is fired whenever a new element is added to the bin. Likewise the “element-removed” signal is fired whenever an element is removed from the bin. [ref](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBin.html)
 
 ## 5.	link element
