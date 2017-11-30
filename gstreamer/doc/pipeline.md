@@ -29,7 +29,7 @@ gst_object_unref(bus_);
 ## 3.	create element
 `gst_element_factory_make`  
 ```cpp
-GstElement *h264parse = gst_element_factory_make("h264parse", "parse");
+GstElement *rtspsrc = gst_element_factory_make("rtspsrc", "src");
 ```
 第一个参数是element的类型，第二个参数是element的名字  
 还可以用g_object_set来设置element的属性  
@@ -37,8 +37,11 @@ An element can be retrieved from a bin with `gst_bin_get_by_name()`, using the e
 ```cpp
 g_object_set(G_OBJECT(rtspsrc), "location", data.url.c_str(), NULL);
 ```
+
+
 ## 4.	add/remove element
-gboolean	 `gst_bin_add`	(GstBin *bin, GstElement *element);  
+gboolean `gst_bin_add`(GstBin *bin, GstElement *element); 
+void `gst_bin_add_many`(GstBin *bin, GstElement *element_1, ...); 
 gboolean `gst_bin_remove`(GstBin *bin, GstElement *element);   
 The “element-added” signal is fired whenever a new element is added to the bin. Likewise the “element-removed” signal is fired whenever an element is removed from the bin. [ref](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBin.html)
 
@@ -47,7 +50,7 @@ The “element-added” signal is fired whenever a new element is added to the b
 Gboolean `gst_pad_can_link`(GstPad *srcpad, GstPad *sinkpad);  
 GstPadLinkReturn `gst_pad_link`(GstPad *srcpad, GstPad *sinkpad); 
 ```cpp
-gst_bin_add_many(rtspsrc, rtph264depay, h264parse, NULL);
+gst_bin_add_many(GST_BIN(owner.pipeline()), rtspsrc, rtph264depay, h264parse, NULL);
 g_signal_connect(rtspsrc, "pad-added", (GCallback)on_rtspsrc_pad_added, this);
 g_warn_if_fail(gst_element_link(rtph264depay, h264parse));
 ```
