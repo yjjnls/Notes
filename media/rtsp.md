@@ -106,3 +106,29 @@ RTSP/1.0 404 Not Found
 CSeq: 2
 Date: Wed, Nov 29 2017 08:28:06 GMT
 ```
+
+```
+PLAY rtsp://172.16.66.68/id=1 RTSP/1.0
+CSeq: 5
+User-Agent: GStreamer/1.12.2
+Range: npt=0-
+Session: 1511936242 
+Date: Wed, 29 Nov 2017 06:17:26 GMT
+
+RTSP/1.0 400 Bad Request
+CSeq: 5
+Session: 1511936242
+RTP-Info: url=video/id=0;seq=0;rtptime=0,url=audio/id=0;seq=0;rtptime=0
+Range: npt=0-
+Date: Wed, Dec 29 2017 06:17:22 GMT
+
+GET_PARAMETER rtsp://172.16.66.68/id=1 RTSP/1.0
+CSeq: 6
+User-Agent: GStreamer/1.12.2
+Session: 1511936242
+Date: Wed, 29 Nov 2017 06:18:21 GMT
+
+RTSP/1.0 200 OK
+CSeq: 6
+Session: 1511936242
+```
