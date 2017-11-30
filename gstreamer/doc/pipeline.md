@@ -40,9 +40,11 @@ g_object_set(G_OBJECT(rtspsrc), "location", data.url.c_str(), NULL);
 
 
 ## 4.	add/remove element
-gboolean `gst_bin_add`(GstBin *bin, GstElement *element); 
-void `gst_bin_add_many`(GstBin *bin, GstElement *element_1, ...); 
-gboolean `gst_bin_remove`(GstBin *bin, GstElement *element);   
+gboolean `gst_bin_add`(GstBin *bin, GstElement *element);  
+void `gst_bin_add_many`(GstBin *bin, GstElement *element_1, ...);  
+gboolean `gst_bin_remove`(GstBin *bin, GstElement *element);  
+
+ 
 The “element-added” signal is fired whenever a new element is added to the bin. Likewise the “element-removed” signal is fired whenever an element is removed from the bin. [ref](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBin.html)
 
 ## 5.	link element
