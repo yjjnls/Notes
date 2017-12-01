@@ -1,6 +1,9 @@
 element为pipeline的最小组成单位，包含多个pads（source/sink）   
 多个element连接组成bin（高级功能单元）  
 特殊属性的bin为pipeline（包含全局时钟+gst-bus）  
+[GstBin](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBin.html)  
+[GstGError](https://developer.gnome.org/gstreamer/stable/gstreamer-GstGError.html)  
+[GstMessage](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstMessage.html#gst-message-parse-error)  
 
 ## 1.	create pipeline/bin
 GstElement* `gst_pipeline_new`(const gchar *name);

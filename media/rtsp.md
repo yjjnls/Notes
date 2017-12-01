@@ -132,3 +132,14 @@ RTSP/1.0 200 OK
 CSeq: 6
 Session: 1511936242
 ```
+
+### 几种异常
+1. unauthorized
+describe时返回401
+
+2. url不存在
+无法建立tcp连接，在tcp层面报错
+在用tcp传输码流时其实并不需要rtcp，只需要判断tcp是否断链
+
+3. profile错误
+describe 404
