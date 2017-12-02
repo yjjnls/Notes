@@ -1,10 +1,4 @@
 
-
-
-X264是H264的另外一种开源编码格式,其开头的"X"意思是"software",是使用CPU软解码的一种视频格式,特征是编码速度相当 快但解码很慢并相当耗费CPU处理能力,X264不支援硬件加速,是和RMVB一样的强解码类型
-
-
-
 # Container format (封装格式)
 Container format 描述了视频文件的结构。正如它的字面含义所说，它是对一个“容器”的规范。一个**视频文件**往往会包含**图像和音频**，还有一些**配置信息**(如图像和音频的关联，如何解码它们等)：这些内容需要**按照一定的规则组织、存储起来**，Container format就是这些规则。如果一个视频文件是以某个Container format封装起来的，那么它的后缀名一般会体现出来，如mp4,rmvb,mkv,avi等。 
 
@@ -12,12 +6,17 @@ Container format 描述了视频文件的结构。正如它的字面含义所说
 
 * `AVI(Audio Video Interleave)`:音频视频交错格式，只能封装一条视频轨和音频轨，不能封装文字，没有任何控制功能，因而也就无法实现流媒体，其文件扩展名是`.avi`。
 * `WMV(Windows Media Video)`:具有数字版权保护功能，其文件扩展名是`.wmv/.asf`。
-* `MPEG(Moving Picture Experts Group)`:可以支持多个视频、音轨、字幕等，控制功能丰富，其文件扩展名是`.mp4`。
+* `MPEG(Moving Picture Experts Group)`:可以支持多个视频、音轨、字幕等，控制功能丰富，其文件扩展名是`.MPG .MPEG .MPE .DAT .VOB .ASF .3GP .MP4 `。
 * `Matroxska`:提供非常好的交互功能，比MPEG更强大，其文件扩展名是`.mkv`。
 * `QuickTime File Farmat`:由Apple开发，可存储内容丰富，支持视频、音频、图片、文字等，其文件扩展名是`.mov`。
 * `FLV(Flash Video)`:由Adobe Flash延伸而来的一种视频技术，主要用于网站。
 * `Real Video`:只能容纳Real Video和Real Audio编码格式的媒体，其文件扩展名是`.rmvb`。rmvb这种格式方便之处在于体积小，不能修改的内置字幕，而且只能达到DVD的画质。  
-[container_formats](https://en.wikipedia.org/wiki/Comparison_of_video_container_formats)
+* `MPEG2-TS` :格式 (后缀为 `.ts`)（ Transport Stream “传输流”；又称 MTS 、 TS ）是一种传输和存储包含音效、视频与通信协议各种数据的标准格式，用于数字电视广播系统，如 DVB 、 ATSC 、 IPTV 等等。 MPEG2-TS 定义于 MPEG-2 第一部分，系统（即原来之 ISO/IEC 标准 13818-1 或 ITU-T Rec. H.222.0 ）。  
+
+
+[container_formats](https://en.wikipedia.org/wiki/Comparison_of_video_container_formats)  
+[ref](https://www.v2ex.com/t/303205)  
+
 
 # Codec (编解码格式)
 Codec是一种压缩标准。而文件的压缩/还原是通过编/解码实现的，所以Codec也可理解成**视频文件的编/解码标准**（数字存储空间、帧速率、比特率、分辨率等）。不同的标准对于压缩的质量和效率有影响。 
@@ -50,9 +49,28 @@ MPEG4是一整套视频压缩规范，它包含的标准从ISO-IEC-14496-1 到 I
 **注意这里MPEG4的编码格式也分为两种，只有MPEG4第十部分（ISO-IEC-14496-10）才称为H.264/AVC，而另一个（ISO-IEC-14496-2）则可以成为传统意义上的MPEG4**  
 
 ## MJPEG
-MJPEG源于JPEG压缩技术，是一种简单的**帧内JPEG压缩**，压缩图像质量较好，在画面变动情况下无马赛克，但是由于这种压缩本身技术限制，无法做到大比例压缩，录像时每小时约1-2GB空间，网络传输时需要2M带宽，所以无论录像或网络发送传输，都将耗费大量的硬盘容量和带宽，不适合长时间连续录像的需求，不大实用于视频图像的网络传输。
-MJPEG是24-bit的"true-color"影像标准，MJPEG的工作是将RGB格式的影像转换成YCrCB格式，目的是为了减少档案大小，一般约可减少1/3~1/2左右。
-MJPEG是在JPEG上发展起来的，JPEG的压缩技术是直接处理整个画面，等到压缩档案全部传输完才开始进行解压。而MJPEG对每一帧（一张张分离的JPG数据）进行压缩，再随机储存每一帧。就像JPEG是几个文档打包压缩邮件发送，而MJPEG可以用QQ在线逐一进行直接发送。MJPEG这种压缩技术避免了JPEG传输的延迟性。而且因为每一帧独立出来，所以可以任意剪接编辑，图像清晰度也会比JPEG的高。  
+MJPEG源于JPEG压缩技术，是一种简单的**帧内JPEG压缩**，压缩图像质量较好，在画面变动情况下无马赛克，但是由于这种压缩本身技术限制，无法做到大比例压缩，录像时每小时约1-2GB空间，网络传输时需要2M带宽，所以无论录像或网络发送传输，都将耗费大量的硬盘容量和带宽，不适合长时间连续录像的需求，不大实用于视频图像的网络传输。因为每一帧独立出来，所以可以任意剪接编辑，图像清晰度也会比JPEG的高(适用于视频编辑)。  
+
+
+---
+
+| 项目       | H.264 | MPEG4 | MJPEG |
+| ---------- | ----- | ----- | ----- |
+| 同码率画质 | 优    | 中    | 差    |
+| 复杂度     | 高    | 中    | 低    |
+| 传输速度   | 快    | 中    | 慢    |
+| 成本       | 高    | 中    | 低    |
+
+![h264compare](./img/H264Compare.gif)  
+
+同码率下H264、MPEG4和MJPEG的图像质量
+![h26401](./img/h26401.jpg)  
+![h26402](./img/h26402.jpg)  
+![h26403](./img/h26403.jpg)  
+
+---
+
+X264是H264的另外一种开源编码格式,其开头的"X"意思是"software",是使用CPU软解码的一种视频格式,特征是编码速度相当 快但解码很慢并相当耗费CPU处理能力,X264不支援硬件加速,是和RMVB一样的强解码类型
 
 ---
 ✔ h264 和mpeg4的关系  
