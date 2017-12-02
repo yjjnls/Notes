@@ -84,10 +84,42 @@ void on_rtspsrc_pad_added(GstElement* src, GstPad* src_pad, gpointer rtspclient)
 ```
 caps为element能处理的类型,兼容类型才能link  
 GstCaps *`gst_pad_get_current_caps`(GstPad * pad);  
-gboolean	 `gst_pad_has_current_caps`(GstPad * pad);
+gboolean	 `gst_pad_has_current_caps`(GstPad * pad);  
+
+
 ## 6.	signal
 >#define g_signal_connect(instance, detailed_signal, c_handler, data) \
 >g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
 
 g_signal_new  
 g_signal_emit
+
+
+##7. deal with element
+element出错时会抛出错误信息，而这个错误信息是通过`GstMessage`的形式在在pipeline的bus中传递的，这样更高级的element、bin、pipeline可以捕获这个信息然后做相应处理。当然，bus中还会传递element抛出的其他消息。
+```cpp
+bool MessageHandler_(GstMessage *msg)
+{
+    if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_ERROR)
+    {
+        GError *err = NULL;
+        gchar *dbg_info = NULL;
+
+        gst_message_parse_error(msg, &err, &dbg_info);
+        if (g_str_has_prefix(GST_OBJECT_NAME(msg->src), "rtspsrc"))
+        {
+            printf("---------------------------\n");
+            g_printerr("ERROR from element %s: %s\n",
+                GST_OBJECT_NAME(msg->src), err->message);
+            g_printerr("Debugging info: %s\n", (dbg_info) ? dbg_info : "none");
+            printf("---------------------------\n");
+            //to do something
+            assert(0);
+        }
+
+        g_error_free(err);
+        g_free(dbg_info);
+    }
+    return true;
+}
+```
