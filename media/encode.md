@@ -16,8 +16,8 @@ Container format 描述了视频文件的结构。正如它的字面含义所说
 * `Matroxska`:提供非常好的交互功能，比MPEG更强大，其文件扩展名是`.mkv`。
 * `QuickTime File Farmat`:由Apple开发，可存储内容丰富，支持视频、音频、图片、文字等，其文件扩展名是`.mov`。
 * `FLV(Flash Video)`:由Adobe Flash延伸而来的一种视频技术，主要用于网站。
-* `Real Video`:只能容纳Real Video和Real Audio编码格式的媒体，其文件扩展名是`.rmvb`。rmvb这种格式方便之处在于体积小，不能修改的内置字幕，而且只能达到DVD的画质。
-
+* `Real Video`:只能容纳Real Video和Real Audio编码格式的媒体，其文件扩展名是`.rmvb`。rmvb这种格式方便之处在于体积小，不能修改的内置字幕，而且只能达到DVD的画质。  
+[container_formats](https://en.wikipedia.org/wiki/Comparison_of_video_container_formats)
 
 # Codec (编解码格式)
 Codec是一种压缩标准。而文件的压缩/还原是通过编/解码实现的，所以Codec也可理解成**视频文件的编/解码标准**（数字存储空间、帧速率、比特率、分辨率等）。不同的标准对于压缩的质量和效率有影响。 
@@ -50,15 +50,15 @@ MPEG4是一整套视频压缩规范，它包含的标准从ISO-IEC-14496-1 到 I
 **注意这里MPEG4的编码格式也分为两种，只有MPEG4第十部分（ISO-IEC-14496-10）才称为H.264/AVC，而另一个（ISO-IEC-14496-2）则可以成为传统意义上的MPEG4**  
 
 ## MJPEG
-MJPEG源于JPEG压缩技术，是一种简单的帧内JPEG压缩，压缩图像质量较好，在画面变动情况下无马赛克，但是由于这种压缩本身技术限制，无法做到大比例压缩，录像时每小时约1-2GB空间，网络传输时需要2M带宽，所以无论录像或网络发送传输，都将耗费大量的硬盘容量和带宽，不适合长时间连续录像的需求，不大实用于视频图像的网络传输。
+MJPEG源于JPEG压缩技术，是一种简单的**帧内JPEG压缩**，压缩图像质量较好，在画面变动情况下无马赛克，但是由于这种压缩本身技术限制，无法做到大比例压缩，录像时每小时约1-2GB空间，网络传输时需要2M带宽，所以无论录像或网络发送传输，都将耗费大量的硬盘容量和带宽，不适合长时间连续录像的需求，不大实用于视频图像的网络传输。
 MJPEG是24-bit的"true-color"影像标准，MJPEG的工作是将RGB格式的影像转换成YCrCB格式，目的是为了减少档案大小，一般约可减少1/3~1/2左右。
 MJPEG是在JPEG上发展起来的，JPEG的压缩技术是直接处理整个画面，等到压缩档案全部传输完才开始进行解压。而MJPEG对每一帧（一张张分离的JPG数据）进行压缩，再随机储存每一帧。就像JPEG是几个文档打包压缩邮件发送，而MJPEG可以用QQ在线逐一进行直接发送。MJPEG这种压缩技术避免了JPEG传输的延迟性。而且因为每一帧独立出来，所以可以任意剪接编辑，图像清晰度也会比JPEG的高。  
 
 ---
-h264 和mpeg4的关系
-mpeg4和mjpg
-x264 openh264
-avc hevc什么意思
-各种容器格式的优势和内部结构
-h264 mjpg原理
-mjpg gstreamer实现
+✔ h264 和mpeg4的关系  
+✔ mpeg4和mjpg  
+x264 openh264  
+✔ avc hevc什么意思  
+✔ 各种容器格式的优势和内部结构  
+h264 mjpg原理  
+mjpg gstreamer实现  
