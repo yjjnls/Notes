@@ -97,6 +97,8 @@ element可以是有属性的，用“属性=值”的方式设置属性，多个
 
     gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! rtph264depay ! avdec_h264 ! autovideosink
 
+    gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! decodebin3 ! autovideosink
+
 -   **rtph264depay** 用于将rtp包解包
 -   **avdec_h264** 将h264码流解码
 
