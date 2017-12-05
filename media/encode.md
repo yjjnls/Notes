@@ -81,4 +81,4 @@ x264 openh264
 h264 mjpg原理  
 ts ps
 RTMP/HTTP-FLV  HLS
-mjpg gstreamer实现  
+✔mjpg gstreamer实现  

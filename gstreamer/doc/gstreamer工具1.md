@@ -99,6 +99,12 @@ element可以是有属性的，用“属性=值”的方式设置属性，多个
 
     gst-launch-1.0 rtspsrc location=rtsp://172.16.66.66:554/id=1 ! decodebin3 ! autovideosink
 
+- Rtsp浏览MJEPG码流（码流源就是一张张的jpeg）  
+ 
+```
+gst-launch-1.0.exe rtspsrc location="rtsp://172.16.66.65:554/realtime?id=0;aid=0;agent=onvif" ! rtpjpegdepay ! jpegdec ! autovideosink
+```
+
 -   **rtph264depay** 用于将rtp包解包
 -   **avdec_h264** 将h264码流解码
 
