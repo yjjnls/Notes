@@ -70,4 +70,21 @@ COMMAND：进程启动的启动命令名称
 * gprof ./tmp | gprof2dot.py |dot -Tpng -o report.png
 * 或者 gprof ./tmp gmon.out >report.txt
 
+问题：第三方库内的函数无法跟踪
+
 ## valgrind
+gprof相当于valgrind加上工具集里的callgrind
+
+Memcheck：用于检测内存错误。它帮助c和c++的程序更正确。
+Cachegrind：用于分析cache和分支预测。它帮助程序执行得更快。
+Callgrind：用于函数调用的分析。
+Helgrind：用于分析多线程。
+DRD：也用于分析多线程。与Helgrind类似，但是用不同的分析技术，所以可以检测不同的问题。
+Massif：用于分析堆。它帮助程序精简内存的使用。
+SGcheck：检测栈和全局数组溢出的实验性工具，它和Memcheck互补使用。
+
+
+Helgrind可以检测下面三类错误：
+1.POSIX pthreads API的错误使用
+2.由加锁和解锁顺序引起的潜在的死锁
+3.数据竞态--在没有锁或者同步机制下访问内存
