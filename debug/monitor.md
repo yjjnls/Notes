@@ -95,5 +95,9 @@ valgrind --tool=callgrind WebStreamer --conf-file=webstreamer.conf
 python gprof2dot.py -f callgrind -n10 -s callgrind.out.28982 > valgrind.dot
 dot -Tpng valgrind.dot -o valgrind.png
 
+gprof2dot.py -f callgrind callgrind.out.XXX |dot -Tpng -o report.png
+
+http://blog.csdn.net/sunmenggmail/article/details/10543483
+
 ### Memcheck
 https://www.cnblogs.com/findumars/p/5087306.html
