@@ -89,8 +89,11 @@ Helgrind可以检测下面三类错误：
 2.由加锁和解锁顺序引起的潜在的死锁
 3.数据竞态--在没有锁或者同步机制下访问内存
 
-### callgrind
+### Callgrind
 valgrind --tool=callgrind WebStreamer --conf-file=webstreamer.conf
 会生成一个callgrind.out.28982
 python gprof2dot.py -f callgrind -n10 -s callgrind.out.28982 > valgrind.dot
 dot -Tpng valgrind.dot -o valgrind.png
+
+### Memcheck
+https://www.cnblogs.com/findumars/p/5087306.html
