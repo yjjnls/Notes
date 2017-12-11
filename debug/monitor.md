@@ -1,5 +1,21 @@
+- [Process](#process)
+    - [Process ID](#process-id)
+        - [pidof](#pidof)
+        - [grep](#grep)
+            - [ignore case](#ignore-case)
+            - [regular expression](#regular-expression)
+    - [Process numbers](#process-numbers)
+    - [Process Status](#process-status)
+        - [Process informations](#process-informations)
+- [Monitor tools](#monitor-tools)
+    - [htop](#htop)
+    - [gprof](#gprof)
+    - [valgrind](#valgrind)
+        - [Callgrind](#callgrind)
+        - [Memcheck](#memcheck)
 
-### 查找进程ID
+# Process
+## Process ID
 ### pidof
 ```
 pidof xxx
@@ -9,7 +25,7 @@ pidof xxx
 ps -e|grep xxx
 第一列就为pid
 ```
-#### 忽略大小写
+#### ignore case
 ```
 grep -i javastreamer
 -> JavaStreamer
@@ -24,7 +40,7 @@ grep -i javastreamer
 char$ 以某个字符结尾  
 . 任意一个字符  
 \* 前面的字符零到多次  
-.* 匹配任意字符串（和shell中*一样）  
+.\* 匹配任意字符串（和shell中\*一样）  
 
 ```
 grep -i 'javastrea'
@@ -37,18 +53,21 @@ grep -i 'javastrea.*'
 -> JavaStreamer
 ```
 
-
-### 监控某一进程的信息
-
-```
-top -p pid1,pid2,pid3
-```
-
-### 查看某个进程的线程数
+## Process numbers
 
 ps -eLf|grep -i webstreamer|wc -l
 
 
+## Process Status
+### Process informations
+```
+top -p pid1,pid2,pid3
+```
+
+--------------------------
+
+
+# Monitor tools
 ## htop
 PID：进行的标识号
 USER：运行此进程的用户
