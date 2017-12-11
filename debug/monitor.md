@@ -64,7 +64,17 @@ ps -eLf|grep -i webstreamer|wc -l
 top -p pid1,pid2,pid3
 ```
 
+占用cpu
+ps -aux|grep -i webstreamer|grep -v grep|awk '{print $3;}'
 
+定时
+step1：写cron脚本文件，命名为crontest.cron。
+15,30,45,59 * * * * echo "xgmtest....."     表示，每隔15分钟，执行一次打印命令 
+
+step2：添加定时任务。执行命令
+crontab /home/del/crontest.cron >~/log
+
+**要用绝对路径，不会输出到屏幕，要重定向**
 
 --------------------------
 
