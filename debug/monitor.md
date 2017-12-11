@@ -7,6 +7,7 @@
     - [Process numbers](#process-numbers)
     - [Process Status](#process-status)
         - [Process informations](#process-informations)
+            - [定时](#%E5%AE%9A%E6%97%B6)
 - [Monitor tools](#monitor-tools)
     - [htop](#htop)
     - [gprof](#gprof)
@@ -67,7 +68,7 @@ top -p pid1,pid2,pid3
 占用cpu
 ps -aux|grep -i webstreamer|grep -v grep|awk '{print $3;}'
 
-定时
+#### 定时
 step1：写cron脚本文件，命名为crontest.cron。
 15,30,45,59 * * * * echo "xgmtest....."     表示，每隔15分钟，执行一次打印命令 
 
@@ -75,6 +76,15 @@ step2：添加定时任务。执行命令
 crontab /home/del/crontest.cron >~/log
 
 **要用绝对路径，不会输出到屏幕，要重定向**
+
+查看cron状态
+sudo  service cron status　
+开启cron
+sudo /etc/init.d/cron start
+关闭cron
+sudo /etc/init.d/cron stop
+重启cron
+sudo /etc/init.d/cron restart
 
 --------------------------
 
