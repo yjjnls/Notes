@@ -32,3 +32,5 @@ zadd [key] [num(score)] [string(member)]
 zrem [key] [string(member)]
 zrange [key] [pos1 pos2 (-1 -> end of the set)] withscores
 zrangebyscore [key] [score1 score2] withscores
+
+并发？？？
