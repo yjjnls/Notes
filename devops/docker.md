@@ -1,3 +1,5 @@
+# create and start container
+## interatcive
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 $ sudo docker run -t -i newdocker /bin/bash
 
@@ -5,7 +7,7 @@ $ sudo docker run -t -i newdocker /bin/bash
 -d 后台运行  
 -t allocate a pseudo-TTY  
 
-## 进入docker
+### login container
 * attach
 docker ps 查看容器id，然后用attach
 $ sudo docker attach container_id
@@ -13,6 +15,24 @@ $ sudo docker attach container_id
 
 * exec
 $ sudo docker exec -it 775c7c9ee1e1 /bin/bash
+
+**所有登陆该container的用户退出后，该container就停止了**
+
+## detach
+$ docker run -p 100:22 -d newdocker /bin/bash
+
+从输出的 port 列，我们可以看到 0.0.0.0:100->22/tcp ，它表示该容器映射了宿主主机的 100 端口到容器的 22 端口，即 ssh 服务端。  
+**这样我们就创建了一个具有 ssh 服务的容器**  
+
+### login container
+$ ssh root@127.0.0.1 -p 100
+通过ssh登录，退出后，该container也不会停止
+
+# stop container
+$ sudo docker stop continer_id
+
+# remove container
+$
 
 # copy file
 ## host->docker
