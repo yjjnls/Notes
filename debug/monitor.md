@@ -124,18 +124,31 @@ step2：添加定时任务。执行命令
 
 
 
-R（Running）(TASK_RUNNING)：可执行状态&运行状态；
+R（Running）(TASK_RUNNING)：可执行状态&运行状态；同一时刻可能有多个进程处于可执行状态，这些进程的task_struct结构（进程控制块）被放入**对应CPU的可执行队列**中（一个进程最多只能出现在一个CPU的可执行队列中）。进程调度器的任务就是从各个CPU的可执行队列中分别选择一个进程在该CPU上运行。
 
-S（Sleep）(TASK_INTERRUPTIBLE)：该进程目前正在睡眠状态（idle），但可以被唤醒（signal）；
+S（Sleep）(TASK_INTERRUPTIBLE)：该进程目前正在睡眠状态（idle），但可以被唤醒（signal）；处于这个状态的进程因为等待某某事件的发生（比如等待socket连接、等待信号量），而被挂起。这些进程的task_struct结构被放入**对应事件的等待队列**中。当这些事件发生时（由外部中断触发、或由其他进程触发），对应的等待队列中的一个或多个进程将被唤醒。
 
-D (TASK_UNINTERRUPTIBLE)：不可被唤醒的状态，通常这个进程可能在等待I/O的情况（ex>打印）；
+D (TASK_UNINTERRUPTIBLE)：不可被唤醒的状态，通常这个进程可能在等待I/O的情况（ex>打印）；**不可中断，指的并不是CPU不响应外部硬件的中断，而是指进程不响应异步信号。**
 
-T (TASK_STOPPED or TASK_TRACED)：停止状态（stop）(TASK_STOPPED or TASK_TRACED)，可能是在工作控制（后台**暂停**）或**跟踪**（traced）状态；
+T (TASK_STOPPED or TASK_TRACED)：停止状态（stop）(TASK_STOPPED or TASK_TRACED)，可能是在工作控制（后台**暂停**）或**跟踪**（traced）状态；  
+当进程正在被跟踪时，它处于TASK_TRACED这个特殊的状态。“正在被跟踪”指的是进程暂停下来，等待跟踪它的进程对它进行操作。比如在gdb中对被跟踪的进程下一个断点，进程在断点处停下来的时候就处于TASK_TRACED状态。而在其他时候，被跟踪的进程还是处于前面提到的那些状态。而TASK_TRACED状态相当于在TASK_STOPPED之上多了一层保护，处于TASK_TRACED状态的进程不能响应SIGCONT信号而被唤醒。只能等到调试进程通过ptrace系统调用执行PTRACE_CONT、PTRACE_DETACH等操作（通过ptrace系统调用的参数指定操作），或调试进程退出，被调试的进程才能恢复TASK_RUNNING状态。
 
-Z（Zombie）(TASK_DEAD - EXIT_ZOMBIE)：“僵尸”状态，该进程已经终止但却无法被删除至内存外。不可被kill,　即不响应任务信号,　无法用SIGKILL杀死
+Z（Zombie）(TASK_DEAD - EXIT_ZOMBIE)：“僵尸”状态，该进程已经终止但却无法被删除至内存外。不可被kill,　即不响应任务信号,　无法用SIGKILL杀死。通过ps命令查看其带有`defunct`的标志。僵尸进程是一个早已死亡的进程，但在进程表 （processs table）中仍占了一个位置（slot）。但是如果该进程的父进程已经先结束了，那么该进程就不会变成僵尸进程。因为每个进程结束的时候，系统都会扫描当前系统中所运行的所有进程，看看有没有哪个 进程是刚刚结束的这个进程的子进程，如果是的话，就由Init进程来接管他，成为他的父进程，从而保证每个进程都会有一个父进程。而Init进程会自动 wait其子进程，**因此被Init接管的所有进程都不会变成僵尸进程**。
 
+* cpu负载
+top中显示的load average 是对 CPU 负载的评估，其值越高，说明其任务队列越长，处于等待执行的任务越多。  
+负载过高可能是D和Z进程多，而且不乏通过kill -9杀死。
 
-cpu负载？D状态 Z状态？
+D进程只能恢复其依赖的服务资源，让其得到资源才能完成释放
+
+清除ZOMBIE（僵尸）进程可以使用如下方法：
+1> kill –18 PPID （PPID是其父进程）
+这个信号是告诉父进程，该子进程已经死亡了，请收回分配给他的资源。
+2>如果不行则看能否终止其父进程（如果其父进程不需要的话）。先看其父进程又无其他子进程，如果有，可能需要先kill其他子进程，也就是兄弟进程。方法是：
+kill –15 PID1 PID2(PID1,PID2是僵尸进程的父进程的其它子进程)。
+然后再kill父进程：kill –15 PPID
+
+？D状态 Z状态？
 pstack？
 
 --------------------------
