@@ -7,6 +7,10 @@
     - [Process numbers](#process-numbers)
     - [Process Status](#process-status)
         - [Process informations](#process-informations)
+        - [占用cpu](#%E5%8D%A0%E7%94%A8cpu)
+    - [查看/proc/*/stat中的信息](#%E6%9F%A5%E7%9C%8Bprocstat%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF)
+    - [ps -aux|grep -i xxx|grep -v grep|awk '{print $3;}'](#ps--auxgrep--i-xxxgrep--v-grepawk-print-3)
+    - [top -d 2|grep -i xxx >>top.txt](#top--d-2grep--i-xxx-toptxt)
             - [定时](#%E5%AE%9A%E6%97%B6)
         - [basics](#basics)
 - [Monitor tools](#monitor-tools)
@@ -57,7 +61,7 @@ grep -i 'javastrea.*'
 
 ## Process numbers
 
-ps -eLf|grep -i webstreamer|wc -l
+ps -eLf|grep -i xxx|wc -l
 
 
 ## Process Status
@@ -66,8 +70,20 @@ ps -eLf|grep -i webstreamer|wc -l
 top -p pid1,pid2,pid3
 ```
 
-占用cpu
-ps -aux|grep -i webstreamer|grep -v grep|awk '{print $3;}'
+### 占用cpu
+---
+查看/proc/*/stat中的信息
+---
+ps -aux|grep -i xxx|grep -v grep|awk '{print $3;}'
+该方法是错误的！！！！！！！！
+`ps`命令所测出来的cpu是指   `一个进程占用cpu的时间/该进程运行的总时间`
+---
+而`top`命令表示`在一个固定的间隔时间内，某个进程使用的CPU时间占总CPU时间（即这段间隔时间）的比值。`
+默认显示为Irix模式，即为相对于单个cpu core的占用的时间，如双核机器需要将该数值除以2＊2计算，通过 shift+i可以进行切换；
+
+top -d 2|grep -i xxx >>top.txt
+---
+vmstat 的100%-idle == ps的cpu占用/cpu核心数 == top的cpu占用/cpu核心数/物理cpu数目
 
 #### 定时
 step1：写cron脚本文件，命名为crontest.cron。
@@ -95,10 +111,23 @@ sudo /etc/init.d/cron restart
 
 linux
 RUNNING：正在运行或者在就绪队列中等待运行的进程。**一个进程处于RUNNING状态，并不代表他一定在被执行。**由于在多任务系统中，各个就绪进程需要并发执行，所以在某个特定时刻，**这些处于RUNNING状态的进程之中，只有一个能得到处理器**，而其他进程必须在一个就绪队列中等待。
-UNINTERRUPTABLE:不可中断阻塞状态。处于这种状态的进程正在等待队列中，当资源有效时，可由操作系统进行唤醒，否则，将一直处于等待状态。 
-INTERRUPTABLE：可中断阻塞状态。与不可中断阻塞状态一样，处于这种状态的进程在等待队列中，当资源有效时，可以有操作系统进行唤醒。与不可中断阻塞状态有所区别的是，处于此状态中的进程亦可被其他进程的信号唤醒。 
+UNINTERRUPTABLE:不可中断阻塞状态。处于这种状态的进程正在等待队列中，**当资源有效时，可由操作系统进行唤醒**，否则，将一直处于等待状态。 
+INTERRUPTABLE：可中断阻塞状态。与不可中断阻塞状态一样，处于这种状态的进程在等待队列中，当资源有效时，可以有操作系统进行唤醒。与不可中断阻塞状态有所区别的是，**处于此状态中的进程亦可被其他进程的信号唤醒**。 
 STOPPED：挂起状态。进程被暂停，需要通过其它进程的信号才能被唤醒。导致这种状态的原因有两种。其一是受到相关信号(SIGSTOP,SIGSTP,SIGTTIN或SIGTTOU)的反应。其二是受到父进程ptrace调用的控制，而暂时将处理器交给控制进程。 
-ZOMBIE：僵尸状态。表示进程结束但尚未消亡的一种状态。此时进程已经结束运行并释放掉大部分资源，但尚未释放进程控制块。 
+ZOMBIE：僵尸状态。表示进程结束但尚未消亡的一种状态。**此时进程已经结束运行并释放掉大部分资源，但尚未释放进程控制块**。 
+
+
+
+R（Running）：该进程正在运行中；
+
+S（Sleep）：该进程目前正在睡眠状态（idle），但可以被唤醒（signal）；
+
+D：不可被唤醒的状态，通常这个进程可能在等待I/O的情况（ex>打印）；
+
+T：停止状态（stop），可能是在工作控制（后台暂停）或出错（traced）状态；
+
+Z（Zombie）：“僵尸”状态，该进程已经终止但却无法被删除至内存外。
+
 
 cpu负载？D状态 Z状态？
 pstack？
