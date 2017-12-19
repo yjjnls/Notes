@@ -45,15 +45,21 @@
     << Date: Wed May 11 13:21:43 2005 GMT
     << Session: 5d5cb94413288ccd
 
-客户端要把支持的传输协议、客户端端口号发给服务端。服务端选择最终的协议和端口号，以及服务端自己的端口号。  
+客户端要把支持的传输协议、客户端端口号发给服务端。服务端选择最终的协议和端口号，以及服务端自己的端口号。 
+
+在describe中的sdp中服务端先指出支持`RTP/AVP(stand for RTP A/V Profile)`，但是没有具体指定是tcp还是udp  
+在setup中，客户端给出支持的tansport（可以有多种），服务端最终决定是用哪一个。  
+
+
 客户端支持的transport协议可以有多个，用`,`分隔，例如上述为
 >RTP/AVP/UDP;unicast;client_port=5000-5001
-在5000-5001端口接收rtp/udp
+在5000-5001端口接收rtp/udp（也可以写成默认的RTP/AVP. 即RTP/AVP/UDP）
 >RTP/AVP/UDP;multicast
 可以加入多播组
 >RTP/AVP/TCP
 可以在原有rtsp session中用tcp接收udp
 
+服务端要选择第一个支持的transport
 
     +---------------------------------------------+
     | +------------+                              |
