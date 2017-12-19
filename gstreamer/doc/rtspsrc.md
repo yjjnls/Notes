@@ -82,3 +82,39 @@
     << Date: Wed May 11 13:21:43 2005 GMT
     << Session: 5d5cb94413288ccd
 
+
+
+
+```c
+
+
+gst_rtspsrc_stream_configure_manager()
+    gst_rtsp_transport_get_manager (transport->trans, &manager, 0);//获取manager的名字，这里为rtpbin
+    src->manager = gst_element_factory_make (manager, "manager");
+    ...
+    name = g_strdup_printf ("recv_rtp_sink_%u", stream->id);
+    stream->channelpad[0] = gst_element_get_request_pad (src->manager, name);
+    g_free (name);
+
+
+gst_rtspsrc_open()
+gst_rtspsrc_open_from_sdp()
+gst_rtspsrc_setup_streams_start()
+gst_rtspsrc_prepare_transports()
+gst_rtspsrc_alloc_udp_ports()
+    udpsrc0 = gst_element_make_from_uri (GST_URI_SRC, host, NULL, NULL);
+    ...
+    stream->udpsrc[0] = gst_object_ref_sink (udpsrc0);
+
+gst_rtspsrc_open_from_sdp()
+gst_rtspsrc_setup_streams_start()
+gst_rtsp_src_setup_stream_from_response()
+gst_rtspsrc_stream_configure_transport()
+gst_rtspsrc_stream_configure_udp()
+    gst_bin_add (GST_BIN_CAST (src), stream->udpsrc[0]);
+    *outpad = gst_element_get_static_pad (stream->udpsrc[0], "src");
+    gst_pad_link_full (*outpad, stream->channelpad[0], GST_PAD_LINK_CHECK_NOTHING);
+
+
+    数据从udpsrc出来，传到了rtpbin里面
+```
