@@ -141,3 +141,21 @@ rtsp获取码流时，如果在某一步出错了，那么从response就能看�
     describe 404
 
 ## Header filed definitions
+
+url=<URL>;[seq=<seqbase>;rtptime=<timebase>] [, url=...]
+
+```
+RTSP/1.0 200 OK
+CSeq: 5
+Session: 1514044875
+RTP-Info: url=video/id=0;seq=0;rtptime=0,url=audio/id=0;seq=0;rtptime=0
+Range: npt=0-
+Date: Sat, Dec 23 2017 16:01:15 GMT
+```
+
+seq这个值是在seek之后的第一个序列号
+如果码流能seek的话那应该url和setup中的一样
+
+
+### 快进
+再发个PLAY命令,包含scale字段,服务端对其作出响应
