@@ -139,3 +139,5 @@ rtsp获取码流时，如果在某一步出错了，那么从response就能看�
 
 3.  profile错误
     describe 404
+
+## Header filed definitions
