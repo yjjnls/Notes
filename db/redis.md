@@ -2,7 +2,7 @@
 redis-server&
 # stop
 redis-cli shutdown
-
+ 
 # operations
 ## string
 set [key] [val]
