@@ -210,3 +210,5 @@ http://blog.csdn.net/sunmenggmail/article/details/10543483
 
 ### Memcheck
 https://www.cnblogs.com/findumars/p/5087306.html  
+
+valgrind --track-fds=yes --time-stamp=yes --leak-check=full  --log-file=res.txt WebStreamer --conf-file=webstreamer.conf
