@@ -10,6 +10,7 @@
         - [占用cpu](#%E5%8D%A0%E7%94%A8cpu)
             - [定时](#%E5%AE%9A%E6%97%B6)
         - [basics](#basics)
+    - [Process fd](#process-fd)
 - [Monitor tools](#monitor-tools)
     - [htop](#htop)
     - [gprof](#gprof)
@@ -148,6 +149,9 @@ D进程只能恢复其依赖的服务资源，让其得到资源才能完成释�
 kill –15 PID1 PID2(PID1,PID2是僵尸进程的父进程的其它子进程)。
 然后再kill父进程：kill –15 PPID
 
+## Process fd  
+
+ll /proc/pid/fd |wc -l
 
 --------------------------
 
