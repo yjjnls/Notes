@@ -11,6 +11,7 @@
             - [定时](#%E5%AE%9A%E6%97%B6)
         - [basics](#basics)
     - [Process fd](#process-fd)
+    - [ll /proc/pid/fd |wc -l](#ll-procpidfd-wc--l)
 - [Monitor tools](#monitor-tools)
     - [htop](#htop)
     - [gprof](#gprof)
@@ -152,7 +153,7 @@ kill –15 PID1 PID2(PID1,PID2是僵尸进程的父进程的其它子进程)。
 ## Process fd  
 
 ll /proc/pid/fd |wc -l
-
+用lsof貌似不准
 --------------------------
 
 
