@@ -65,4 +65,4 @@ int open(const char \*pathname, int flags);
 
 在头文件中只暴露 non-virtual 接口，并且 class 的大小固定为 sizeof(Impl\*)，这样可以随意更新库文件而不影响可执行文件。当然，这么做有多了一道间接性，可能有一定的性能损失。见 Exceptional C++ 有关条款和 C++ Coding Standards 101.
 
-Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl内部则调用含有虚函数等具体的实现类。
+Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl内部则调用含有虚函数等具体的实现类。变更时修改了具体的实现类，更新具体的实现类dll即可，而Impl.dll不变，或者也可以新增变更，但是是二进制兼容的，所以原来的可执行文件可以不改。
