@@ -229,6 +229,9 @@
     GST_DEBUG=2,audiotestsrc:5
     GST_DEBUG=2,audio*:5
 
+设置日志重定向为文件
+    GST_DEBUG_FILE=log.txt
+
 ## 3.2 获取pipeline图像
 
 设置**GST_DEBUG_DUMP_DOT_DIR**变量就可以在每次pipeline的状态变化时查看序列图
