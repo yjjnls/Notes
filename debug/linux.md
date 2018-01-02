@@ -23,3 +23,8 @@ lsof |grep -i xxx|wc -l
 ## gdb
 * run
 gdb --args WebStreamer --conf-file=webstreamer.conf
+
+(gbd) show args
+(gdb) show path
+(gdb) show env xxx
+(gdb) set env xxx=yyy
