@@ -21,7 +21,7 @@ lsof |grep -i xxx|wc -l
 
 
 ## gdb
-* run
+* start
 gdb --args WebStreamer --conf-file=webstreamer.conf
 
 (gbd) show args
@@ -31,3 +31,22 @@ gdb --args WebStreamer --conf-file=webstreamer.conf
 
 不打印gdb版本信息
 gdb -q --args WebStreamer --conf-file=webstreamer.conf
+
+现在只是启动了gdb，加载了环境  
+run 启动程序  
+start 程序停在main函数第一句  
+
+* 调试已经在运行的程序
+attach pid：
+　　从ps获得进程号，通过attach命令连接到该进程。attach一个进程后，gdb首先stop该进程，这样就可以设置断点，执行step、continue等命令；如果执行r命令，会杀掉原来的进程。
+
+detach：
+　　释放该进程，原进程会继续执行。
+
+* break point
+
+
+* restart
+
+* core file
+出错产生core file，需要设置 ulimit -c 1000（不能为0）
