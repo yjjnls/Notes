@@ -44,10 +44,19 @@ detach：
 　　释放该进程，原进程会继续执行。
 
 * break point
-break main.cpp:169
+break main.cpp:169  
 
-info breakpoints [id]
+info breakpoints [id]  
 
+disbale/enbale id 使断点失效或者有效，但是断点仍然存在  
+
+delete id 删除断点  
+
+print 变量  
+whatis 变量 查看类型  
+
+next 单步  
+continue
 
 * restart
 程序结束后重新run
