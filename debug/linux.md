@@ -46,6 +46,9 @@ detach：
 * break point
 break main.cpp:169
 
+info breakpoints [id]
+
+
 * restart
 程序结束后重新run
 
