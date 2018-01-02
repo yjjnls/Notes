@@ -44,9 +44,10 @@ detach：
 　　释放该进程，原进程会继续执行。
 
 * break point
-
+break main.cpp:169
 
 * restart
+程序结束后重新run
 
 * core file
 出错产生core file，需要设置 ulimit -c 1000（不能为0）
