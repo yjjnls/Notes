@@ -18,3 +18,8 @@ you should check if your code opens lots of files/filedescriptors but doesn't cl
 
 用lsof查看进程打开的文件描述符
 lsof |grep -i xxx|wc -l
+
+
+## gdb
+* run
+gdb --args WebStreamer --conf-file=webstreamer.conf
