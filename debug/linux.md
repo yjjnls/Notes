@@ -28,3 +28,6 @@ gdb --args WebStreamer --conf-file=webstreamer.conf
 (gdb) show path
 (gdb) show env xxx
 (gdb) set env xxx=yyy
+
+不打印gdb版本信息
+gdb -q --args WebStreamer --conf-file=webstreamer.conf
