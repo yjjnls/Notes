@@ -21,7 +21,7 @@ lsof |grep -i xxx|wc -l
 
 
 ## gdb
-* start
+### start  
 gdb --args WebStreamer --conf-file=webstreamer.conf
 
 (gbd) show args
@@ -36,14 +36,14 @@ gdb -q --args WebStreamer --conf-file=webstreamer.conf
 run 启动程序  
 start 程序停在main函数第一句  
 
-* 调试已经在运行的程序
+### 调试已经在运行的程序  
 attach pid：
 　　从ps获得进程号，通过attach命令连接到该进程。attach一个进程后，gdb首先stop该进程，这样就可以设置断点，执行step、continue等命令；如果执行r命令，会杀掉原来的进程。
 
 detach：
 　　释放该进程，原进程会继续执行。
 
-* break point
+### break point  
 break main.cpp:169  
 
 info breakpoints [id]  
@@ -58,8 +58,20 @@ whatis 变量 查看类型
 next 单步  
 continue
 
-* restart
+### restart  
 程序结束后重新run
 
-* core file
+### core file  
+
+#### 产生 core dump的原因
+1. 内存访问越界
+2. 多线程程序使用了线程不安全的函数
+3. 多线程读写的数据未加锁保护
+4. 堆栈溢出.不要使用大的局部变量（因为局部变量都分配在栈上），这样容易造成堆栈溢出，破坏系统的栈和堆结构，导致出现莫名其妙的错误。
+
+#### 设置生成core file  
 出错产生core file，需要设置 ulimit -c 1000（不能为0）
+
+#### gdb查看core file  
+gdb [exec file] [core file]
+如: gdb ./test test.core
