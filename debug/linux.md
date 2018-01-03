@@ -107,3 +107,11 @@ gdb ./test core
 
 **一定要加-g选项，否则不会报出在哪一行出错。**    
 **如果是release版本，也会有core文件，可以再用debug版本来加载该core文件，就能具体显示是哪里出错了。**
+
+gdb -c core
+file test_d
+bt
+
+proc/sys/kernel/core_pattern可以控制core文件保存位置和文件名格式。
+可通过以下命令修改此文件：
+echo "/corefile/core-%e-%p-%t" > core_pattern，可以将core文件统一生成到/corefile目录下，产生的文件名为core-命令名-pid-时间戳
