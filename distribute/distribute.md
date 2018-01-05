@@ -1,3 +1,8 @@
+
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+
 ## 一致性
 
 -   强一致性：假如A先写入一个值到存储系统，存储系统能够保证后续ABC读取操作都将返回最新值。
