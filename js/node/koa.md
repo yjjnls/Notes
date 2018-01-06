@@ -1,6 +1,9 @@
 # koa
 koa的目的是用更清晰简洁的代码来实现你的逻辑，同时在错误处理上更加方便
 
+[koajs](https://koa.bootcss.com/)
+[koa_middleawre](https://github.com/koajs/koa/wiki#middleware)
+
 ## 中间件
 koa比起express的一个特点是：express让请求逐个通过中间件，实现处理网络请求，而koa加上了中间件的回溯，即先逐个通过中间件再反穿回来。  
 
@@ -40,3 +43,15 @@ app.listen(3000);
 
 `app.use(function)` 将给定的中间件方法添加到此应用程序。
 **koa相当于一个框架，而每一个中间件相当于一个特定功能的插件，可以是装载起来供其他中间件调用，比如特定的logger插件，处理网页视图的插件等；也可以是直接在里面就执行功能代码。**
+
+## 错误处理
+```js
+app.on('error', err => {
+  log.error('server error', err)
+});
+app.on('error', (err, ctx) => {
+  log.error('server error', err, ctx)
+});
+```
+
+
