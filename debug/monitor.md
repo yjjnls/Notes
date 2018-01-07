@@ -212,3 +212,8 @@ http://blog.csdn.net/sunmenggmail/article/details/10543483
 https://www.cnblogs.com/findumars/p/5087306.html  
 
 valgrind --track-fds=yes --time-stamp=yes --leak-check=full  --log-file=res.txt WebStreamer --conf-file=webstreamer.conf
+
+## perf
+https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/index.html
+
+https://mp.weixin.qq.com/s/npFqFeMSmuexoXJ2TACFsQ
