@@ -194,9 +194,9 @@ SGcheck：检测栈和全局数组溢出的实验性工具，它和Memcheck互�
 
 
 Helgrind可以检测下面三类错误：  
-1.POSIX pthreads API的错误使用  
-2.由加锁和解锁顺序引起的潜在的死锁  
-3.数据竞态--在没有锁或者同步机制下访问内存  
+1.POSIX pthreads API的错误使用   
+2.由加锁和解锁顺序引起的潜在的死锁   
+3.数据竞态--在没有锁或者同步机制下访问内存   
 
 ### Callgrind
 valgrind --tool=callgrind WebStreamer --conf-file=webstreamer.conf  
