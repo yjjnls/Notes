@@ -37,3 +37,10 @@ table TextureData {
 
 
 schema编译器能够把给定的schema（在Java、C#、Python、GO和C++语言中的schema）生成为模型类，还可以把JSON转换成Flatbuffer的二进制文件。
+
+### build
+cmake -G "Unix Makefiles"
+make
+在根目录下会生成 flatc程序，用于schema的编译
+
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/coder4/soft/flatbuffers -G "Unix Makefiles"
