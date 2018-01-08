@@ -45,3 +45,8 @@ make
 
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/coder4/soft/flatbuffers -G "Unix Makefiles"  
 make && make install
+
+### tests
+cd smaple  
+./../flatc --cpp monster.fbs  
+会生产monster_generated.h
