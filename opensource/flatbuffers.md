@@ -1,6 +1,10 @@
 # flatbuffers
 序列化主要用在不同语言间的通信，将某个语言的数据结构序列化成一个公共定义的结构，然后另一种语言解析之后成为该语言可以处理的结构。
 
+1、对C++代码的序列化与反序列化：①写本地缓存，方便读取。②用于网络数据发送。
+
+2、将xml、json文件转换成二进制文件，大大缩减加载文件时间
+
 ## why
 相比于protocal bufffer，flatbuffers 是 zero-copy + Random-access reads 版本的 protobuf，不需要解析/解包的过程。同时，在工程中使用时，FlatBuffers的引用比Protocol Buffers方便很多，只需要包含两三个头文件即可。  
 
@@ -125,3 +129,6 @@ Output files are named using the base file name of the input,
 and written to the current directory or the path given by -o.
 example: ./flatc -c -b schema1.fbs schema2.fbs data.json
 ```
+
+
+http://blog.csdn.net/ninian_liu/article/details/50554846
