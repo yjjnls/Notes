@@ -51,7 +51,7 @@ cd smaple
 ./../flatc --cpp monster.fbs  
 会生产monster_generated.h
 
-```python
+```
 Usage: ./flatc [OPTION]... FILE... [-- FILE...]
   --binary     -b    Generate wire format binaries for any data definitions.
   --json       -t    Generate text output for any data definitions.
