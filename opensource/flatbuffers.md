@@ -50,3 +50,78 @@ make && make install
 cd smaple  
 ./../flatc --cpp monster.fbs  
 会生产monster_generated.h
+
+```python
+Usage: ./flatc [OPTION]... FILE... [-- FILE...]
+  --binary     -b    Generate wire format binaries for any data definitions.
+  --json       -t    Generate text output for any data definitions.
+  --cpp        -c    Generate C++ headers for tables/structs.
+  --go         -g    Generate Go files for tables/structs.
+  --java       -j    Generate Java classes for tables/structs.
+  --js         -s    Generate JavaScript code for tables/structs.
+  --ts         -T    Generate TypeScript code for tables/structs.
+  --csharp     -n    Generate C# classes for tables/structs.
+  --python     -p    Generate Python files for tables/structs.
+  --php              Generate PHP files for tables/structs.
+  --jsonschema       Generate Json schema.
+  -o PATH            Prefix PATH to all generated files.
+  -I PATH            Search for includes in the specified path.
+  -M                 Print make rules for generated files.
+  --version          Print the version number of flatc and exit.
+  --strict-json      Strict JSON: field names must be / will be quoted,
+                     no trailing commas in tables/vectors.
+  --allow-non-utf8   Pass non-UTF-8 input through parser and emit nonstandard
+                     \x escapes in JSON. (Default is to raise parse error on
+                     non-UTF-8 input.)
+  --defaults-json    Output fields whose value is the default when
+                     writing JSON
+  --unknown-json     Allow fields in JSON that are not defined in the
+                     schema. These fields will be discared when generating
+                     binaries.
+  --no-prefix        Don't prefix enum values with the enum type in C++.
+  --scoped-enums     Use C++11 style scoped and strongly typed enums.
+                     also implies --no-prefix.
+  --gen-includes     (deprecated), this is the default behavior.
+                     If the original behavior is required (no include
+                     statements) use --no-includes.
+  --no-includes      Don't generate include statements for included
+                     schemas the generated file depends on (C++).
+  --gen-mutable      Generate accessors that can mutate buffers in-place.
+  --gen-onefile      Generate single output file for C# and Go.
+  --gen-name-strings Generate type name functions for C++.
+  --gen-object-api   Generate an additional object-based API.
+  --cpp-ptr-type T   Set object API pointer type (default std::unique_ptr)
+  --cpp-str-type T   Set object API string type (default std::string)
+                     T::c_str() and T::length() must be supported
+  --gen-nullable     Add Clang _Nullable for C++ pointer. or @Nullable for Java
+  --object-prefix    Customise class prefix for C++ object-based API.
+  --object-suffix    Customise class suffix for C++ object-based API.
+                     Default value is "T"
+  --no-js-exports    Removes Node.js style export lines in JS.
+  --goog-js-export   Uses goog.exports* for closure compiler exporting in JS.
+  --go-namespace     Generate the overrided namespace in Golang.
+  --go-import        Generate the overrided import for flatbuffers in Golang.
+                     (default is "github.com/google/flatbuffers/go")
+  --raw-binary       Allow binaries without file_indentifier to be read.
+                     This may crash flatc given a mismatched schema.
+  --proto            Input is a .proto, translate to .fbs.
+  --grpc             Generate GRPC interfaces for the specified languages
+  --schema           Serialize schemas instead of JSON (use with -b)
+  --bfbs-comments    Add doc comments to the binary schema files.
+  --conform FILE     Specify a schema the following schemas should be
+                     an evolution of. Gives errors if not.
+  --conform-includes Include path for the schema given with --conform
+    PATH
+  --include-prefix   Prefix this path to any generated include statements.
+    PATH
+  --keep-prefix      Keep original prefix of schema include statement.
+  --no-fb-import     Don't include flatbuffers import statement for TypeScript.
+  --no-ts-reexport   Don't re-export imported dependencies for TypeScript.
+  --reflect-types    Add minimal type reflection to code generation.
+  --reflect-names    Add minimal type/name reflection.
+FILEs may be schemas (must end in .fbs), or JSON files (conforming to preceding
+schema). FILEs after the -- must be binary flatbuffer format files.
+Output files are named using the base file name of the input,
+and written to the current directory or the path given by -o.
+example: ./flatc -c -b schema1.fbs schema2.fbs data.json
+```
