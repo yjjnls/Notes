@@ -1,9 +1,21 @@
-#vue
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+-   [vue](#vue)
+    -   [install](#install)
+        -   [quick start](#quick-start)
+            -   [toc](#toc)
+    -   [components](#components)
+
+
+# vue
+
 ## install
+
 npm install vue -g  
 npm install vue-cli -g  
 
 ### quick start
+
 创建一个基于 webpack 模板的新项目  
 vue init webpack my-project
 
@@ -15,18 +27,22 @@ To get started:
 
 Documentation can be found at https://vuejs-templates.github.io/webpack
 ```
+
 错误
 卸载npm uninstall webpack-dev-server，在安装这个 npm i webpack-dev-server@2.9.7
 
-#### toc
+### toc
 
-----
+* * *
+
 `/build`  用于打包代码 npm run build  
 
-----
+* * *
+
 `/config`  相关环境的配置，**主要关注index.js**，里面有关于开发dev和打包build的配置
 
 build：
+
 ```js
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -36,8 +52,8 @@ build：
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 ```
-打包后最终提取dist目录下的文件  
 
+打包后最终提取dist目录下的文件  
 
 dev是开发调试网页的一些配置，包括端口，代理等，调试时需要把后端服务开启
 
@@ -48,13 +64,16 @@ proxyTable: {
         }
     },
 ```
-----
+
+* * *
+
 `src`   **主要开发目录**
 
-* \assets: 放置一些图片，如logo等。（感觉用处不大）
-* `\components`: 目录里面放了一个组件文件，可以不用（指默认生成的）。
-* `\router`: 界面路由，包含一个router对象，表示http访问路径对应需要渲染的组件
-    比如下面的路由中，访问/create目录时，需要渲染三个组件，主要是CreateMeetingContent这个组件（在\components目录中）。
+-   \\assets: 放置一些图片，如logo等。（感觉用处不大）
+-   `\components`: 目录里面放了一个组件文件，可以不用（指默认生成的）。
+-   `\router`: 界面路由，包含一个router对象，表示http访问路径对应需要渲染的组件
+      比如下面的路由中，访问/create目录时，需要渲染三个组件，主要是CreateMeetingContent这个组件（在\\components目录中）。
+
 ```js
 export default new Router({
   routes: [
@@ -72,20 +91,22 @@ export default new Router({
       }
     },
 }
-
 ```
 
-* App.vue: 项目入口文件，我们也可以直接将组件写这里，而不使用 components 目录。（感觉用处不大）
-* main.js: 项目的核心文件。（感觉用处不大）
+-   App.vue: 项目入口文件，我们也可以直接将组件写这里，而不使用 components 目录。（感觉用处不大）
+-   main.js: 项目的核心文件。（感觉用处不大）
 
 页面组件可以放在components中，也可以放在其他的文件夹里。src中还可以根据需要添加用于实现其他功能的文件夹。
 
+* * *
 
-----
 `\static`   静态资源目录，如图片、字体等  
 
-----
+* * *
+
 `index.html`   首页入口文件  
 
-## components
 
+* * *
+
+## components
