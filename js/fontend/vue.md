@@ -71,7 +71,7 @@ proxyTable: {
 
 -   \\assets: 放置一些图片，如logo等。（感觉用处不大）
 -   `\components`: 目录里面放了一个组件文件，可以不用（指默认生成的）。
--   `\router`: 界面路由，包含一个router对象，表示http访问路径对应需要渲染的组件
+-   `\router`: 里面默认会生成一个index.js，表示界面路由。indexjs包含一个router对象，表示http访问路径对应需要渲染的组件
       比如下面的路由中，访问/create目录时，需要渲染三个组件，主要是CreateMeetingContent这个组件（在\\components目录中）。
 
 ```js
@@ -110,3 +110,4 @@ export default new Router({
 * * *
 
 ## components
+每个vue文件代表网页上的一个组件，vue文件的结构分为 template, script, style 三个部分。
