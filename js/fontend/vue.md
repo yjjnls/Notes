@@ -64,6 +64,9 @@ proxyTable: {
         }
     },
 ```
+实际运行时，应该是网页直接把请求发到后端，而调试时，是先将请求发送到dev-server，例如/webmedia/xxx，而dev-server会将其转发到http://localhost:3002。这样后端收到的请求也是/webmedia/xxx。   
+
+如果需要跨域那么需要加上参数changeOrigin:true
 
 * * *
 
