@@ -29,8 +29,6 @@ consistent hashing 是一种 hash 算法，简单的说，**在移除 / 添加�
 一致性哈希只是解决少量增减服务器导致的大量震荡问题，要保持会话的延续不是他可以解决的。
 
 
-http://blog.csdn.net/dellme99/article/details/16872341
-http://blog.csdn.net/dellme99/article/details/16968979
 http://blog.csdn.net/dellme99/article/details/17008975
 http://blog.csdn.net/dellme99/article/details/51884292
 http://blog.csdn.net/dellme99/article/details/51884307
@@ -47,3 +45,4 @@ https://mp.weixin.qq.com/s/i1pnrORZzec6Zp0tmljD8Q
 https://zhuanlan.zhihu.com/p/26762775
 https://zhuanlan.zhihu.com/p/25423971
 https://zhuanlan.zhihu.com/p/22353191
+
