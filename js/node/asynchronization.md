@@ -65,4 +65,11 @@ var start = async function () {
 };
 ```
 
-https://www.cnblogs.com/YikaJ/p/4996174.html
+https://www.cnblogs.com/YikaJ/p/4996174.html 
+
+Promise.then
+Promise.catch
+Promise.resolve
+Promise.reject
+Promise.all
+Promise.race
