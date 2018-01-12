@@ -73,3 +73,5 @@ Promise.resolve
 Promise.reject
 Promise.all
 Promise.race
+
+https://promisesaplus.com/
