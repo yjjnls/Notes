@@ -16,7 +16,7 @@
 通过events模块中的信号来处理，提交异步处理时订阅相关信号，当处理完成时，处理模块发射相应信号。这样在之后的循环中，就会触发该信号的回调。
 
 
-### promise
+### 异步模式（async/await）
 
 async 表示这是一个async函数，await只能用在这个函数里面
 
@@ -75,3 +75,56 @@ Promise.all
 Promise.race
 
 https://promisesaplus.com/
+
+## 发展历史
+### callback
+```js
+mongoDb.open(function(err, db){
+    if(!err){
+        db.collection("users", function(err, collection){
+            if(!err){
+                let person = {name: "yika", age: 20};
+                collection.insert(person, function(err, result){
+                    if(!err){
+                        console.log(result);
+                    }
+                });
+            }
+        })
+    }
+});
+```
+### promise
+```js
+let person = {name: "yika"};
+mongoDb
+    .open()
+    .then(function(database){
+      return database.collection("users");
+    })
+    .then(function(collection){
+      return collection.insert(person);
+    })
+    .then(function(result){
+      console.log(result);
+    })
+    .catch(function(e){
+      throw new Error(e);
+    })
+```
+### async/await
+```js
+async function insertData(person){
+    let db, collection, result; 
+    try{
+        db = await mongoDb.open();
+        collection = await db.collection("users");
+        result = await collection.insert(person);
+    }catch(e){
+        console.error(e.message);
+    }
+    console.log(result);
+} 
+
+insertData({name: "yika"});
+```
