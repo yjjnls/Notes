@@ -124,6 +124,9 @@ promise.then(console.log, console.error);
 ```
 **.then()总是返回一个新的promise.**例如第一个例子中，mongoDb.open()可以看做一个promise，打开数据库这个异步操作成功后，调用第一个then，执行下一个异步操作`database.collection("users")`，然后这个then返回一个新的promise对象，该对象就表示执行`database.collection("users")`这个异步操作。
 
+reject 是拒绝，跳转到catch error
+resolve 是解决，下一步，即跳转到下一个promise操作
+
 ### async/await
 ```js
 async function insertData(person){
