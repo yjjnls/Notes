@@ -112,17 +112,18 @@ mongoDb
       throw new Error(e);
     })
 ```
-promise是一个异步编程的抽象，它是一个返回值或抛出exception的代理对象
-* promise只有三种状态，未完成，完成(fulfilled)和失败(rejected)。
-* promise的状态可以由未完成转换成完成，或者未完成转换成失败。
-* promise的状态转换只发生一次
+promise是一个异步编程的抽象，它是一个返回值或抛出exception的代理对象  
+* promise只有三种状态，未完成，完成(fulfilled)和失败(rejected)。  
+* promise的状态可以由未完成转换成完成，或者未完成转换成失败。  
+* promise的状态转换只发生一次  
 promise有一个then方法，then方法可以接受3个函数作为参数。前两个函数对应promise的两种状态fulfilled, rejected的回调函数。第三个函数用于处理进度信息。
 
 ```js
 var promise = readFile();
 promise.then(console.log, console.error);
 ```
-**.then()总是返回一个新的promise.**例如第一个例子中，mongoDb.open()可以看做一个promise，打开数据库这个异步操作成功后，调用第一个then，执行下一个异步操作`database.collection("users")`，然后这个then返回一个新的promise对象，该对象就表示执行`database.collection("users")`这个异步操作。
+**`.then()总是返回一个新的promise.`**   
+例如第一个例子中，mongoDb.open()可以看做一个promise，打开数据库这个异步操作成功后，调用第一个then，执行下一个异步操作`database.collection("users")`，然后这个then返回一个新的promise对象，该对象就表示执行`database.collection("users")`这个异步操作。
 
 reject 是拒绝，跳转到catch error
 resolve 是解决，下一步，即跳转到下一个promise操作
