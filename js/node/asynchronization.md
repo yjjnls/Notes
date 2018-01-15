@@ -16,7 +16,7 @@
 通过events模块中的信号来处理，提交异步处理时订阅相关信号，当处理完成时，处理模块发射相应信号。这样在之后的循环中，就会触发该信号的回调。
 
 
-### promise
+### 异步模式（async/await）
 
 async 表示这是一个async函数，await只能用在这个函数里面
 
@@ -75,3 +75,72 @@ Promise.all
 Promise.race
 
 https://promisesaplus.com/
+
+## 发展历史
+### callback
+```js
+mongoDb.open(function(err, db){
+    if(!err){
+        db.collection("users", function(err, collection){
+            if(!err){
+                let person = {name: "yika", age: 20};
+                collection.insert(person, function(err, result){
+                    if(!err){
+                        console.log(result);
+                    }
+                });
+            }
+        })
+    }
+});
+```
+### promise
+```js
+let person = {name: "yika"};
+mongoDb
+    .open()
+    .then(function(database){
+      return database.collection("users");
+    })
+    .then(function(collection){
+      return collection.insert(person);
+    })
+    .then(function(result){
+      console.log(result);
+    })
+    .catch(function(e){
+      throw new Error(e);
+    })
+```
+promise是一个异步编程的抽象，它是一个返回值或抛出exception的代理对象  
+* promise只有三种状态，未完成，完成(fulfilled)和失败(rejected)。  
+* promise的状态可以由未完成转换成完成，或者未完成转换成失败。  
+* promise的状态转换只发生一次  
+promise有一个then方法，then方法可以接受3个函数作为参数。前两个函数对应promise的两种状态fulfilled, rejected的回调函数。第三个函数用于处理进度信息。
+
+```js
+var promise = readFile();
+promise.then(console.log, console.error);
+```
+**`.then()总是返回一个新的promise.`**   
+例如第一个例子中，mongoDb.open()可以看做一个promise，打开数据库这个异步操作成功后，调用第一个then，执行下一个异步操作`database.collection("users")`，然后这个then返回一个新的promise对象，该对象就表示执行`database.collection("users")`这个异步操作。
+
+reject 是拒绝，跳转到catch error
+resolve 是解决，下一步，即跳转到下一个promise操作
+
+### async/await
+```js
+async function insertData(person){
+    let db, collection, result; 
+    try{
+        db = await mongoDb.open();
+        collection = await db.collection("users");
+        result = await collection.insert(person);
+    }catch(e){
+        console.error(e.message);
+    }
+    console.log(result);
+} 
+
+insertData({name: "yika"});
+```
