@@ -32,7 +32,7 @@ $ ssh root@127.0.0.1 -p 100
 $ sudo docker stop continer_id
 
 # remove container
-$
+$ sudo docker rm xxx
 
 # copy file
 ## host->docker
