@@ -7,6 +7,3 @@ Istio 的架构并不复杂，其核心组件只有四个。
 最后是名为 Istio-Auth 的身份认证组件，用来做服务间访问的安全控制。
 
 Envoy成为数据面板，而istio则称为控制面板
-
-http://istio.doczh.cn/docs/concepts/traffic-management/handling-failures.html
-https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing
