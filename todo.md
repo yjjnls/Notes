@@ -15,6 +15,7 @@
 ## session
 - [ ] [6步达成基于ZooKeeper的分布式Session实现](http://www.sohu.com/a/205996151_464005) *
 - [ ] [面对缓存，有哪些问题需要思考？](http://www.sohu.com/a/194722412_467759)
+- [ ] [再谈缓存的穿透、数据一致性和最终一致性问题](http://www.sohu.com/a/216753908_467759)
 - [ ] [阿里巴巴分布式缓存服务Tair的热点数据散列机制](https://baijiahao.baidu.com/s?id=1587385646735280009&wfr=spider&for=pc)
 - [ ] [双11万亿流量下的分布式缓存](https://yq.aliyun.com/articles/290865)
 - [ ] [分布式系统如何生成全局唯一的ID](http://blog.csdn.net/firstblood1/article/details/51924824)
