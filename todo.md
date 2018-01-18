@@ -26,8 +26,8 @@
 - [ ] [全流程重构京东服务市场系统](http://www.infoq.com/cn/articles/fw-jd-refactor)
 
 ## protocols
-- [ ] [怎么让不可靠的UDP可靠？](http://www.infoq.com/cn/articles/how-to-make-udp-reliable)
-- [ ] [P2P如何将视频直播带宽降低75%？](http://www.sohu.com/a/212884996_467759)
+- [x] [怎么让不可靠的UDP可靠？](http://www.infoq.com/cn/articles/how-to-make-udp-reliable)
+- [x] [P2P如何将视频直播带宽降低75%？](http://www.sohu.com/a/212884996_467759)
 
 - [ ] [Google QUIC协议：从TCP到UDP的Web平台](http://www.infoq.com/cn/articles/quic-google-protocol-web-platform-from-tcp-to-udp)
 - [ ] [QQ空间已在生产环境中使用QUIC协议](http://www.infoq.com/cn/news/2017/10/qzone-quic-practise)
