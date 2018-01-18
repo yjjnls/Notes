@@ -1,5 +1,5 @@
 # Docker
-- [ ] [Docker说了这么多 最全的一篇在这里](http://www.sohu.com/a/201679269_464005)
+- [x] [Docker说了这么多 最全的一篇在这里](http://www.sohu.com/a/201679269_464005)
 
 # Redis
 - [ ] [Redis快速入门及应用](http://www.infoq.com/cn/articles/architecture-practice-01-redis)
@@ -26,11 +26,12 @@
 
 ## protocols
 - [ ] [怎么让不可靠的UDP可靠？](http://www.infoq.com/cn/articles/how-to-make-udp-reliable)
+- [ ] [P2P如何将视频直播带宽降低75%？](http://www.sohu.com/a/212884996_467759)
+
 - [ ] [Google QUIC协议：从TCP到UDP的Web平台](http://www.infoq.com/cn/articles/quic-google-protocol-web-platform-from-tcp-to-udp)
 - [ ] [QQ空间已在生产环境中使用QUIC协议](http://www.infoq.com/cn/news/2017/10/qzone-quic-practise)
 - [ ] [让互联网更快的协议，QUIC在腾讯的实践及性能优化](http://www.sohu.com/a/214100952_355140)
 - [ ] [科普：QUIC协议原理分析](http://www.sohu.com/a/214100687_355140)
-- [ ] [P2P如何将视频直播带宽降低75%？](http://www.sohu.com/a/212884996_467759)
 
 
 - [x] [5亿整数的大文件，怎么排？](http://blog.jobbole.com/87600/)
