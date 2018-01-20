@@ -1,6 +1,11 @@
-
+# -*- coding: utf-8 -*
 import time
 import unittest
+
+# hash(info) article: xxxx {}
+# zset(time) article: xxxx  yyyyyy
+# zset(score) article: xxxx  yyyyyy
+# set(voters) voted: xxxx yyyyyy
 
 ONE_WEEK_IN_SECONDS = 7 * 86400
 VOTE_SCORE = 432
@@ -19,90 +24,64 @@ def article_vote(conn, user, article):
 
 
 def post_article(conn, user, title, link):
-    article_id = str(conn.incr('article:'))  # A
+    article_id = str(conn.incr('article:'))
 
     voted = 'voted:' + article_id
-    conn.sadd(voted, user)  # B
-    conn.expire(voted, ONE_WEEK_IN_SECONDS)  # B
+    # 默认自己投自己一票
+    conn.sadd(voted, user)
+    # 为vote:xxx这个结构（key）设置超时时间，超时后自动删除
+    conn.expire(voted, ONE_WEEK_IN_SECONDS)
 
     now = time.time()
     article = 'article:' + article_id
-    conn.hmset(article, {  # C
-        'title': title,  # C
-        'link': link,  # C
-        'poster': user,  # C
-        'time': now,  # C
-        'votes': 1,  # C
-    })  # C
+    conn.hmset(article, {
+        'title': title,
+        'link': link,
+        'poster': user,
+        'time': now,
+        'votes': 1,
+    })
 
-    conn.zadd('score:', article, now + VOTE_SCORE)  # D
-    conn.zadd('time:', article, now)  # D
+    conn.zadd('score:', article, now + VOTE_SCORE)
+    conn.zadd('time:', article, now)
 
     return article_id
-# <end id="post-article-code"/>
-# A Generate a new article id
-# B Start with the posting user having voted for the article, and set the article voting information to automatically expire in a week (we discuss expiration in chapter 3)
-# C Create the article hash
-# D Add the article to the time and score ordered zsets
-# END
 
 
-# <start id="fetch-articles-code"/>
 ARTICLES_PER_PAGE = 25
 
 
 def get_articles(conn, page, order='score:'):
-    start = (page - 1) * ARTICLES_PER_PAGE  # A
-    end = start + ARTICLES_PER_PAGE - 1  # A
-
-    ids = conn.zrevrange(order, start, end)  # B
+    start = (page - 1) * ARTICLES_PER_PAGE
+    end = start + ARTICLES_PER_PAGE - 1
+    # 默认按照文章分数score排序
+    ids = conn.zrevrange(order, start, end)
     articles = []
-    for id in ids:  # C
-        article_data = conn.hgetall(id)  # C
-        article_data['id'] = id  # C
-        articles.append(article_data)  # C
+    for id in ids:
+        article_data = conn.hgetall(id)
+        article_data['id'] = id
+        articles.append(article_data)
 
     return articles
-# <end id="fetch-articles-code"/>
-# A Set up the start and end indexes for fetching the articles
-# B Fetch the article ids
-# C Get the article information from the list of article ids
-# END
-
-# <start id="add-remove-groups"/>
 
 
 def add_remove_groups(conn, article_id, to_add=[], to_remove=[]):
-    article = 'article:' + article_id  # A
+    article = 'article:' + article_id
     for group in to_add:
-        conn.sadd('group:' + group, article)  # B
+        conn.sadd('group:' + group, article)
     for group in to_remove:
-        conn.srem('group:' + group, article)  # C
-# <end id="add-remove-groups"/>
-# A Construct the article information like we did in post_article
-# B Add the article to groups that it should be a part of
-# C Remove the article from groups that it should be removed from
-# END
-
-# <start id="fetch-articles-group"/>
+        conn.srem('group:' + group, article)
 
 
 def get_group_articles(conn, group, page, order='score:'):
-    key = order + group  # A
-    if not conn.exists(key):  # B
-        conn.zinterstore(key,  # C
-                         ['group:' + group, order],  # C
-                         aggregate='max',  # C
+    key = order + group
+    if not conn.exists(key):
+        conn.zinterstore(key,
+                         ['group:' + group, order],
+                         aggregate='max',
                          )
-        conn.expire(key, 60)  # D
-    return get_articles(conn, page, key)  # E
-# <end id="fetch-articles-group"/>
-# A Create a key for each group and each sort order
-# B If we haven't sorted these articles recently, we should sort them
-# C Actually sort the articles in the group based on score or recency
-# D Tell Redis to automatically expire the ZSET in 60 seconds
-# E Call our earlier get_articles() function to handle pagination and article data fetching
-# END
+        conn.expire(key, 60)
+    return get_articles(conn, page, key)
 
 #--------------- Below this line are helpers to test the code ----------------
 
@@ -122,7 +101,7 @@ class TestCh01(unittest.TestCase):
         import pprint
 
         article_id = str(post_article(conn, 'username',
-                                      'A title', 'http://www.google.com'))
+                                      'A title', 'http://www.baidu.com'))
         print "We posted a new article with id:", article_id
         print
         self.assertTrue(article_id)

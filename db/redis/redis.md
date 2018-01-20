@@ -19,7 +19,7 @@ lrange [key] [pos1 pos2(-1 -> end of the list)] 获取链表在给定范围上�
 lindex [key] [pos] 获取链表某个位置上的元素
 lpop/rpop [key]  弹出左端/右端的值，
 
-## 集合set (unordered set of string)
+## 集合set (unordered set of string)元素不能重复
 sadd [key] [val]
 srem [key] [val]
 smembers [key] //列出集合中的所有元素
