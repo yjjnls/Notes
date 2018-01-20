@@ -8,7 +8,7 @@
 
 ## Go
 - [ ] [今日头条Go建千亿级微服务的实践](http://36kr.com/p/5073181.html)
-- [ ] [基于Go技术栈的微服务构建](http://blog.ucloud.cn/archives/2788) *
+- [ ] [基于Go技术栈的微服务构建](http://blog.ucloud.cn/archives/2788) * go + prometheus
 - [ ] [弹幕系统更新的血与泪](http://www.sohu.com/a/211683146_99967772) *
 
 

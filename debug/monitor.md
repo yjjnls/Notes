@@ -12,7 +12,7 @@
             - [定时](#%E5%AE%9A%E6%97%B6)
         - [basics](#basics)
     - [Process fd](#process-fd)
-    - [用lsof貌似不准](#%E7%94%A8lsof%E8%B2%8C%E4%BC%BC%E4%B8%8D%E5%87%86)
+- [磁盘空间](#%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4)
 - [Monitor tools](#monitor-tools)
     - [linux](#linux)
         - [htop](#htop)
@@ -169,7 +169,14 @@ kill –15 PID1 PID2(PID1,PID2是僵尸进程的父进程的其它子进程)。
 
 ll /proc/pid/fd |wc -l
 
-## 用lsof貌似不准
+用lsof貌似不准
+
+# 磁盘空间
+linux磁盘空间分为3个部分：物理磁盘空间，inode节点占用磁盘空间，存放信号量的空间
+
+查看可用inode结点
+df -i
+
 
 # Monitor tools
 
