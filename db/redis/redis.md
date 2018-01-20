@@ -9,7 +9,7 @@ redis-cli shutdown
 # operations
 这下面的key都可以看作某个类型的变量
 ## 字符串string（可以是字符串，整数和浮点数）
-set [key] [val]
+set [key] [val] （set x 5 / set x a）
 get [key]
 del [key]
 
@@ -38,3 +38,7 @@ zrange [key] [pos1 pos2 (-1 -> end of the set)] withscores
 zrangebyscore [key] [score1 score2] withscores
 
 并发？？？
+
+查看有多少个连接    client info
+查看所有key        keys ×
+清除所有数据       flushdb（当前db） flushall（多有db）默认有16个db

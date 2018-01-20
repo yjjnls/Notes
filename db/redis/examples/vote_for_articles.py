@@ -100,8 +100,8 @@ class TestCh01(unittest.TestCase):
         conn = self.conn
         import pprint
 
-        article_id = str(post_article(conn, 'username',
-                                      'A title', 'http://www.baidu.com'))
+        article_id = str(post_article(conn, 'yjjnls',
+                                      'github', 'https://github.com/yjjnls'))
         print "We posted a new article with id:", article_id
         print
         self.assertTrue(article_id)
@@ -111,7 +111,6 @@ class TestCh01(unittest.TestCase):
         print r
         print
         self.assertTrue(r)
-
         article_vote(conn, 'other_user', 'article:' + article_id)
         print "We voted for the article, it now has votes:",
         v = int(conn.hget('article:' + article_id, 'votes'))
@@ -132,13 +131,14 @@ class TestCh01(unittest.TestCase):
         pprint.pprint(articles)
         print
         self.assertTrue(len(articles) >= 1)
-
-        to_del = (
-            conn.keys('time:*') + conn.keys('voted:*') + conn.keys('score:*') +
-            conn.keys('article:*') + conn.keys('group:*')
-        )
-        if to_del:
-            conn.delete(*to_del)
+        x = conn.keys('*')
+        print x
+        # to_del = (
+        #     conn.keys('time:*') + conn.keys('voted:*') + conn.keys('score:*') +
+        #     conn.keys('article:*') + conn.keys('group:*')
+        # )
+        # if to_del:
+        #     conn.delete(*to_del)
 
 
 if __name__ == '__main__':
