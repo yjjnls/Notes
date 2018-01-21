@@ -35,4 +35,12 @@
 
 - [ ] [5亿整数的大文件，怎么排？](http://blog.jobbole.com/87600/)
 
+## kafka
+- [ ] [Kafka的三种客户端线程模型和一个小惊喜](http://mp.weixin.qq.com/s/It8JK-c86ItS5SgRyTFP2A)
 
+
+## micro service
+- [ ] [Re：从0开始的微服务架构：（一）重识微服务架构](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero)
+- [ ] [Re：从0开始的微服务架构：（三）微服务架构 API 的开发与治理](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part03)
+- [ ] [Re：从 0 开始的微服务架构：（四）如何保障微服务架构下的数据一致性](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part04)
+- [ ] [Re：从 0 开始的微服务架构：（五）代码给你，看如何用Docker支撑微服务](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part05)
