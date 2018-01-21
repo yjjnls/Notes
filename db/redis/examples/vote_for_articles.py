@@ -89,7 +89,7 @@ def get_group_articles(conn, group, page, order='score:'):
 class TestCh01(unittest.TestCase):
     def setUp(self):
         import redis
-        self.conn = redis.Redis(db=15)
+        self.conn = redis.Redis(db=1)
 
     def tearDown(self):
         del self.conn
@@ -133,12 +133,12 @@ class TestCh01(unittest.TestCase):
         self.assertTrue(len(articles) >= 1)
         x = conn.keys('*')
         print x
-        # to_del = (
-        #     conn.keys('time:*') + conn.keys('voted:*') + conn.keys('score:*') +
-        #     conn.keys('article:*') + conn.keys('group:*')
-        # )
-        # if to_del:
-        #     conn.delete(*to_del)
+        to_del = (
+            conn.keys('time:*') + conn.keys('voted:*') + conn.keys('score:*') +
+            conn.keys('article:*') + conn.keys('group:*')
+        )
+        if to_del:
+            conn.delete(*to_del)
 
 
 if __name__ == '__main__':
