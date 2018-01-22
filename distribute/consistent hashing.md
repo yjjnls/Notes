@@ -29,7 +29,7 @@ consistent hashing 是一种 hash 算法，简单的说，**在移除 / 添加�
 一致性哈希只是解决少量增减服务器导致的大量震荡问题，要保持会话的延续不是他可以解决的。
 
 
-http://shuofenglxy.iteye.com/blog/1188422
+<!-- http://shuofenglxy.iteye.com/blog/1188422 -->
 http://blog.csdn.net/dellme99/article/details/14168263
 http://blog.csdn.net/dellme99/article/details/14162159
 http://blog.csdn.net/dellme99/article/details/15432249
