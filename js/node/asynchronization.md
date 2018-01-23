@@ -128,6 +128,24 @@ promise.then(console.log, console.error);
 reject 是拒绝，跳转到catch error
 resolve 是解决，下一步，即跳转到下一个promise操作
 
+如果异步行为没有返回promise对象，那么就要自己再包一层，例如
+```js
+var sleep = function (time) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            // 返回 ‘ok’
+            resolve('ok');
+        }, time);
+    })
+};
+
+var start = async function () {
+    let result = await sleep(3000);
+    console.log(result); // 收到 ‘ok’
+};
+```
+
+
 ### async/await
 ```js
 async function insertData(person){
