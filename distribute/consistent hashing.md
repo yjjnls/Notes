@@ -30,8 +30,8 @@ consistent hashing 是一种 hash 算法，简单的说，**在移除 / 添加�
 
 
 <!-- http://shuofenglxy.iteye.com/blog/1188422 -->
-http://blog.csdn.net/dellme99/article/details/14168263
-http://blog.csdn.net/dellme99/article/details/14162159
+<!-- http://blog.csdn.net/dellme99/article/details/14168263 -->
+<!-- http://blog.csdn.net/dellme99/article/details/14162159 -->
 http://blog.csdn.net/dellme99/article/details/15432249
 http://blog.csdn.net/dellme99/article/details/51884292
 http://blog.csdn.net/dellme99/article/details/51884307
