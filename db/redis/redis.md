@@ -15,9 +15,10 @@ del [key]
 
 ## 列表list (a single list of string)
 lpush/rpush [key] [val]  插入链表左端/右端
-lrange [key] [pos1 pos2(-1 -> end of the list)] 获取链表在给定范围上的所有值
-lindex [key] [pos] 获取链表某个位置上的元素
-lpop/rpop [key]  弹出左端/右端的值，
+lrange [key] [pos1 pos2(-1 -> end of the list)]  获取链表在给定范围上的所有值
+lindex [key] [pos]  获取链表某个位置上的元素
+lpop/rpop [key]  弹出左端/右端的值
+ltrim [key] [start] [end]  保留从start到end的元素
 
 ## 集合set (unordered set of string)元素不能重复
 sadd [key] [val]
@@ -47,3 +48,5 @@ zscore [key] member  列出某个member的score值
 查看有多少个连接    client info
 查看所有key        keys ×
 清除所有数据       flushdb（当前db） flushall（多有db）默认有16个db
+
+zadd时间复杂度怎么算的
