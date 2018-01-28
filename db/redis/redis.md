@@ -46,7 +46,7 @@ zscore [key] member  列出某个member的score值
 并发？？？
 
 查看有多少个连接    client info
-查看所有key        keys ×
+查看所有key        keys *
 清除所有数据       flushdb（当前db） flushall（多有db）默认有16个db
 
 zadd时间复杂度怎么算的
@@ -67,3 +67,11 @@ SAVE 和 BGSAVE 两个命令都会调用 rdbSave 函数，但是SAVE是阻塞调
 * **快照持久化适合允许丢失一部分数据的应用。**
 
 在数据量大时，可以考虑关闭自动保存，在redis.conf中将save去掉，数据库保存的名字通过dbfilename设置，默认为dump.rdb。保存目录通过dir设置，默认为当前启动redis-server的目录。
+
+* RDB文件的载入一般情况是自动的，redis服务器启动的时候，redis服务器再启动的时候如果检测到RDB文件的存在，那么redis会自动载入这个文件。
+* 如果服务器开启了AOF持久化，那么服务器会优先使用AOF文件来还原数据库状态。
+* RDB是通过保存键值对来记录数据库状态的，采用copy on write的模式，每次都是全量的备份。
+
+### AOF持久化
+执行写命令时，将被执行的命令复制到硬盘里面。  
+AOF文件会不断地增大，可以用BGREWRITEAOF来fork一个子进程来重写AOF文件，
