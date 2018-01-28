@@ -50,3 +50,20 @@ zscore [key] member  列出某个member的score值
 清除所有数据       flushdb（当前db） flushall（多有db）默认有16个db
 
 zadd时间复杂度怎么算的
+
+## 事务
+通过multi和exec命令来实现  
+multi之后的命令都会返回queued，存入了队列，直到执行exec才会正式执行。
+如果要取消事务，那么就用discard。
+
+## 持久化
+### 快照持久化
+SAVE 和 BGSAVE 两个命令都会调用 rdbSave 函数，但是SAVE是阻塞调用，BGSAVE是fork一个子进程异步完成。  
+
+* 发送save和bgsave来创建快照
+* 配置了save选项，满足时会出发bgsave选项
+* shutdown或者term关闭，会执行save，也可以设置nosave
+* 两台redis服务器连接，发送sync复制时，会执行bgsave
+* **快照持久化适合允许丢失一部分数据的应用。**
+
+在数据量大时，可以考虑关闭自动保存，在redis.conf中将save去掉，数据库保存的名字通过dbfilename设置，默认为dump.rdb。保存目录通过dir设置，默认为当前启动redis-server的目录。
