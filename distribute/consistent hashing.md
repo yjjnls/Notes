@@ -46,3 +46,5 @@ https://mp.weixin.qq.com/s/i1pnrORZzec6Zp0tmljD8Q
 <!-- https://zhuanlan.zhihu.com/p/26762775 -->
 <!-- https://zhuanlan.zhihu.com/p/25423971 -->
 
+<!-- http://blog.csdn.net/sanwenyublog/article/details/53385616 -->
+http://thesecretlivesofdata.com/raft/ !!!!
