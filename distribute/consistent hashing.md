@@ -33,11 +33,11 @@ consistent hashing 是一种 hash 算法，简单的说，**在移除 / 添加�
 <!-- http://blog.csdn.net/dellme99/article/details/14168263 -->
 <!-- http://blog.csdn.net/dellme99/article/details/14162159 -->
 <!-- http://blog.csdn.net/dellme99/article/details/15432249 -->
-http://blog.csdn.net/dellme99/article/details/51884292
+<!-- http://blog.csdn.net/dellme99/article/details/51884292 -->
 <!-- http://blog.csdn.net/dellme99/article/details/51884307 -->
 <!-- http://blog.csdn.net/dellme99/article/category/1690035 -->
 <!-- http://duanple.blog.163.com/blog/static/70971767201311810939564/ -->
-http://blog.csdn.net/kevinlynx/article/details/40122407
+<!-- http://blog.csdn.net/kevinlynx/article/details/40122407 -->
 <!-- http://blog.csdn.net/aesop_wubo/article/details/20401431 -->
 <!-- http://blog.csdn.net/cloudresearch/article/details/23127985 -->
 <!-- http://blog.jobbole.com/95632/ -->
@@ -47,4 +47,4 @@ https://mp.weixin.qq.com/s/i1pnrORZzec6Zp0tmljD8Q
 <!-- https://zhuanlan.zhihu.com/p/25423971 -->
 
 <!-- http://blog.csdn.net/sanwenyublog/article/details/53385616 -->
-http://thesecretlivesofdata.com/raft/ !!!!
+<!-- http://thesecretlivesofdata.com/raft/ !!!! -->

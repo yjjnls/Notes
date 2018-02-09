@@ -37,6 +37,11 @@ PATH=%PATH%;D:\tmp\wms\build\build.debug\local\x86_64\bin
 ```
 ./test-launch "( videotestsrc ! x264enc ! rtph264pay name=pay0 pt=96 )"
 ```
+
+videotestsrc ! video/x-raw,width=320,height=240,framerate=10/1 ! openh264enc ! rtph264pay name=pay0 pt=96 ! audiotestsrc ! audio/x-raw,rate=8000 ! alawenc ! rtppcmapay name=pay1 pt=97
+
+videotestsrc ! video/x-raw,width=320,height=240,framerate=10/1 ! openh264enc ! rtph264pay name=pay0 pt=96 ! audiotestsrc ! audio/x-raw,rate=48000 ! opusenc ! rtpopuspay name=pay1 pt=97
+
 - 这里的引号一定要有
 ### vlc
 ```
