@@ -11,8 +11,10 @@
         - [异步复制](#%E5%BC%82%E6%AD%A5%E5%A4%8D%E5%88%B6)
     - [分布式协议](#%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE)
         - [两阶段提交协议](#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE)
+        - [三阶段提交协议](#%E4%B8%89%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE)
         - [Paxos协议](#paxos%E5%8D%8F%E8%AE%AE)
         - [Quorum NRW](#quorum-nrw)
+        - [Raft](#raft)
 
 # distribute
 ## 一致性
@@ -159,3 +161,14 @@ W表示完成写操作所需要写入的最小副本数，即一次写操作所�
 假设N=5， 如果R=1， 那么W必须是5. 所以就是写入所有的节点是全部节点，那么读取任何一个节点就可以最新的数据。 有点就是像读写锁了。
 如果R=5， 那么W只要是1就可以了。 那么写的效率就非常高。 读取的效率比较低。 
 如果R=N/2+1， W=N/2， 读写之间为达到某个平衡。 是不错的策略。兼顾了性能和可用性，Dynamo系统的默认设置就是这种。
+
+### Raft
+raft是Paxos的简易版本。每个结点分为leader，follower和candidate三种状态    
+当集群中有leader时，后续操作类似于二阶段、三阶段提交。其他结点是follower，follower会通过心跳与leader保持联系。   
+如果leader挂了，那么raft就起作用了，用来选取下一个leader，具体过程如下：  
+1. 剩余的follower会通过心跳发现leader挂了，但是谁先发现leader挂了，谁就先成为candidate。
+2. candidate给其他结点发送vote request（先投自己一票，然后让其他结点投自己，follower状态的结点收到vote request都会同意投票，但candidate收到其他节点的vote request就会拒绝）
+3. 其他结点回复vote response，但投票数超过一半时，该candidate就自动成为leader，成为leader后会给其他结点发送心跳，其他结点收到心跳后就知道新的leader产生了，自己都变成follower。
+4. 如果两个follower同时发现leader挂了，都成了candidate，并发送各自的vote request，由于各节点收发速率不同，那么可能出现两个candidate同票，之后大家随机休息一阵，进行下一轮选举。谁先从休息中恢复就可以先发起投票，然后进而回到第一步开始，成为leader。
+
+[ref](http://thesecretlivesofdata.com/raft/)
