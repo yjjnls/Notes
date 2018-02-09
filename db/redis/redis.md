@@ -50,6 +50,7 @@ zscore [key] member  列出某个member的score值
 清除所有数据       flushdb（当前db） flushall（多有db）默认有16个db
 
 zadd时间复杂度怎么算的
+zrank 如何在logN时间复杂度内获取某个元素在第几个位置
 
 ## 事务
 通过multi和exec命令来实现  
