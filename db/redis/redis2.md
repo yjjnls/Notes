@@ -19,4 +19,4 @@ O(N)， N 是所有给定集合的成员数量之和。
 ### 交集
 ZINTERSTORE
 ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]
-默认采用sum，即求交集后对其进行相加。
+默认采用sum，即求交集后对其进行相加，并以相加后的结果作为排序分值。
