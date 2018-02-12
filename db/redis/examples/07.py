@@ -767,43 +767,44 @@ class TestCh07(unittest.TestCase):
         self.assertEquals(r[1], ['test2', 'test'])
         print "Which passed!"
 
-    # def test_string_to_score(self):
-    #     words = 'these are some words that will be sorted'.split()
-    #     pairs = [(word, string_to_score(word)) for word in words]
-    #     pairs2 = list(pairs)
-    #     pairs.sort()
-    #     pairs2.sort(key=lambda x:x[1])
-    #     self.assertEquals(pairs, pairs2)
+    def test_string_to_score(self):
+        words = 'these are some words that will be sorted'.split()
+        pairs = [(word, string_to_score(word)) for word in words]
+        pairs2 = list(pairs)
+        pairs.sort()
+        pairs2.sort(key=lambda x:x[1])
+        self.assertEquals(pairs, pairs2)
 
-    #     words = 'these are some words that will be sorted'.split()
-    #     pairs = [(word, string_to_score_generic(word, LOWER)) for word in words]
-    #     pairs2 = list(pairs)
-    #     pairs.sort()
-    #     pairs2.sort(key=lambda x:x[1])
-    #     self.assertEquals(pairs, pairs2)
+        words = 'these are some words that will be sorted'.split()
+        pairs = [(word, string_to_score_generic(word, LOWER)) for word in words]
+        pairs2 = list(pairs)
+        pairs.sort()
+        pairs2.sort(key=lambda x:x[1])
+        self.assertEquals(pairs, pairs2)
 
-    #     zadd_string(self.conn, 'key', 'test', 'value', test2='other')
-    #     self.assertEquals(self.conn.zscore('key', 'test'), string_to_score('value'))
-    #     self.assertEquals(self.conn.zscore('key', 'test2'), string_to_score('other'))
+        zadd_string(self.conn, 'key', 'test', 'value', test2='other')
+        self.assertEquals(self.conn.zscore('key', 'test'), string_to_score('value'))
+        self.assertEquals(self.conn.zscore('key', 'test2'), string_to_score('other'))
 
-    # def test_index_and_target_ads(self):
-    #     index_ad(self.conn, '1', ['USA', 'CA'], self.content, 'cpc', .25)
-    #     index_ad(self.conn, '2', ['USA', 'VA'], self.content + ' wooooo', 'cpc', .125)
+    def test_index_and_target_ads(self):
+        index_ad(self.conn, '1', ['USA', 'CA'], self.content, 'cpc', .25)
+        # 每个广告都有个id，location、广告内容的分词，价格等都会与这个id关联
+        index_ad(self.conn, '2', ['USA', 'VA'], self.content + ' wooooo', 'cpc', .125)
 
-    #     for i in xrange(100):
-    #         ro = target_ads(self.conn, ['USA'], self.content)
-    #     self.assertEquals(ro[1], '1')
+        for i in xrange(100):
+            ro = target_ads(self.conn, ['USA'], self.content)
+        self.assertEquals(ro[1], '1')
 
-    #     r = target_ads(self.conn, ['VA'], 'wooooo')
-    #     self.assertEquals(r[1], '2')
+        r = target_ads(self.conn, ['VA'], 'wooooo')
+        self.assertEquals(r[1], '2')
 
-    #     self.assertEquals(self.conn.zrange('idx:ad:value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
-    #     self.assertEquals(self.conn.zrange('ad:base_value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
+        self.assertEquals(self.conn.zrange('idx:ad:value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
+        self.assertEquals(self.conn.zrange('ad:base_value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
 
-    #     record_click(self.conn, ro[0], ro[1])
+        record_click(self.conn, ro[0], ro[1])
 
-    #     self.assertEquals(self.conn.zrange('idx:ad:value:', 0, -1, withscores=True), [('2', 0.125), ('1', 2.5)])
-    #     self.assertEquals(self.conn.zrange('ad:base_value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
+        self.assertEquals(self.conn.zrange('idx:ad:value:', 0, -1, withscores=True), [('2', 0.125), ('1', 2.5)])
+        self.assertEquals(self.conn.zrange('ad:base_value:', 0, -1, withscores=True), [('2', 0.125), ('1', 0.25)])
 
     # def test_is_qualified_for_job(self):
     #     add_job(self.conn, 'test', ['q1', 'q2', 'q3'])
