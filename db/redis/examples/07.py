@@ -789,6 +789,11 @@ class TestCh07(unittest.TestCase):
     def test_index_and_target_ads(self):
         index_ad(self.conn, '1', ['USA', 'CA'], self.content, 'cpc', .25)
         # 每个广告都有个id，location、广告内容的分词，价格等都会与这个id关联
+        # 页面也要进行分词，每个词都对应一个cpm加成，所有词和对应的cpm加成存到zset里面
+
+        # target_ads
+        # 对页面进行分词，然后与由location推荐的所有ads里面进行匹配，保存所有与页面有匹配的推荐广告，再逐个计算叠加值
+        # 再找出叠加后epcm最大的那个广告，推荐出来
         index_ad(self.conn, '2', ['USA', 'VA'], self.content + ' wooooo', 'cpc', .125)
 
         for i in xrange(100):
