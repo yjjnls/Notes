@@ -10,4 +10,7 @@ PBFT [区块链核心技术：拜占庭共识算法之PBFT](https://www.jianshu.
 # 视频
 [Bitcoin and cryptocurrency](https://www.coursera.org/learn/cryptocurrency)
 
+# 实践
+[以太坊私有链搭建](https://zhuanlan.zhihu.com/p/27106175)
+
 最好能做些项目！  比如自己建一个币（改比特币源码）/自己用fabric做一个小应用之类的
