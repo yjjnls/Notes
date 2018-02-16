@@ -1,0 +1,3 @@
+- [ ] mastering in bitcoin
+- [ ] [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system)
+- [ ] 
