@@ -16,6 +16,10 @@
 
 
 # 共识机制
+指如何将全网交易数据客观记录并且不可篡改的过程。目前"三巨头"分别使用不同的共识算法（Consensus Algorithm）,比特币使用工作量证明PoW（Proof of Work），以太坊即将转换为权益证明PoS（Proof of Stake），比特股使用授权权益证明DPoS（Delegated Proof of Stake）。
+
+
+
 http://www.8btc.com/blockchain-tech-consensus-mechanism
 共识机制到底是要做什么？
 区块链共识机制一般要同时考虑抵御DDOS攻击和双重支付攻击？
