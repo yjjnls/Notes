@@ -1,8 +1,8 @@
 # 基础
 - [x] [区块链相关应用和公司(文章底)](http://www.8btc.com/what-is-blockchain)
 - [ ] [区块链理论学习入门指南](https://daimajia.com/2017/08/24/how-to-start-blockchain-learning)
-- [ ] [比特币白皮书](比特币白皮书：一种点对点的电子现金系统)
-- [ ] [精通比特币](http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html)
+- [ ] [★比特币白皮书](比特币白皮书：一种点对点的电子现金系统)
+- [ ] [★精通比特币](http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html)
 
 
 # 分布式共识机制
@@ -34,7 +34,8 @@ PBFT [区块链核心技术：拜占庭共识算法之PBFT](https://www.jianshu.
 最好能做些项目！  比如自己建一个币（改比特币源码）/自己用fabric做一个小应用之类的
 
 # 以太坊
-- [ ] [以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
+- [ ] [★以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
+英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
 - [ ] [solidity语言学习](https://solidity.readthedocs.io/en/develop/)
 - [ ] [web3.js(与以太坊交互的js语言)](https://github.com/ethereum/web3.js)
 - [ ] [truffle框架](http://truffleframework.com/)
@@ -47,7 +48,7 @@ https://cn.hyperledger.org/
 
 # 书籍
 - [ ] [Nodejs开发加密货币](https://link.zhihu.com/?target=http%3A//bitcoin-on-nodejs.ebookchain.org/)
-- [ ] [区块链技术指南（有密码学相关）](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/blockchain_guide/content/)
+- [ ] [★区块链技术指南（有密码学相关）](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/blockchain_guide/content/)
 
 
 # 密码学
@@ -58,7 +59,7 @@ https://cn.hyperledger.org/
 
 # 其他
 - [ ] [bigchaindb](https://link.zhihu.com/?target=https%3A//www.bigchaindb.com/)
-- [ ] [IPFS](https://link.zhihu.com/?target=https%3A//ipfs.io/)
+- [ ] [IPFS](https://link.zhihu.com/?target=https%3A//ipfs.io/) IPFS 是基于区块链实现的分布式文件存储系统
 - [ ] [布比区块链](https://link.zhihu.com/?target=http%3A//www.bubi.cn/) 《区块链技术原理与底层架构》有相关介绍
 
 
