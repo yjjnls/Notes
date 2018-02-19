@@ -30,3 +30,5 @@ https://daimajia.com/2017/08/24/how-to-start-blockchain-learning
 https://bitshuo.com/topic/582eb3c0f2c7e3046d9c6653 
 
 https://github.com/mipengchong/blockchain/tree/master/white_papers
+
+!!!最小可行区块链原理
