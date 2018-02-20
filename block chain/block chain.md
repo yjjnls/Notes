@@ -16,15 +16,11 @@
 
 
 # 共识机制
-指如何将全网交易数据客观记录并且不可篡改的过程。目前"三巨头"分别使用不同的共识算法（Consensus Algorithm）,比特币使用工作量证明PoW（Proof of Work），以太坊即将转换为权益证明PoS（Proof of Stake），比特股使用授权权益证明DPoS（Delegated Proof of Stake）。
+共识机制一般用来保证分布式系统的一致性。  
+对于要能容忍拜占庭错误的情况，一般包含PBFT系列、POW系列算法等。PBFT系列算法是确定的，一旦达成共识就不可逆转；而POW系列算法是不固定的，随着时间推移，被推翻的概率越来越小。    
 
+在比特币中，指如何将全网交易数据客观记录并且不可篡改的过程。目前"三巨头"分别使用不同的共识算法（Consensus Algorithm）,比特币使用工作量证明PoW（Proof of Work），以太坊即将转换为权益证明PoS（Proof of Stake），比特股使用授权权益证明DPoS（Delegated Proof of Stake）。
 
-
-http://www.8btc.com/blockchain-tech-consensus-mechanism
-共识机制到底是要做什么？
-区块链共识机制一般要同时考虑抵御DDOS攻击和双重支付攻击？
-区块链上的共识机制主要解决由谁来构造区块，以及如何维护区块链统一的问题。  
-共识机制，就是在一个时间段内对事物的前后顺序达成共识的一种算法。  
 目前常用的几种共识机制
 
 1、工作量证明机制(Proof of Work - PoW)是我们最熟知的一种共识机制。就如字面的解释，PoW就是工作越多，收益越大。这里的工作就是猜数字，谁能最快的猜出这个唯一的数字，谁就能做信息公示人。
