@@ -13,8 +13,10 @@
         - [两阶段提交协议](#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE)
         - [三阶段提交协议](#%E4%B8%89%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE)
         - [Paxos协议](#paxos%E5%8D%8F%E8%AE%AE)
-        - [Quorum NRW](#quorum-nrw)
-        - [Raft](#raft)
+        - [* Quorum NRW](#quorum-nrw)
+        - [★ Raft](#%E2%98%85-raft)
+            - [leader election](#leader-election)
+            - [log replication](#log-replication)
     - [解决方案](#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88)
         - [上游应用执行业务并发送 MQ 消息（第一阶段）](#%E4%B8%8A%E6%B8%B8%E5%BA%94%E7%94%A8%E6%89%A7%E8%A1%8C%E4%B8%9A%E5%8A%A1%E5%B9%B6%E5%8F%91%E9%80%81-mq-%E6%B6%88%E6%81%AF%EF%BC%88%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%89)
         - [下游应用监听 MQ 消息并执行业务（第二阶段）](#%E4%B8%8B%E6%B8%B8%E5%BA%94%E7%94%A8%E7%9B%91%E5%90%AC-mq-%E6%B6%88%E6%81%AF%E5%B9%B6%E6%89%A7%E8%A1%8C%E4%B8%9A%E5%8A%A1%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%89)
@@ -154,7 +156,7 @@ Paxos协议用于在主节点发生故障时，选取新的结点。
 http://blog.csdn.net/dellme99/article/details/14162159
 
 
-### Quorum NRW
+### * Quorum NRW
 N表示数据所具有的副本数。
 R表示完成读操作所需要读取的最小副本数，即一次读操作所需参与的最小节点数目。
 W表示完成写操作所需要写入的最小副本数，即一次写操作所需要参与的最小节点数目。
@@ -165,16 +167,23 @@ W表示完成写操作所需要写入的最小副本数，即一次写操作所�
 如果R=5， 那么W只要是1就可以了。 那么写的效率就非常高。 读取的效率比较低。 
 如果R=N/2+1， W=N/2， 读写之间为达到某个平衡。 是不错的策略。兼顾了性能和可用性，Dynamo系统的默认设置就是这种。
 
-### Raft
+### ★ Raft
 raft是Paxos的简易版本。每个结点分为leader，follower和candidate三种状态    
-当集群中有leader时，后续操作类似于二阶段、三阶段提交。其他结点是follower，follower会通过心跳与leader保持联系。   
+当集群中有leader时，后续操作类似于二阶段、三阶段提交。其他结点是follower，follower会通过心跳与leader保持联系。 
+#### leader election  
 如果leader挂了，那么raft就起作用了，用来选取下一个leader，具体过程如下：  
-1. 剩余的follower会通过心跳发现leader挂了，但是谁先发现leader挂了，谁就先成为candidate。
-2. candidate给其他结点发送vote request（先投自己一票，然后让其他结点投自己，follower状态的结点收到vote request都会同意投票，但candidate收到其他节点的vote request就会拒绝）
-3. 其他结点回复vote response，但投票数超过一半时，该candidate就自动成为leader，成为leader后会给其他结点发送心跳，其他结点收到心跳后就知道新的leader产生了，自己都变成follower。
-4. 如果两个follower同时发现leader挂了，都成了candidate，并发送各自的vote request，由于各节点收发速率不同，那么可能出现两个candidate同票，之后大家随机休息一阵，进行下一轮选举。谁先从休息中恢复就可以先发起投票，然后进而回到第一步开始，成为leader。
+1. 剩余的follower会通过心跳发现leader挂了，但是谁先发现leader挂了，谁就先成为candidate。（**这一等待过程称为election timeout，时间随机为150ms到300ms。率先成为candidate的结点会进入下一轮term投票，`term表示leader的任期`**）
+2. candidate会先投自己一票，`并把自己的term+1`，然后给其他结点发送vote request，`带有自己更新后的term`，此时cadidate也会重置election timeout（其他节点如果是follwer状态，**且request的term大于自己的term，才会返回赞成票，同时将自己的term+1，并重置election timeout**）
+3. 如果cadidate在timeout之前收到的投票数超过一半时，该candidate就自动成为leader，成为leader后会给其他结点以心跳形式发送带有附加信息的消息，其他结点收到心跳后就知道新的leader产生了，自己都变成follower。**follwer每次收到心跳都会重置heartbeat timeout，并回复心跳消息**
+4. 如果leader挂了，那么就会重复1的过程。
+5. 如果两个follower同时发现leader挂了，都成了candidate，并发送各自的vote request，由于各节点收发速率不同，那么可能出现两个candidate同票，之后大家随机休息一阵，进行下一轮选举。谁先从休息中恢复就可以先发起投票，然后进而回到第一步开始，成为leader。
 
-[ref](http://thesecretlivesofdata.com/raft/)
+#### log replication
+leader收到客户端请求时，会添加到自己的log中，并向其他follower发送append entries，follower接收后判断是否满足条件，满足条件就将其添加到本地log中，并回复leader成功response。leader在收到大多数成功的response后就把log提交，表示请求被raft系统接受。
+
+其他问题参见：  
+[ref1](http://thesecretlivesofdata.com/raft/)  
+[ref2](https://www.jianshu.com/p/4711c4c32aab)
 
 ## 解决方案
 目前主流的一致性解决方案都是利用MQ来实现二阶段提交（事务性）。  
