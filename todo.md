@@ -44,5 +44,5 @@
 ## micro service
 - [ ] [Re：从0开始的微服务架构：（一）重识微服务架构](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero)
 - [ ] [Re：从0开始的微服务架构：（三）微服务架构 API 的开发与治理](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part03)
-- [ ] [Re：从 0 开始的微服务架构：（四）如何保障微服务架构下的数据一致性](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part04)
+- [x] [Re：从 0 开始的微服务架构：（四）如何保障微服务架构下的数据一致性](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part04)
 - [ ] [Re：从 0 开始的微服务架构：（五）代码给你，看如何用Docker支撑微服务](http://www.infoq.com/cn/articles/micro-service-architecture-from-zero-part05)
