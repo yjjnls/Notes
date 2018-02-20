@@ -54,8 +54,8 @@ https://cn.hyperledger.org/
 # 密码学
 - [x] [什么是椭圆曲线加密（ECC）](https://link.zhihu.com/?target=http%3A//8btc.com/article-138-1.html)
 - [ ] [比特币背后的密码学原理](https://link.zhihu.com/?target=http%3A//www.jianshu.com/p/225ff9439132)
-- [ ] [密码学一小时必知](https://link.zhihu.com/?target=https%3A//blog.helong.info/blog/2015/04/12/translate-Everything-you-need-to-know-about-cryptgraphy-in-1-hour/)
-- [ ] [现代密码学实践指南](https://blog.helong.info/blog/2015/06/06/modern-crypto/)
+- [x] [密码学一小时必知](https://link.zhihu.com/?target=https%3A//blog.helong.info/blog/2015/04/12/translate-Everything-you-need-to-know-about-cryptgraphy-in-1-hour/)
+- [x] [现代密码学实践指南](https://blog.helong.info/blog/2015/06/06/modern-crypto/)
 
 # 其他
 - [ ] [bigchaindb](https://link.zhihu.com/?target=https%3A//www.bigchaindb.com/)
