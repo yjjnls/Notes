@@ -10,13 +10,13 @@
 POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system)
 - [x] http://www.8btc.com/the-proof-of-work-concept
 
-POS [POS白皮书：基于权益证明的交易](http://www.8btc.com/pos-white-book)
+- [x] POS [POS白皮书：基于权益证明的交易](http://www.8btc.com/pos-white-book)
 
 ## 联盟链
-PBFT [区块链核心技术：拜占庭共识算法之PBFT](https://www.jianshu.com/p/fb5edf031afd)
+- [x] PBFT [区块链核心技术：拜占庭共识算法之PBFT](https://www.jianshu.com/p/fb5edf031afd)
 
 ## 侧链
-- [ ] [侧链白皮书：用楔入式侧链实现区块链的创新—摘要、前言](http://www.8btc.com/enabling-blockchain-innovations-with-pegged-sidechains-abstract-introduction)
+- [x] [侧链白皮书：用楔入式侧链实现区块链的创新—摘要、前言](http://www.8btc.com/enabling-blockchain-innovations-with-pegged-sidechains-abstract-introduction)
 
 # 视频
 [Bitcoin and cryptocurrency](https://www.coursera.org/learn/cryptocurrency)
