@@ -1,7 +1,7 @@
 # 基础
 - [x] [区块链相关应用和公司(文章底)](http://www.8btc.com/what-is-blockchain)
 - [ ] [区块链理论学习入门指南](https://daimajia.com/2017/08/24/how-to-start-blockchain-learning)
-- [ ] [★比特币白皮书](比特币白皮书：一种点对点的电子现金系统)
+- [ ] [★比特币白皮书](http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system)
 - [ ] [★精通比特币](http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html)
 
 
