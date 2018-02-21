@@ -8,7 +8,7 @@
 # 分布式共识机制
 ## 公链
 POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system)
-http://www.8btc.com/the-proof-of-work-concept
+- [x] http://www.8btc.com/the-proof-of-work-concept
 
 POS [POS白皮书：基于权益证明的交易](http://www.8btc.com/pos-white-book)
 
