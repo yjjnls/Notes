@@ -36,11 +36,12 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 # 以太坊
 - [ ] [★以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
 英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
+- [ ] [](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
 - [ ] [solidity语言学习](https://solidity.readthedocs.io/en/develop/)
 - [ ] [web3.js(与以太坊交互的js语言)](https://github.com/ethereum/web3.js)
 - [ ] [truffle框架](http://truffleframework.com/)
 
-- [ ] [BlockChain 与 Ethereum 介绍](https://jysperm.me/2016/05/blockchain-slides/)
+- [x] [BlockChain 与 Ethereum 介绍](https://jysperm.me/2016/05/blockchain-slides/)
 
 # Hyperledger
 https://cn.hyperledger.org/  
