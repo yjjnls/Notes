@@ -38,6 +38,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
 - [ ] [](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
 - [ ] [solidity语言学习](https://solidity.readthedocs.io/en/develop/)
+- [ ] [solidity](http://ethfans.org/wikis/Solidity-%E6%96%87%E6%A1%A3--%E7%AC%AC%E4%B8%80%E7%AB%A0)
 - [ ] [web3.js(与以太坊交互的js语言)](https://github.com/ethereum/web3.js)
 - [ ] [truffle框架](http://truffleframework.com/)
 
