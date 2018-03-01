@@ -6,10 +6,10 @@ Container format 描述了视频文件的结构。正如它的字面含义所说
 
 * `AVI(Audio Video Interleave)`:音频视频交错格式，只能封装一条视频轨和音频轨，不能封装文字，没有任何控制功能，因而也就无法实现流媒体，其文件扩展名是`.avi`。
 * `WMV(Windows Media Video)`:具有数字版权保护功能，其文件扩展名是`.wmv/.asf`。
-* `MPEG(Moving Picture Experts Group)`:可以支持多个视频、音轨、字幕等，控制功能丰富，其文件扩展名是`.MPG .MPEG .MPE .DAT .VOB .ASF .3GP .MP4 `。
+* `MPEG(Moving Picture Experts Group)`:可以支持多个视频、音轨、字幕等，控制功能丰富，其文件扩展名是`.MPG .MPEG .MPE .DAT .VOB .ASF .3GP .MP4 `。**RTSP一般传输ts、mp4格式的流。**
 * `Matroxska`:提供非常好的交互功能，比MPEG更强大，其文件扩展名是`.mkv`。
 * `QuickTime File Farmat`:由Apple开发，可存储内容丰富，支持视频、音频、图片、文字等，其文件扩展名是`.mov`。
-* `FLV(Flash Video)`:由Adobe Flash延伸而来的一种视频技术，主要用于网站。
+* `FLV(Flash Video)`:由Adobe Flash延伸而来的一种视频技术，主要用于网站。**RTMP一般传输flv、f4v格式流。**
 * `Real Video`:只能容纳Real Video和Real Audio编码格式的媒体，其文件扩展名是`.rmvb`。rmvb这种格式方便之处在于体积小，不能修改的内置字幕，而且只能达到DVD的画质。  
 * `MPEG2-TS` :格式 (后缀为 `.ts`)（ Transport Stream “传输流”；又称 MTS 、 TS ）是一种传输和存储包含音效、视频与通信协议各种数据的标准格式，用于数字电视广播系统，如 DVB 、 ATSC 、 IPTV 等等。 MPEG2-TS 定义于 MPEG-2 第一部分，系统（即原来之 ISO/IEC 标准 13818-1 或 ITU-T Rec. H.222.0 ）。  
 
