@@ -11,7 +11,9 @@
 * 直播推流一般用RTMP
 
 * 基于tcp，弱网环境下丢包严重
-* adobe私有协议，更新不足，浏览器上需要用flash插件，肯能被H5替代F
+* adobe私有协议，更新不足，浏览器上需要用flash插件，肯能被H5替代
+
+RTMP是基于FLV来开发的，但是现在FLV在浏览器上各种不兼容，得借助于flash。但是MSE (Media Source Extensions)通过对HTML5中的HTMLMediaElement扩展，使得前端可以对媒体流进行操作，从而支持播放一些流媒体本不支持的格式。例如：https://github.com/Bilibili/flv.js
 
 ### webrtc
 * W3C标准，主流浏览器和H5支持，相当于各平台都支持（包括不同操作系统和pc/移动端）

@@ -20,11 +20,7 @@
 ｜client｜Server ｜ 
 ｜－－－C0+C1—->| 
 ｜<－－S0+S1+S2– | 
-｜－－－C2-－－－> ｜
+｜－－－C2-－－－> ｜       
 
-rtmp如何推流
-http://blog.csdn.net/lipengshiwo/article/details/53267674
-http://blog.csdn.net/caoshangpa/article/details/52872146
-http://blog.csdn.net/wishfly/article/details/44534221
-https://www.villainhr.com/page/2017/08/05/RTMP%20H5%20%E7%9B%B4%E6%92%AD%E6%B5%81%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90
-https://www.villainhr.com/page/2017/08/05/%E4%B8%8D%E5%86%8D%E7%A2%8E%E7%89%87%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%8C%E5%BF%AB%E9%80%9F%E6%8E%8C%E6%8F%A1%20H5%20%E7%9B%B4%E6%92%AD%E6%8A%80%E6%9C%AF
+详细参考
+[RTMP H5 直播流技术解析](https://www.villainhr.com/page/2017/08/05/RTMP%20H5%20%E7%9B%B4%E6%92%AD%E6%B5%81%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90)

@@ -205,3 +205,6 @@ RTSP response message 00000088A8FFF6C0
       client port = UDP做为底层传输协议时的RTSP客户端的端口号
       server port = 使用UDP做为底层传输协议时的RTSP服务器的端口号
       mode = 即将进行的取流操作。可以填写PLAY或者RECORD。
+
+## 双向对讲
+http://blog.csdn.net/yuanchunsi/article/details/72877603
