@@ -159,3 +159,47 @@ seq这个值是在seek之后的第一个序列号
 
 ### 快进
 再发个PLAY命令,包含scale字段,服务端对其作出响应
+
+
+### 传输方式设定
+
+```
+RTSP request message 00000088A8FFF660
+ request line:
+   method: 'SETUP'
+   uri:    'rtsp://172.16.66.65/id=1/video_0'
+   version: '1.0'
+ headers:
+   key: 'User-Agent', value: 'GStreamer/1.12.3'
+   key: 'Transport', value: 'RTP/AVP/TCP;unicast;interleaved=0-1'
+ body:
+RTSP response message 00000088A8FFF6C0
+ status line:
+   code:   '200'
+   reason: 'OK'
+   version: '1.0'
+ headers:
+   key: 'CSeq', value: '3'
+   key: 'Session', value: '1520240922;timeout=60'
+   key: 'Transport', value: 'RTP/AVP/TCP;interleaved=0-1'
+   key: 'Cache-Control', value: 'no-cache'
+ body: length 0
+ ```
+
+ SETUP:定义RTSP客户端和RTSP服务器之间实时流的传输方式。传输方式可以是TCP、UDP或者是MULTICAST其中之一。通过在SETUP发法中定义Transport Header的字段，可以定义RTSP客户端和RTSP服务器端使用什么方式进行流传输。Transport Header定义如下：
+      `Transport: transport-protocol/profile/lower-transport/parameter`
+      transport-protocol = 传输协议，一般填写RTP
+      profile = 概述，固定填写AVP(Audio Video Profile)
+      **lower-transport = 底层传输协议，可以填写TCP或者UDP。如果不填写，则默认使用UDP作为底层传输协议。**
+      Parameter = transport-protocol/profile[/lower-transport] ( ”unicast” | ”multicast” )
+      | ”;” ”interleaved” ”=” channel [ ”-” channel ]
+      | ”;” ”port” ”=” port [ ”-” port ]
+      | ”;” ”client port” ”=” port [ ”-” port ]
+      | ”;” ”server port” ”=” port [ ”-” port ]
+      | ”;” ”mode” = <”> 1#mode <”>
+      unicast = 单播，multicast = 多播，该参数为必填参数
+      interleaved = 使用传输流和RTSP控制混合传输的方式
+      port = 多播传输时的端口
+      client port = UDP做为底层传输协议时的RTSP客户端的端口号
+      server port = 使用UDP做为底层传输协议时的RTSP服务器的端口号
+      mode = 即将进行的取流操作。可以填写PLAY或者RECORD。
