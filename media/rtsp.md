@@ -168,6 +168,8 @@ seq这个值是在seek之后的第一个序列号
     但是setup中协商的是客户端接收rtp和rtcp的端口，并不知道客户端发送rtcp的端口。
     一般客户端使用同一个端口收发rtcp。
 
+http://gstreamer-devel.966125.n4.nabble.com/Timeout-in-rtspsrc-td3274173.html
+
 ### 传输方式设定
 
 ```
