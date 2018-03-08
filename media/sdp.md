@@ -39,8 +39,8 @@ SDP属于一种会话描述格式，主要用于通信双方对于特定内容�
 
 端口：媒体流发往传输层的端口
 
-传送层协议：ip4上大多基于rtp/udp上传送（RTP/AVP）IETF RTP协议，在udp上传输
-传输协议可以有几个，不同协议之间用`,`分隔 ，
+传送层协议：ipv4上大多基于rtp/udp上传送（RTP/AVP）IETF RTP协议，在udp上传输
+传输协议可以有几个，不同协议之间用`,`分隔 。
 
 格式列表： 对音/视频，就是音/视频应用文档中规定媒体净荷类型。
 
@@ -58,7 +58,7 @@ a=属性或a=属性:值
 
 * * *
 
-a=fmtp:&lt;格式>&lt;格式特定参数>//定义指定格式的附加参数
+a=fmtp:&lt;格式>&lt;格式特定参数>//**定义指定格式的`附加参数`**
 
 > a=fmtp:97 profile-level-id=42e01f;level-asymmetry-allowed=1
 
@@ -70,8 +70,8 @@ a=rtpmap:&lt;净荷类型号>&lt;编码名>/&lt;时钟速率>[/<编码参数>]�
 
 > a=rtpmap:96 H264/90000
 
-rtpmap属性对"m="描述的格式列表的负荷类型进行详细说明  
-通用的rtpmap属性的格式为:
+rtpmap属性对"m="描述的格式列表的**负荷类型进行`详细说明`**   
+通用的rtpmap属性的格式为:  
 a=rtpmap:&lt; payload type> &lt; encoding name>/&lt; clock rate>[/< encoding parameters>]  
 &lt; payload type >  
 &lt; encoding name >：编码名，扩展的用X-开始  
