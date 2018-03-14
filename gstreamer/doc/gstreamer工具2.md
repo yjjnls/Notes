@@ -238,7 +238,7 @@
 
 ## 3.2 获取pipeline图像
 
-设置**GST_DEBUG_DUMP_DOT_DIR**变量就可以在每次pipeline的状态变化时查看序列图
+设置**GST_DEBUG_DUMP_DOT_DIR**变量就可以在每次pipeline的状态变化时查看序列图(gst-launch)
 
 ## 3.3 环境变量的设置
 
