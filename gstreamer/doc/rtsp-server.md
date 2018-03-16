@@ -57,13 +57,35 @@ find_media()
                     ╰──>[rtsp-media]create_rtpbin()/*create #rtpbin*/
                     ╰──>[rtsp-media]start_prepare()
                         ╰──>[rtsp-media]gst_rtsp_stream_join_bin()/*join stream to #rtpbin*/
+                            ╰──>[rtsp-media]create_sender_part(stream, bin, state);
+                            ╰──>[rtsp-media]create_receiver_part(stream, bin, state);
                         ╰──>[rtsp-media]start_preroll()/*set pipeline GST_STATE_PAUSED*/ 
                             ╰──>[rtsp-media]media_streams_set_blocked()/* start blocked  to make sure nothing goes to the sink */
                             ╰──>[rtsp-media]set_state (media, GST_STATE_PLAYING);
                 //signal
                     SIGNAL_PREPARED
 
-
+create_sender_part
+/* For the sender we create this bit of pipeline for both
+* RTP and RTCP. Sync and preroll are enabled on udpsink so
+* we need to add a queue before appsink and udpsink to make
+* the pipeline not block. For the TCP case, we want to pump
+* client as fast as possible anyway. This pipeline is used
+* when both TCP and UDP are present.
+*
+* .--------.      .-----.    .---------.    .---------.
+* | rtpbin |      | tee |    |  queue  |    | udpsink |
+* |       send->sink   src->sink      src->sink       |
+* '--------'      |     |    '---------'    '---------'
+*                 |     |    .---------.    .---------.
+*                 |     |    |  queue  |    | appsink |
+*                 |    src->sink      src->sink       |
+*                 '-----'    '---------'    '---------'
+*
+* When only UDP or only TCP is allowed, we skip the tee and queue
+* and link the udpsink (for UDP) or appsink (for TCP) directly to
+* the session.
+*/
 
 typedef enum {
   GST_RTSP_MEDIA_STATUS_UNPREPARED  = 0,
