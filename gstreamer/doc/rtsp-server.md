@@ -16,7 +16,7 @@ gst_rtsp_server_create_source(GstRTSPServer * server, GCancellable * cancellable
                                     ↓↓
 gst_rtsp_server_io_func(GSocket * socket, GIOCondition condition, GstRTSPServer * server)
 // creates a new #GstRTSPClient to accept and handle a new connection on @socket or @server.
-* create_client (server);--->default_create_client()
+* create_client (server);--->default_create_client()--->[rtsp-client]gst_rtsp_client_new()
 * [rtsp-client] gst_rtsp_client_set_connection (client, conn);
    //log
         ** Message: [rtsp-client] client 000001C62478F110 connected to server ip 127.0.0.1, ipv6 = 0
@@ -56,9 +56,9 @@ find_media()
                 ╰──>[rtsp-media]default_prepare()
                     ╰──>[rtsp-media]create_rtpbin()/*create #rtpbin*/
                     ╰──>[rtsp-media]start_prepare()
-                        ╰──>[rtsp-media]gst_rtsp_stream_join_bin()/*join stream to #rtpbin*/
-                            ╰──>[rtsp-media]create_sender_part(stream, bin, state);
-                            ╰──>[rtsp-media]create_receiver_part(stream, bin, state);
+                        ╰──>[rtsp-stream]gst_rtsp_stream_join_bin()/*join stream to #rtpbin*/
+                            ╰──>[rtsp-stream]create_sender_part(stream, bin, state);
+                            ╰──>[rtsp-stream]create_receiver_part(stream, bin, state);
                         ╰──>[rtsp-media]start_preroll()/*set pipeline GST_STATE_PAUSED*/ 
                             ╰──>[rtsp-media]media_streams_set_blocked()/* start blocked  to make sure nothing goes to the sink */
                             ╰──>[rtsp-media]set_state (media, GST_STATE_PLAYING);
@@ -85,6 +85,21 @@ create_sender_part
 * When only UDP or only TCP is allowed, we skip the tee and queue
 * and link the udpsink (for UDP) or appsink (for TCP) directly to
 * the session.
+*/
+
+create_receiver_part
+/* For the receiver we create this bit of pipeline for both
+* RTP and RTCP. We receive RTP/RTCP on appsrc and udpsrc
+* and it is all funneled into the rtpbin receive pad.
+*
+* .--------.     .--------.    .--------.
+* | udpsrc |     | funnel |    | rtpbin |
+* |       src->sink      src->sink      |
+* '--------'     |        |    '--------'
+* .--------.     |        |
+* | appsrc |     |        |
+* |       src->sink       |
+* '--------'     '--------'
 */
 
 typedef enum {
