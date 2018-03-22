@@ -32,3 +32,10 @@ Adding/removing elements to/from a pipeline or changing element properties can c
 4.  stream time: 媒体播放的位置（在整个媒体流中）。
 公式：   
 running_time = clock_time - base_time;   
+
+
+
+# ★Problem shoot
+clock出现问题一般会造成数据流阻塞或者丢弃，可以通过在element上添加pad来查看数据流的情况，如果这个element的sink有数据，而src没有数据，那么就可能使该element或者其后续element出了问题。  
+一般会是在sink上面出问题，因为sink都有一个`"sync"`属性，默认为TRUE，会同步时间，默认显示都会有些延迟（同步的效果）。如果pipeline是动态构建的话，clock的一些变动会引起sink更多的问题，严重时甚至会因为延迟、时间戳等问题而整个丢弃数据。   
+一种解决方法是准确同步pipeline的clock、base_time等。第二种就是将sink的sync属性设置为FALSE，这样不再同步实时性较好。
