@@ -23,4 +23,12 @@ Before the pipeline goes to the PLAYING state, it will, in addition to selecting
 All sink elements will delay playback by the value in the LATENCY event. Since all sinks delay with the same amount of time, they will be relative in sync.
 
 ### Dynamic Latency
-Adding/removing elements to/from a pipeline or changing element properties can change the latency in a pipeline. An element can request a latency change in the pipeline by posting a LATENCY message on the bus. The application can then decide to query and redistribute a new latency or not. **Changing the latency in a pipeline might cause visual or audible glitches and should therefore only be done by the application when it is allowed.**
+Adding/removing elements to/from a pipeline or changing element properties can change the latency in a pipeline. An element can request a latency change in the pipeline by posting a LATENCY message on the bus. The application can then decide to query and redistribute a new latency or not. **Changing the latency in a pipeline might cause visual or audible glitches and should therefore only be done by the application when it is allowed.**   
+
+
+1.  clock time(absolute_time): 管道维护的一个全局时钟，是一个以纳秒为单位单调递增的时钟时间。可以通过gst_clock_get_time()函数获取。如果管道中没有元素提供时钟，则使用该系统时钟。
+2.  base time: 媒体从0开始时全局的时间值。可以通过_get_time()函数获取。
+3.  Running time: 媒体处于PLAYING状态时流逝的时间。
+4.  stream time: 媒体播放的位置（在整个媒体流中）。
+公式：   
+running_time = clock_time - base_time;   
