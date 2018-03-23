@@ -97,6 +97,7 @@ gst_rtsp_media_set_property
 gst_rtsp_stream_join_bin()
 1.  stream的`srcpad`和rtpbin的send_rtp_sink pad连接起来，**也即将element与rtpbin连起来**
 2.  create_sender_part (stream, bin, state);
+    这个bin就是priv->pipeline，这里会创建tee和用于发rtp/rtcp的udpsink或者appsink，然后把tee和rtpbin连接起来
 3.  create_receiver_part (stream, bin, state);
 
 

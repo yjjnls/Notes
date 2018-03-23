@@ -33,7 +33,7 @@ Adding/removing elements to/from a pipeline or changing element properties can c
 公式：   
 running_time = clock_time - base_time;   
 
-
+[more ref](http://blog.csdn.net/chicher123/article/details/67640549)
 
 # ★Problem shoot
 clock出现问题一般会造成数据流阻塞或者丢弃，可以通过在element上添加pad来查看数据流的情况，如果这个element的sink有数据，而src没有数据，那么就可能使该element或者其后续element出了问题。  
