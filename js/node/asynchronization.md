@@ -116,7 +116,7 @@ promise是一个异步编程的抽象，它是一个返回值或抛出exception�
 * promise只有三种状态，未完成，完成(fulfilled)和失败(rejected)。  
 * promise的状态可以由未完成转换成完成，或者未完成转换成失败。  
 * promise的状态转换只发生一次  
-promise有一个then方法，then方法可以接受3个函数作为参数。前两个函数对应promise的两种状态fulfilled, rejected的回调函数。第三个函数用于处理进度信息。
+promise有一个then方法，`then方法可以接受3个函数作为参数`。**前两个函数对应promise的两种状态fulfilled, rejected的回调函数。第三个函数用于处理进度信息。**
 
 ```js
 var promise = readFile();
