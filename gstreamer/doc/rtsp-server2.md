@@ -93,8 +93,10 @@ gst_rtsp_media_create_stream(media, pay, pad)
 gst_rtsp_media_take_pipeline()--->gst_bin_add (GST_BIN_CAST (pipeline), priv->element);
 gst_rtsp_media_set_property
 
+[rtsp-client]handle_play_request-->[rtsp-media]gst_rtsp_media_complete_pipeline-->[rtsp-stream]gst_rtsp_stream_complete_stream-->[rtsp-stream]create_sender_part
+
 ## rtsp-stream
-gst_rtsp_stream_join_bin()
+gst_rtsp_stream_join_bin()旧版
 1.  stream的`srcpad`和rtpbin的send_rtp_sink pad连接起来，**也即将element与rtpbin连起来**
 2.  create_sender_part (stream, bin, state);
     这个bin就是priv->pipeline，这里会创建tee和用于发rtp/rtcp的udpsink或者appsink，然后把tee和rtpbin连接起来
