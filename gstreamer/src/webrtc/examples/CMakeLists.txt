@@ -33,7 +33,5 @@ target_link_libraries(webrtc-simple ${BASE_LIBRARIES})
 #install(DIRECTORY web DESTINATION testkits/openwebrtc )
 
 install(TARGETS webrtc-simple
-        LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib
-		RUNTIME DESTINATION bin
+		RUNTIME DESTINATION .
         )
