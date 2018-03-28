@@ -81,7 +81,7 @@ static void _webrtc_pad_added(GstElement *webrtc, GstPad *new_pad, GstElement *p
     gst_pad_link(new_pad, sink);
 }
 
-static void _on_answer_received(GstPromise *promise, gpointer user_data)
+static void _on_answer_created(GstPromise *promise, gpointer user_data)
 {
     GstWebRTCSessionDescription *answer = NULL;
     const GstStructure *reply;
@@ -92,7 +92,7 @@ static void _on_answer_received(GstPromise *promise, gpointer user_data)
     gst_structure_get(reply, "answer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &answer, NULL);
     gst_promise_unref(promise);
     desc = gst_sdp_message_as_text(answer->sdp);
-    g_print("Created answer:\n%s\n", desc);
+    g_print("===========>Webrtc2 created answer:\n%s\n", desc);
     g_free(desc);
 
     g_signal_emit_by_name(webrtc1, "set-remote-description", answer, NULL);
@@ -101,7 +101,7 @@ static void _on_answer_received(GstPromise *promise, gpointer user_data)
     gst_webrtc_session_description_free(answer);
 }
 
-static void _on_offer_received(GstPromise *promise, gpointer user_data)
+static void _on_offer_created(GstPromise *promise, gpointer user_data)
 {
     GstWebRTCSessionDescription *offer = NULL;
     const GstStructure *reply;
@@ -112,23 +112,24 @@ static void _on_offer_received(GstPromise *promise, gpointer user_data)
     gst_structure_get(reply, "offer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &offer, NULL);
     gst_promise_unref(promise);
     desc = gst_sdp_message_as_text(offer->sdp);
-    g_print("Created offer:\n%s\n", desc);
+    g_print("===========>Webrtc1 created offer:\n%s\n", desc);
     g_free(desc);
 
     g_signal_emit_by_name(webrtc1, "set-local-description", offer, NULL);
     g_signal_emit_by_name(webrtc2, "set-remote-description", offer, NULL);
 
-    promise = gst_promise_new_with_change_func(_on_answer_received, user_data, NULL);
+    promise = gst_promise_new_with_change_func(_on_answer_created, user_data, NULL);
     g_signal_emit_by_name(webrtc2, "create-answer", NULL, promise);
 
     gst_webrtc_session_description_free(offer);
 }
-
+// When the pipeline goes to PLAYING, the on_negotiation_needed() callback will be called, 
+// and we will ask webrtcbin to create an offer which will match the pipeline above.
 static void _on_negotiation_needed(GstElement *element, gpointer user_data)
 {
     GstPromise *promise;
 
-    promise = gst_promise_new_with_change_func(_on_offer_received, user_data, NULL);
+    promise = gst_promise_new_with_change_func(_on_offer_created, user_data, NULL);
     g_signal_emit_by_name(webrtc1, "create-offer", NULL, promise);
 }
 
@@ -150,17 +151,16 @@ int main(int argc, char *argv[])
         NULL);
     bus1 = gst_pipeline_get_bus(GST_PIPELINE(pipe1));
     gst_bus_add_watch(bus1, (GstBusFunc)_bus_watch, pipe1);
-
+    //  This is the gstwebrtc entry point where we create the offer.
+    //  It will be called when the pipeline goes to PLAYING.
     webrtc1 = gst_bin_get_by_name(GST_BIN(pipe1), "send");
-    g_signal_connect(webrtc1, "on-negotiation-needed",
-                     G_CALLBACK(_on_negotiation_needed), NULL);
+    g_signal_connect(webrtc1, "on-negotiation-needed", G_CALLBACK(_on_negotiation_needed), NULL);
+    // Incoming streams will be exposed via this signal
     webrtc2 = gst_bin_get_by_name(GST_BIN(pipe1), "recv");
-    g_signal_connect(webrtc2, "pad-added", G_CALLBACK(_webrtc_pad_added),
-                     pipe1);
-    g_signal_connect(webrtc1, "on-ice-candidate",
-                     G_CALLBACK(_on_ice_candidate), webrtc2);
-    g_signal_connect(webrtc2, "on-ice-candidate",
-                     G_CALLBACK(_on_ice_candidate), webrtc1);
+    g_signal_connect(webrtc2, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
+    // transfer the candidates of the two webrtcs
+    g_signal_connect(webrtc1, "on-ice-candidate", G_CALLBACK(_on_ice_candidate), webrtc2);
+    g_signal_connect(webrtc2, "on-ice-candidate", G_CALLBACK(_on_ice_candidate), webrtc1);
 
     g_print("===========>Starting pipeline<==========\n");
     gst_element_set_state(GST_ELEMENT(pipe1), GST_STATE_PLAYING);
