@@ -12,7 +12,7 @@ Read Protocol.md
 In three separate tabs, run consecutively:
 
 ```console
-$ ./generate_certs.sh
+$ generate_certs.bat
 $ py -3 simple-server.py
 ```
 
@@ -21,6 +21,7 @@ $ py -3 session-client.py
 Our uid is 'ws-test-client-8f63b9'
 ```
 
+start another client to connect to session-id ws-test-client-8f63b9
 ```console
 $ py -3 session-client.py --call ws-test-client-8f63b9
 ```
