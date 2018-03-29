@@ -10,9 +10,14 @@ Read Protocol.md
 ## Example usage
 
 In three separate tabs, run consecutively:
+```
+$ generate_certs.bat
+```
+**key.pem** is the **private key** and **cert.pem** is the **certificate**.
+
 
 ```console
-$ generate_certs.bat
+
 $ py -3 simple-server.py
 ```
 
