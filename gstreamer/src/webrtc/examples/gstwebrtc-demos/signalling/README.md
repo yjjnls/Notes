@@ -5,7 +5,7 @@ Read Protocol.md
 ## Dependencies
 
 * Python 3
-* pip3 install --user websockets
+* py -3 -m pip install --user websockets
 
 ## Example usage
 
@@ -13,14 +13,14 @@ In three separate tabs, run consecutively:
 
 ```console
 $ ./generate_certs.sh
-$ ./simple-server.py
+$ py -3 simple-server.py
 ```
 
 ```console
-$ ./client.py
+$ py -3 session-client.py
 Our uid is 'ws-test-client-8f63b9'
 ```
 
 ```console
-$ ./client.py --call ws-test-client-8f63b9
+$ py -3 session-client.py --call ws-test-client-8f63b9
 ```
