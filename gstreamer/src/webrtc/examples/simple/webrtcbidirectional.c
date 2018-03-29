@@ -66,7 +66,6 @@ _bus_watch(GstBus *bus, GstMessage *msg, GstElement *pipe)
 static void
 _webrtc_pad_added(GstElement *webrtc, GstPad *new_pad, GstElement *pipe)
 {
-    printf("---------------------------\n");
     GstElement *out;
     GstPad *sink;
 
@@ -81,7 +80,6 @@ _webrtc_pad_added(GstElement *webrtc, GstPad *new_pad, GstElement *pipe)
     gst_element_sync_state_with_parent(out);
 
     sink = out->sinkpads->data;
-    printf("------------------1---------\n");
 
     gst_pad_link(new_pad, sink);
 }
