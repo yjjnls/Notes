@@ -47,6 +47,8 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 # Hyperledger
 https://cn.hyperledger.org/  
 - [ ] [Hyperledger 源码分析之 Fabric](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/hyperledger_code_fabric/content/)
+- [ ] https://blog.csdn.net/idsuf698987/article/category/7016640/2
+- [ ] http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1
 
 # 书籍
 - [ ] [Nodejs开发加密货币](https://link.zhihu.com/?target=http%3A//bitcoin-on-nodejs.ebookchain.org/)
