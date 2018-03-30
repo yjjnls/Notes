@@ -1,0 +1,3 @@
+[submodule "awesome-blockchain"]
+	path = awesome-blockchain
+	url = git@github.com:yjjnls/awesome-blockchain.git
