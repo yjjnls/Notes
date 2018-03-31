@@ -71,3 +71,6 @@ https://cn.hyperledger.org/
 一些白皮书资料 https://github.com/mipengchong/blockchain/tree/master/white_papers
 
 !!!最小可行区块链原理
+
+闪电网络
+中文的一个github资料，可以看那些交易所。https://github.com/dily3825002/awesome-blockchain
