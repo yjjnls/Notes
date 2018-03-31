@@ -19,7 +19,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 - [x] [侧链白皮书：用楔入式侧链实现区块链的创新—摘要、前言](http://www.8btc.com/enabling-blockchain-innovations-with-pegged-sidechains-abstract-introduction)
 
 # 视频
-[Bitcoin and cryptocurrency](https://www.coursera.org/learn/cryptocurrency)
+- [ ] [Bitcoin and cryptocurrency](https://www.coursera.org/learn/cryptocurrency)
 
 # 实践
 - [ ] [以太坊私有链搭建](https://zhuanlan.zhihu.com/p/27106175)
