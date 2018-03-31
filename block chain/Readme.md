@@ -43,6 +43,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 - [ ] [truffle框架](http://truffleframework.com/)
 
 - [x] [BlockChain 与 Ethereum 介绍](https://jysperm.me/2016/05/blockchain-slides/)
+- [ ] [以太坊设计原理](https://ethfans.org/posts/510)
 
 # Hyperledger
 https://cn.hyperledger.org/  
@@ -72,5 +73,13 @@ https://cn.hyperledger.org/
 
 !!!最小可行区块链原理
 
-闪电网络
-中文的一个github资料，可以看那些交易所。https://github.com/dily3825002/awesome-blockchain
+★https://github.com/openblockchains/awesome-blockchains 里面也有教程  
+闪电网络  
+中文的一个github资料，可以看那些交易所。https://github.com/dily3825002/awesome-blockchain  
+HelloZeroNet / ZeroNet    
+[200行代码搞懂区块链](https://mp.weixin.qq.com/s/9g-c3_YR4MJ3JWzrQN_b6A)  
+https://github.com/imbaniac/awesome-blockchain 关注里面的交易所   
+https://ethfans.org/posts/219 以太坊紫皮书
+
+比特币网络源代码分析
+https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf
