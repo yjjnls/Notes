@@ -21,17 +21,18 @@ link_directories(${BASE_LIBRARY_DIRS})
 add_executable (webrtc-simple simple/webrtc.c)
 target_link_libraries(webrtc-simple ${BASE_LIBRARIES})
 
+add_executable (webrtc-bidirectional simple/webrtcbidirectional.c)
+target_link_libraries(webrtc-bidirectional ${BASE_LIBRARIES})
 
+add_executable (webrtc-swap simple/webrtcswap.c)
+target_link_libraries(webrtc-swap ${BASE_LIBRARIES})
 
-# add_executable (dynamic-tee-vsink dynamic-tee-vsink.c)
-# target_link_libraries(dynamic-tee-vsink ${BASE_LIBRARIES})
+add_executable (webrtc-sendrecv gstwebrtc-demos/sendrecv/gst/webrtc-sendrecv.c)
+target_link_libraries(webrtc-sendrecv ${BASE_LIBRARIES})
 
-#add_dependencies(transceiver libwebrtctransport )
+add_executable (webrtc-sendrecv-mp gstwebrtc-demos/multiparty-sendrecv/gst/mp-webrtc-sendrecv.c)
+target_link_libraries(webrtc-sendrecv-mp ${BASE_LIBRARIES})
 
-#add_subdirectory( libwebrtctransport  )
-#add_subdirectory( tests/transceiver  )
-#install(DIRECTORY web DESTINATION testkits/openwebrtc )
-
-install(TARGETS webrtc-simple
+install(TARGETS webrtc-simple webrtc-bidirectional webrtc-swap webrtc-sendrecv webrtc-sendrecv-mp
 		RUNTIME DESTINATION .
         )
