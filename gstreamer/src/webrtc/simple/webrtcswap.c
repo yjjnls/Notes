@@ -190,6 +190,7 @@ main (int argc, char *argv[])
   webrtc2 = gst_bin_get_by_name (GST_BIN (pipe1), "ball");
   g_signal_connect (webrtc2, "pad-added", G_CALLBACK (_webrtc_pad_added),
       pipe1);
+  // 当webrtc1产生candidate调用回调时，传入的参数是webrtc2，在回调中就直接将webrtc1的candidate设置为webrtc2的remote candidate。
   g_signal_connect (webrtc1, "on-ice-candidate",
       G_CALLBACK (_on_ice_candidate), webrtc2);
   g_signal_connect (webrtc2, "on-ice-candidate",

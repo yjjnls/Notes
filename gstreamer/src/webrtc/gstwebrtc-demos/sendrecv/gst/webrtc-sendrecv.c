@@ -201,6 +201,7 @@ send_ice_candidate_message (GstElement * webrtc G_GNUC_UNUSED, guint mlineindex,
 
   soup_websocket_connection_send_text (ws_conn, text);
   g_free (text);
+  g_print("==========>send ice candidate!\n");
 }
 
 static void
@@ -215,7 +216,7 @@ send_sdp_offer (GstWebRTCSessionDescription * offer)
   }
 
   text = gst_sdp_message_as_text (offer->sdp);
-  g_print ("Sending offer:\n%s\n", text);
+  g_print ("==========>Sending offer:\n%s\n", text);
 
   sdp = json_object_new ();
   json_object_set_string_member (sdp, "type", "offer");
@@ -235,6 +236,7 @@ send_sdp_offer (GstWebRTCSessionDescription * offer)
 static void
 on_offer_created (GstPromise * promise, gpointer user_data)
 {
+  g_print("==========>on_offer_created\n");
   GstWebRTCSessionDescription *offer = NULL;
   const GstStructure *reply;
 
@@ -245,6 +247,10 @@ on_offer_created (GstPromise * promise, gpointer user_data)
   gst_structure_get (reply, "offer",
       GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &offer, NULL);
   gst_promise_unref (promise);
+  gchar *desc;
+  desc = gst_sdp_message_as_text (offer->sdp);
+  g_print ("==========>Created offer:\n%s\n", desc);
+  g_free (desc);
 
   promise = gst_promise_new ();
   g_signal_emit_by_name (webrtc1, "set-local-description", offer, promise);
@@ -405,7 +411,7 @@ on_server_message (SoupWebsocketConnection * conn, SoupWebsocketDataType type,
       goto out;
     }
     app_state = SERVER_REGISTERED;
-    g_print ("Registered with server\n");
+    g_print ("==========>Registered with server\n");
     /* Ask signalling server to connect us with a specific peer */
     if (!setup_call ()) {
       cleanup_and_quit_loop ("ERROR: Failed to setup call", PEER_CALL_ERROR);
@@ -418,12 +424,13 @@ on_server_message (SoupWebsocketConnection * conn, SoupWebsocketDataType type,
           PEER_CONNECTION_ERROR);
       goto out;
     }
-
+    g_print ("==========>SESSION_OK start_pipeline!\n");
     app_state = PEER_CONNECTED;
     /* Start negotiation (exchange SDP and ICE candidates) */
     if (!start_pipeline ())
       cleanup_and_quit_loop ("ERROR: failed to start pipeline",
           PEER_CALL_ERROR);
+    g_print ("==========>SESSION_OK start_pipeline over!\n");
   /* Handle errors */
   } else if (g_str_has_prefix (text, "ERROR")) {
     switch (app_state) {
@@ -487,7 +494,7 @@ on_server_message (SoupWebsocketConnection * conn, SoupWebsocketDataType type,
 
       text = json_object_get_string_member (child, "sdp");
 
-      g_print ("Received answer:\n%s\n", text);
+      g_print ("==========>Received answer:\n%s\n", text);
 
       ret = gst_sdp_message_new (&sdp);
       g_assert_cmphex (ret, ==, GST_SDP_OK);
@@ -510,6 +517,7 @@ on_server_message (SoupWebsocketConnection * conn, SoupWebsocketDataType type,
 
       app_state = PEER_CALL_STARTED;
     } else if (json_object_has_member (object, "ice")) {
+      g_print ("==========>Received ice\n");
       const gchar *candidate;
       gint sdpmlineindex;
 
