@@ -68,6 +68,10 @@ https://cn.hyperledger.org/
 - [ ] [布比区块链](https://link.zhihu.com/?target=http%3A//www.bubi.cn/) 《区块链技术原理与底层架构》有相关介绍
 
 
+★公有链客户端是否真的持有数据？到底是怎么个原理？
+如果客户端不是一直挖，那会保存数据么？客户端重新上线后如何同步数据？
+用户数据加密授权等如何操作？
+
 
 一些白皮书资料 https://github.com/mipengchong/blockchain/tree/master/white_papers
 
