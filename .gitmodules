@@ -2,6 +2,6 @@
 	path = awesome-blockchain
 	url = git@github.com:yjjnls/awesome-blockchain.git
 
-[submodule "gstwebrtc-demos"]
-	path = gstreamer/src/webrtc
+[submodule "gstreamer/src/webrtc/gstwebrtc-demos"]
+	path = gstreamer/src/webrtc/gstwebrtc-demos
 	url = git@github.com:yjjnls/gstwebrtc-demos.git
