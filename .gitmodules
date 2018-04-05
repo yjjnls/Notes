@@ -5,3 +5,7 @@
 [submodule "gstreamer/src/webrtc/gstwebrtc-demos"]
 	path = gstreamer/src/webrtc/gstwebrtc-demos
 	url = git@github.com:yjjnls/gstwebrtc-demos.git
+
+[submodule "blockchain-tutorial-cn"]
+	path = block chain/Tutorial
+	url = git@github.com:yjjnls/blockchain-tutorial-cn.git
