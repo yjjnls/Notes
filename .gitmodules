@@ -7,5 +7,6 @@
 	url = git@github.com:yjjnls/gstwebrtc-demos.git
 
 [submodule "blockchain-tutorial-cn"]
-	path = block chain/Tutorial
+	path = block chain/blockchain-tutorial-cn
 	url = git@github.com:yjjnls/blockchain-tutorial-cn.git
+
