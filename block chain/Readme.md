@@ -30,10 +30,27 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 - [ ] [通过truffle部署以太坊智能合约](https://link.zhihu.com/?target=http%3A//bitshuo.com/topic/584241f863baf1df6cad0d40)
 
 
+# basic
+- [ ] 整理一个最简单的比特币关键术语和结构流程说明（可以用问答形式对关键点进行整理）
+- [ ] 共识机制整理
+
+
+# extension
+- [ ] [区块链的在鉴权、物联网、能源方面的应用](https://github.com/yjjnls/awesome-non-financial-blockchain)
+
+
+# bitcoin
+- [ ] 比特币白皮书
+- [ ] 精通比特币
+- [ ] [比特币可以跟进的项目](https://github.com/bitpay/bitcore)
+- [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)
+- [ ] [比特币源码分析](https://www.jianshu.com/u/30081a05cf95)
+
 可以看看https://github.com/hpb-project/ico  
 最好能做些项目！  比如自己建一个币（改比特币源码）/自己用fabric做一个小应用之类的
 
 # 以太坊
+- [ ] [简单的智能合约例子](https://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum)
 - [ ] [★以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
 英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
 - [ ] [](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
@@ -48,12 +65,12 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 # Hyperledger
 https://cn.hyperledger.org/  
 - [ ] [Hyperledger 源码分析之 Fabric](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/hyperledger_code_fabric/content/)
-- [ ] https://blog.csdn.net/idsuf698987/article/category/7016640/2
+- [ ] [fabric 源码分析](https://blog.csdn.net/idsuf698987/article/category/7016640/2)
 - [ ] http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1
 
 # 书籍
-- [ ] [Nodejs开发加密货币](https://link.zhihu.com/?target=http%3A//bitcoin-on-nodejs.ebookchain.org/)
-- [ ] [★区块链技术指南（有密码学相关）](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/blockchain_guide/content/)
+- [ ] [Nodejs开发加密货币](https://github.com/imfly/bitcoin-on-nodejs) / [源码](https://github.com/Ebookcoin/ebookcoin)
+- [x] [★区块链技术指南（有密码学相关）](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/blockchain_guide/content/)
 
 
 # 密码学
