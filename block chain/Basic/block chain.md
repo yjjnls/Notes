@@ -6,6 +6,7 @@
         - [区块](#%E5%8C%BA%E5%9D%97)
     - [相关要点整理](#%E7%9B%B8%E5%85%B3%E8%A6%81%E7%82%B9%E6%95%B4%E7%90%86)
         - [比特币交易](#%E6%AF%94%E7%89%B9%E5%B8%81%E4%BA%A4%E6%98%93)
+            - [创建交易](#%E5%88%9B%E5%BB%BA%E4%BA%A4%E6%98%93)
 - [共识机制](#%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6)
     - [POW](#pow)
     - [POS](#pos)
@@ -95,6 +96,30 @@ Alice的密钥提供了解锁之前交易输出的签名，因此向比特币网
 ???怎么阻塞？
 
 很重要的一点是，钱包应用甚至可以在完全离线时建立交易。就像在家里写张支票，之后放到信封发给银行一样，比特币交易**建立和签名**时不用连接比特币网络。只有在**执行交易时**才需要将交易发送到网络。
+
+#### 创建交易
+查看我们钱包中所有剩余的从之前交易中已确认的支出  
+```shell
+$ bitcoin-cli listunspent
+[
+    { 
+        "txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8bd365524c2e1fc66c309acbae2c14ae3",
+        "vout" : 0,
+        "address" : "1hvzSofGwT8cjb8JU7nBsCSfEVQX5u9CL",
+        "account" : "",
+        "scriptPubKey" : "76a91407bdb518fa2e6089fd810235cf1100c9c13d1fd288ac",
+        "amount" : 0.05000000,
+        "confirmations" : 7
+    } 
+]
+```
+交易`9ca8f969bd3ef5ec2a8685660fdbf7a8bd365524c2e1fc66c309acbae2c14ae3`转移了0.05BTC到地址`1hvzSofGwT8cjb8JU7nBsCSfEVQX5u9CL`。下面把0.05BTC一部分交易到新地址`1LnfTndy3qzXGN19Jwscj1T8LR3MVe3JDb`，一部分找零。  
+```shell
+$ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8bd365524c2e1fc66c309acbae2c14ae3", "vout" : 0}]' '{"1LnfTndy3qzXGN19Jwscj1T8LR3MVe3JDb": 0.025, "1hvzSofGwT8cjb8JU7nBsCSfEVQX5u9CL": 0.0245}'
+
+0100000001e34ac1e2baac09c366fce1c2245536bda8f7db0f6685862aecf53ebd69f9a89c0000000000ffffffff02a0252600000000001976a914d90d36e98f62968d2bc9bbd68107564a156a9bcf88ac50622500000000001976a91407bdb518fa2e6089fd810235cf1100c9c13d1fd288ac00000000
+```
+`createrawtransaction`命令产生了一个原始十六进制字符串，其中编码了这笔交易的诸多细节。以上只是**创建**了交易，还需要**签名**交易，签名用以证明**我们拥有未花费的输出的来源地址的所有权**。使用`signrawtransaction`命令签名交易后会得到另一串十六进制的字符串，签名可以让这笔交易被比特币交易网络中的任何节点验证，使他们变得可靠。
 
 
 # 共识机制
