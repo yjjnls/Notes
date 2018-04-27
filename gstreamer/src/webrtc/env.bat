@@ -1,4 +1,4 @@
-set GSTREAMER_ROOT=C:/cerbero/x86_64/
+set GSTREAMER_ROOT=C:/gstreamer/1.0/x86_64/
 set GST_PLUGIN_SYSTEM_PATH_1_0=%GSTREAMER_ROOT%/lib/gstreamer-1.0
 set GIO_EXTRA_MODULES=%GSTREAMER_ROOT%/lib/gio/modules
 set GST_PLUGIN_SYSTEM_PATH=%GSTREAMER_ROOT%/lib/gstreamer-0.10
