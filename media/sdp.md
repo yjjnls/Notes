@@ -57,6 +57,8 @@ a=属性或a=属性:值
 > a=rtpmap:96 H264/90000
 
 * * *
+#### fmtp
+This attribute allows parameters that are `specific to a particular format` to be conveyed in a way that SDP does not have to understand them. The format must be one of the formats specified for the media. Format-specific parameters may be any set of parameters required to be conveyed by SDP and given unchanged to the media tool that will use this format. At most one instance of this attribute is allowed for each format. It is a media-level attribute, and it is not dependent on charset.
 
 a=fmtp:&lt;格式>&lt;格式特定参数>//**定义指定格式的`附加参数`**
 
@@ -65,6 +67,10 @@ a=fmtp:&lt;格式>&lt;格式特定参数>//**定义指定格式的`附加参数`
 这里的97表示H264
 该属性值指定一个SDP不了解的特殊格式，该格式是媒体的格式的一种。  
 定义指定格式的附加参数  
+
+#### rtpmap
+This attribute maps from an RTP payload type number (as used in an "m=" line) to an encoding name denoting the payload format to be used.  It also provides information on the clock rate and encoding parameters.  It is a media-level attribute that is not dependent on charset.
+
 
 a=rtpmap:&lt;净荷类型号>&lt;编码名>/&lt;时钟速率>[/<编码参数>]对音频，编码参数为音频信道数；对视频没有定义
 
