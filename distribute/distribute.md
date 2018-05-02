@@ -195,7 +195,7 @@ W表示完成写操作所需要写入的最小副本数，即一次写操作所�
 如果R=N/2+1， W=N/2， 读写之间为达到某个平衡。 是不错的策略。兼顾了性能和可用性，Dynamo系统的默认设置就是这种。
 
 ### 5.5 ★ Raft
-raft是Paxos的简易版本。每个结点分为leader，follower和candidate三种状态    
+Raft是一个用于日志复制，同步的一致性算法，是Paxos的简易版本。每个结点分为leader，follower和candidate三种状态    
 当集群中有leader时，后续操作类似于二阶段、三阶段提交。其他结点是follower，follower会通过心跳与leader保持联系。 
 #### 5.5.1 leader election  
 如果leader挂了，那么raft就起作用了，用来选取下一个leader，具体过程如下：  
