@@ -60,9 +60,16 @@ static gboolean _bus_watch(GstBus *bus, GstMessage *msg, GstElement *pipe)
 
     return TRUE;
 }
-
+#include<stdio.h>
+static
+GstPadProbeReturn cb_have_data(GstPad *pad, GstPadProbeInfo *info, gpointer user_data)
+{
+    printf("-");
+    return GST_PAD_PROBE_OK;
+}
 static void _webrtc_pad_added(GstElement *webrtc, GstPad *new_pad, GstElement *pipe)
 {
+    printf("\n\n\n\n\n\n@@@@@@@@@@@@\n\n\n");
     GstElement *out;
     GstPad *sink;
 
@@ -70,10 +77,16 @@ static void _webrtc_pad_added(GstElement *webrtc, GstPad *new_pad, GstElement *p
         return;
 
     out = gst_parse_bin_from_description(
-        "rtph264depay ! avdec_h264 ! "
+        "rtph264depay name=test ! avdec_h264 ! "
         "videoconvert ! queue ! autovideosink sync=false",
         TRUE, NULL);
     gst_bin_add(GST_BIN(pipe), out);
+
+    GstElement *elem = gst_bin_get_by_name(GST_BIN(out), "test");
+    GstPad *pad = gst_element_get_static_pad(elem, "src");
+    gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, cb_have_data, NULL, NULL);
+    gst_object_unref(pad);
+
     gst_element_sync_state_with_parent(out);
 
     sink = out->sinkpads->data;
@@ -111,6 +124,8 @@ static void _on_offer_created(GstPromise *promise, gpointer user_data)
     reply = gst_promise_get_reply(promise);
     gst_structure_get(reply, "offer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &offer, NULL);
     gst_promise_unref(promise);
+    gst_sdp_media_add_attribute((GstSDPMedia *)&g_array_index(offer->sdp->medias, GstSDPMedia, 0), "fmtp", "96 profile-level-id=42e01f");
+
     desc = gst_sdp_message_as_text(offer->sdp);
     g_print("===========>Webrtc1 created offer:\n%s\n", desc);
     g_free(desc);
@@ -145,7 +160,7 @@ int main(int argc, char *argv[])
 
     loop = g_main_loop_new(NULL, FALSE);
     pipe1 = gst_parse_launch(
-        "videotestsrc ! video/x-raw,framerate=10/1 ! timeoverlay font-desc=\"Sans, 30\" ! queue ! openh264enc ! rtph264pay ! queue ! "
+        "rtspsrc location=rtsp://172.16.66.65/id=1 ! rtph264depay ! queue ! rtph264pay config-interval=-1 ! queue ! "
         "application/x-rtp,media=video,payload=96,encoding-name=H264 ! "
         "webrtcbin name=send webrtcbin name=recv",
         NULL);
