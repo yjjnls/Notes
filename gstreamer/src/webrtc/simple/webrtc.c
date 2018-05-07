@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     pipe1 = gst_parse_launch(
         "rtspsrc location=rtsp://172.16.66.65/id=1 ! rtph264depay ! queue ! rtph264pay config-interval=-1 ! queue ! "
         "application/x-rtp,media=video,payload=96,encoding-name=H264 ! "
-        "webrtcbin name=send webrtcbin name=recv",
+        "webrtcbin name=send webrtcbin name=recv ! rtph264depay name=test ! avdec_h264 ! videoconvert ! queue ! autovideosink sync=false",
         NULL);
     bus1 = gst_pipeline_get_bus(GST_PIPELINE(pipe1));
     gst_bus_add_watch(bus1, (GstBusFunc)_bus_watch, pipe1);
@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
     g_signal_connect(webrtc1, "on-negotiation-needed", G_CALLBACK(_on_negotiation_needed), NULL);
     // Incoming streams will be exposed via this signal
     webrtc2 = gst_bin_get_by_name(GST_BIN(pipe1), "recv");
-    g_signal_connect(webrtc2, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
+    // g_signal_connect(webrtc2, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
     // transfer the candidates of the two webrtcs
     g_signal_connect(webrtc1, "on-ice-candidate", G_CALLBACK(_on_ice_candidate), webrtc2);
     g_signal_connect(webrtc2, "on-ice-candidate", G_CALLBACK(_on_ice_candidate), webrtc1);
