@@ -10,3 +10,10 @@
 	path = block chain/blockchain-tutorial-cn
 	url = git@github.com:yjjnls/blockchain-tutorial-cn.git
 
+# [submodule "opensource/tesseract/tesseract"]
+# 	path = opensource/tesseract/tesseract
+# 	url = https://github.com/tesseract-ocr/tesseract
+
+[submodule "opensource/tesseract/tesseract"]
+	path = opensource/tesseract/tesseract
+	url = https://github.com/tesseract-ocr/tesseract
