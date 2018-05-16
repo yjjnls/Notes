@@ -1,0 +1,1 @@
+set PATH=D:\Working\MyProject\Notes\opensource\tesseract\out\bin;C:\gstreamer\1.0\x86_64\bin;C:\gstreamer\1.0\x86_64\lib\gstreamer-1.0;%PATH%
