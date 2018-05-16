@@ -1,2 +1,2 @@
-set PATH=D:\Working\MyProject\Notes\opensource\tesseract\out\bin;C:\gstreamer\1.0\x86_64\bin;C:\gstreamer\1.0\x86_64\lib\gstreamer-1.0;%PATH%
+set PATH=D:\Working\MyProject\Notes\opensource\tesseract\out\bin;%PATH%
 set TESSDATA_PREFIX=C:\Program Files (x86)\Tesseract-OCR\tessdata
