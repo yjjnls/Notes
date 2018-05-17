@@ -46,11 +46,14 @@ message(${filename})
 endforeach()
 
 
-pkg_check_modules(GST_MODULES  REQUIRED                  
+pkg_check_modules(GST_MODULES  REQUIRED  
+                  gstreamer-1.0>=1.14.0
+                  gstreamer-base-1.0>=1.14.0  
+                  gstreamer-video-1.0              
                   tesseract)
 link_directories (${GST_MODULES_LIBRARY_DIRS})
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../out/include)
+include_directories (${GST_MODULES_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/../out/include)
 # add_library(libwebstreamer  SHARED ${LWS_SOURCES} )
 add_executable(tesseract-test ${LWS_SOURCES})
 target_link_libraries(tesseract-test ${GST_MODULES_LIBRARIES} pvt.cppan.demo.danbloomberg.leptonica-1.76.0)

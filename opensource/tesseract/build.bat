@@ -1,4 +1,4 @@
-set PKG_CONFIG_LIBDIR=D:\Working\MyProject\Notes\opensource\tesseract\out\lib\pkgconfig
+set PKG_CONFIG_LIBDIR=D:\Working\MyProject\Notes\opensource\tesseract\out\lib\pkgconfig;C:\gstreamer\1.0\x86_64\lib\pkgconfig
 
 REM rd /s/q build
 
