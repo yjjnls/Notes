@@ -54,7 +54,7 @@ static gboolean timeout(gpointer sink)
     }
     sprintf(pic_location, "img/00000.bmp");
     buf = gst_sample_get_buffer(to_sample);
-    printf("timestamp: %03.3f\n", (float)GST_BUFFER_TIMESTAMP(buf) / 1000000 / 1000);
+    printf("timestamp: %.3f\n", (float)GST_BUFFER_TIMESTAMP(buf) / 1000000 / 1000);
 
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
         // if (!g_file_set_contents(pic_location, (const char *)map_info.data, map_info.size, &err)) {
