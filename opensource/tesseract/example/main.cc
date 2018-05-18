@@ -5,6 +5,7 @@
 #include <gst/video/video.h>
 
 tesseract::TessBaseAPI *api = NULL;
+GstElement *pipeline = NULL;
 void on_rtspsrc_pad_added(GstElement *src,
                           GstPad *src_pad,
                           gpointer depay)
@@ -53,11 +54,14 @@ static gboolean timeout(gpointer sink)
     }
     sprintf(pic_location, "img/00000.bmp");
     buf = gst_sample_get_buffer(to_sample);
+    printf("timestamp: %03.3f\n", (float)GST_BUFFER_TIMESTAMP(buf) / 1000000 / 1000);
+
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
         // if (!g_file_set_contents(pic_location, (const char *)map_info.data, map_info.size, &err)) {
         //     printf("Could not save image %i.\n", i);
         // }
     }
+
     gst_sample_unref(to_sample);
     printf("Save image: %s.\n", pic_location);
 
@@ -80,6 +84,8 @@ static gboolean timeout(gpointer sink)
     //        image->text,
     //        image->colormap,
     //        image->data);
+    image->xres = 70;
+    image->yres = 70;
     api->SetImage(image);
     // Get OCR result
     outText = api->GetUTF8Text();
@@ -105,7 +111,7 @@ int main()
 
     gst_init(NULL, NULL);
     GMainLoop *main_loop = g_main_loop_new(NULL, FALSE);
-    GstElement *pipeline = gst_pipeline_new("video-pipeline");
+    pipeline = gst_pipeline_new("video-pipeline");
 
     GstElement *source = gst_element_factory_make("rtspsrc", "source");
     g_object_set(G_OBJECT(source), "location", "rtsp://127.0.0.1:8553/test", NULL);
