@@ -23,7 +23,6 @@ void on_rtspsrc_pad_added(GstElement *src,
 int id;
 static gboolean timeout(gpointer sink)
 {
-    int i;
     GstCaps *caps;
     GstSample *from_sample, *to_sample;
     GError *err = NULL;
