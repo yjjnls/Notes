@@ -20,10 +20,9 @@ void on_rtspsrc_pad_added(GstElement *src,
         gst_object_unref(sink_pad);
     }
 }
-
+int id;
 static gboolean timeout(gpointer sink)
 {
-    int i;
     GstCaps *caps;
     GstSample *from_sample, *to_sample;
     GError *err = NULL;
@@ -98,6 +97,7 @@ static gboolean timeout(gpointer sink)
     pixDestroy(&image);
     api->End();
 
+    g_source_remove(id);
     return TRUE;
 }
 int main()
@@ -124,7 +124,7 @@ int main()
     gst_bin_add_many(GST_BIN(pipeline), source, depay, decodec, sink, NULL);
     gst_element_link_many(depay, decodec, sink, NULL);
 
-    g_timeout_add_seconds(5, (GSourceFunc)timeout, sink);
+    id = g_timeout_add(4000, (GSourceFunc)timeout, sink);
 
     gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
