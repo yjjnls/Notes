@@ -64,7 +64,8 @@ static gboolean timeout(gpointer sink)
     gst_sample_unref(to_sample);
     printf("Save image: %s.\n", pic_location);
 
-    api->Init(NULL, "eng");
+    int res = api->Init(NULL, "eng");
+    printf("init ressult: %d\n", res);
     char *outText;
     // Open input image with leptonica library
     // Pix *image = pixRead("D:\\Working\\MyProject\\Notes\\opensource\\tesseract\\img\\00000.bmp");
