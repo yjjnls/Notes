@@ -66,3 +66,34 @@ int open(const char \*pathname, int flags);
 在头文件中只暴露 non-virtual 接口，并且 class 的大小固定为 sizeof(Impl\*)，这样可以随意更新库文件而不影响可执行文件。当然，这么做有多了一道间接性，可能有一定的性能损失。见 Exceptional C++ 有关条款和 C++ Coding Standards 101.
 
 Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl内部则调用含有虚函数等具体的实现类。变更时修改了具体的实现类，更新具体的实现类dll即可，而Impl.dll不变，或者也可以新增变更，但是是二进制兼容的，所以原来的可执行文件可以不改。
+
+
+## 符号问题
+node调用linux动态库.so，动态库再调用openssl的动态库，openssl中的符号与node相同导致冲突，程序调用了node中的地址，出现segment fault。
+
+首先是查core文件，用gdb调试，gdb --core=core --args node xxx   
+最后的堆栈中显示OBJ_NAME_add、lh_insert这两处导致最后奔溃，但定位不到文件。再在openssl中加打印，发现时ossl_init_ssl_base中出现了崩溃，EVP_add_cipher这个函数的地址是6位的（0x9130c0），而其他函数地址是12位的（0x7fc6eaf2d2a0），且EVP_add_cipher根本没有进入，而好的测试例子，其中EVP_add_cipher地址是12位的。  
+怀疑是前面内存出错，导致这里函数地址出现偏差。用valgrind查内存，开头出现这样的提示
+```log
+==00:00:00:21.862 33389== Invalid read of size 1
+==00:00:00:21.862 33389==    at 0x5DA3570: __strcmp_sse2_unaligned (strcmp-sse2-unaligned.S:24)
+==00:00:00:21.862 33389==    by 0x91C969: lh_insert (in /usr/local/bin/node)
+==00:00:00:21.862 33389==    by 0x929980: OBJ_NAME_add (in /usr/local/bin/node)
+==00:00:00:21.862 33389==    by 0x21444964: ossl_init_ssl_base (ssl_init.c:75)
+==00:00:00:21.862 33389==    by 0x21444A68: ossl_init_ssl_base_ossl_ (ssl_init.c:25)
+==00:00:00:21.862 33389==    by 0x5AF5A98: __pthread_once_slow (pthread_once.c:116)
+==00:00:00:21.862 33389==    by 0x21845238: CRYPTO_THREAD_run_once (threads_pthread.c:106)
+==00:00:00:21.862 33389==    by 0x21444BA3: OPENSSL_init_ssl (ssl_init.c:209)
+==00:00:00:21.862 33389==    by 0x2120B0EF: _gst_dtls_init_openssl (gstdtlsagent.c:128)
+==00:00:00:21.862 33389==    by 0x2120DE0D: gst_dtls_certificate_class_init (gstdtlscertificate.c:106)
+==00:00:00:21.862 33389==    by 0x2120DE0D: gst_dtls_certificate_class_intern_init (gstdtlscertificate.c:53)
+==00:00:00:21.862 33389==    by 0xAE4921C: type_class_init_Wm (gtype.c:2232)
+==00:00:00:21.862 33389==    by 0xAE4921C: g_type_class_ref (gtype.c:2947)
+==00:00:00:21.862 33389==    by 0xAE2F868: g_object_new_with_properties (gobject.c:1935)
+==00:00:00:21.862 33389==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+```
+发现OBJ_NAME_add和lh_insert是node中符号。于是把SSL_library_init放在程序起始地方，直接进行初始化，也是报错。怀疑是node-plugin提供的环境有问题，于是在node-plugin的测试例子中添加SSL_library_init，发现也会崩溃，可以确定是node环境所导致的。
+
+node-plugin加载动态库时没有用RTLD_DEEPBIND模式，RTLD_DEEPBIND：在搜索全局符号前先搜索库内的符号，避免同名符号的冲突。导致程序在寻找EVP_add_cipher这个函数符号时，先从全局找到了node中的同名符号。且用nm命令查找node中的EVP_add_cipher符号地址，发现就是0x9130c0。
+
+现在来看就是简单地动态库加载模式不对，但是当时在一个大系统里面，一下子来一个segment fault还是蛮棘手的，因为在上层应用中是gst_parse_launch这里出现了崩溃，所以一开始怀疑是launch的语法哪里出错了，导致了崩溃，且要和webrtc的例子一步步对比。后面还在gstreamer的插件中加打印，一步步定位出哪里出错，直到最后才想出来肯能是node环境导致的出错。
