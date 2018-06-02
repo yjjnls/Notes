@@ -5,3 +5,5 @@ http://www.8btc.com/tan90d97
 
 数字货币排行
 https://coinmarketcap.com/
+
+https://www.zhihu.com/question/278407917/answer/400051104
