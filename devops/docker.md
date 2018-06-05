@@ -1,11 +1,25 @@
+# image
+## download image
+docker pull [NAME]/[CONTAINER ID]
+
+## list local image
+docker images
+
+## remove local image
+docker rmi [NAME]/[CONTAINER ID]
+
+
 # create and start container
 ## interatcive
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-$ sudo docker run -t -i newdocker /bin/bash
+`$ sudo docker run -it --rm newdocker /bin/bash`
 
 -i 交互式  
 -d 后台运行  
 -t allocate a pseudo-TTY  
+
+--rm: Once the container exits, remove the container. Helps to keep clean or hard drive.
+
 
 ### login container
 * attach
