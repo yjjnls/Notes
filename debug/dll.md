@@ -79,6 +79,43 @@ Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl
 -rpath: “运行”的时候，去找的目录。运行的时候，要找 .so 文件，会从这个选项里指定的地方去找。对于交叉编译，交叉编译链接器需已经配置 --with-sysroot 选项才能起作用。也就是说，-rpath指定的路径会被记录在生成的可执行程序中，用于运行时查找需要加载的动态库。-rpath-link 则只用于链接时查找。
 
 
+linux下编译的动态库有real name（libtest.so.0.0.0）、soname（libtest.so.0）和libname（libtest.so）三种
+
+```shell
+readelf -d libtest.so.0.0.0 | grep soname
+0x0000000e (SONAME) Library soname: [libtest.so.0]
+```
+
+链接的时候-L找的是libname，但是ldd查出来运行时动态链接的是real name
+
+libname有到real name或者soname的软连接，**这样改变软连接(ln命令)**，就可以在编译时用同样的libname链接到新版本的库。
+
+libssl.so链接到了libssl.so.1.1，libssl.so.1.1才是真正的so文件，从文件大小上也可以看出。
+```shell
+ls -alF |grep ssl
+-rw-r--r--  1 root root   3835360 Jun  5 13:40 libssl.a
+-rw-r--r--  1 root root      1020 Jun  5 13:40 libssl.la
+lrwxrwxrwx  1 root root        13 Jun  5 13:40 libssl.so -> libssl.so.1.1*
+-rwxr-xr-x  1 root root   2050096 Jun  5 13:40 libssl.so.1.1*
+
+```
+有些库的soname和real name是一样的，就发布libname和realname。libz就有soname
+
+```shell
+ls -alF |grep libz                  
+-rw-r--r--  1 root root    429866 Jun  4 17:13 libz.a
+-rw-r--r--  1 root root       954 Jun  4 17:13 libz.la
+lrwxrwxrwx  1 root root        14 Jun  4 17:13 libz.so -> libz.so.1.2.11*
+lrwxrwxrwx  1 root root        14 Jun  4 17:13 libz.so.1 -> libz.so.1.2.11*
+-rwxr-xr-x  1 root root    289704 Jun  4 17:13 libz.so.1.2.11*
+
+readelf -d libz.so|grep soname  
+0x000000000000000e (SONAME)             Library soname: [libz.so.1]
+
+```
+
+https://blog.csdn.net/lovewubo/article/details/46672233
+
 ---
 
 nm   -u    *.so  或者 nm  |grep  U 查看  那些在  动态链接库中的符号。
