@@ -68,6 +68,15 @@ int open(const char \*pathname, int flags);
 Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl内部则调用含有虚函数等具体的实现类。变更时修改了具体的实现类，更新具体的实现类dll即可，而Impl.dll不变，或者也可以新增变更，但是是二进制兼容的，所以原来的可执行文件可以不改。
 
 
+
+---
+
+nm   -u    *.so  或者 nm  |grep  U 查看  那些在  动态链接库中的符号。
+
+ "U" The symbol is undefinedundefined的 symbol  这种就是表示 在其他 so动态链接库里面定义的。但是如果你的编译的 是so文件，如果符号不在外部任何so文件里面，默认的配置也不会提示错误。而是编译通过。那个自己忘了定义的符号也在 这  undefined  symbol里面，但是运行时就加载不成功了。
+
+---
+
 ## 符号问题
 node调用linux动态库.so，动态库再调用openssl的动态库，openssl中的符号与node相同导致冲突，程序调用了node中的地址，出现segment fault。
 
