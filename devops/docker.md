@@ -12,14 +12,17 @@ docker rmi [NAME]/[CONTAINER ID]
 # create and start container
 ## interatcive
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-`$ sudo docker run -it --rm newdocker /bin/bash`
+`$ sudo docker run -it --name NAME IMAGE /bin/bash`
 
 -i 交互式  
 -d 后台运行  
 -t allocate a pseudo-TTY  
 
 --rm: Once the container exits, remove the container. Helps to keep clean or hard drive.
+用rm启动的container是一次性的
 
+# start container
+$ sudo docker start continer_id
 
 ### login container
 * attach
