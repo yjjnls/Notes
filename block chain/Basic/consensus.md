@@ -26,6 +26,8 @@ CAP 定律（Consistency，Availability，Partition Tolerance theorem），说�
 *   分区容忍性有两层含义    
 第一层是必须保证分区可容忍，也就是一旦出现因为网络分区而导致区块链分叉，**必须有一种机制可以合并区块链**；第二层含义是 **如果我们尽量避免出现网络分区，那么就可以避免 P 的出现，从而提升 C 的性能** 。
 
+![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consesus2.png)   
+
 由以上特点我们可以知道，可用性A必须保证，而C 和 P 是可以相互调整的，又分为三种情况。  
 
 1.  如果我们选则调整 C，也就是拉长了最终一致性的确认时间，那么对 P 的要求就会减弱，也就是网络产生分区不要紧，反正区块链有足够的时间恢复最终一致性。这种系统 **舍弃了C，而追求A和P** ，其特点是抗干扰能力特别强，也即PoW和PoS的特点，适用于在完全公有的环境中抵抗各种干扰，保证区块链的稳定性，可以称之为 **去中心化的系统**。同时由于此系统降低了C的性能，所以达成共识的时间延长，系统的TPS就很低，这也符合PoW和PoS为代表的比特币和以太坊的特性。
@@ -36,7 +38,6 @@ CAP 定律（Consistency，Availability，Partition Tolerance theorem），说�
 3.  而如果完全不考虑拜占庭容错等问题，也就是情况3，我们可以进一步追求C，这也是 **中心化分布式系统**的特点，其一致性算法常用PAXOS和RAFT。
 
 以下是根据以上分析做出的CAP可视图以及各类公式算法的特性比较，同时也包含一些区块链项目的共识特性比较。
-![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consesus2.png)   
 ![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consensus2.jpg)   
 ![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consesus.png)   
 
