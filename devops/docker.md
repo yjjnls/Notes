@@ -64,3 +64,12 @@ $ sudo docker cp a.txt e6ef3c5ef80d:/test
 ## docker->host
 $ sudo docker cp containerID:container_path host_path
 
+# modify image
+容器修改后先退出，然后用commit命令提交修改
+$ sudo docker commit -m "Added json gem" -a "Docker Newbee" 0b2616b0e5a8 ouruser/sinatra:v2
+
+其中，-m 来指定提交的说明信息，跟我们使用的版本控制工具一样；-a 可以指定更新的用户信息；之后是用来创建镜像的容器的 ID；最后指定目标镜像的仓库名和 tag 信息。创建成功后会返回这个镜像的 ID 信息。
+
+## upload
+docker login
+docker push ouruser/sinatra
