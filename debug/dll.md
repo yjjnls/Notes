@@ -162,3 +162,7 @@ node-plugin加载动态库时没有用RTLD_DEEPBIND模式，RTLD_DEEPBIND：在�
 C++程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。 https://www.cnblogs.com/coderzh/p/LinkAllSymbols.html
 
 和Visual C++不同，GCC编译器默认会导出所有符号(动态链接)  https://www.cnblogs.com/zzqcn/p/3640353.html
+
+★★linux 动态库符号表冲突  
+http://kouucocu.lofter.com/post/1cdb8c4b_50f631b   
+https://flameeyes.blog/2012/10/07/symbolism-and-elf-files-or-what-does-bsymbolic-do/  
