@@ -120,7 +120,7 @@ https://blog.csdn.net/lovewubo/article/details/46672233
 
 nm   -u    *.so  或者 nm  |grep  U 查看  那些在  动态链接库中的符号。
 
- "U" The symbol is undefinedundefined的 symbol  这种就是表示 在其他 so动态链接库里面定义的。但是如果你的编译的 是so文件，如果符号不在外部任何so文件里面，默认的配置也不会提示错误。而是编译通过。那个自己忘了定义的符号也在 这  undefined  symbol里面，但是运行时就加载不成功了。
+ `"U"` **The symbol is undefinedundefined的 symbol  这种就是表示 在其他 so动态链接库里面定义的**。但是如果你的编译的 是so文件，如果符号不在外部任何so文件里面，默认的配置也不会提示错误。而是编译通过。那个自己忘了定义的符号也在 这  undefined  symbol里面，但是运行时就加载不成功了。
 
 ---
 
@@ -155,3 +155,10 @@ node-plugin加载动态库时没有用RTLD_DEEPBIND模式，RTLD_DEEPBIND：在�
 现在来看就是简单地动态库加载模式不对，但是当时在一个大系统里面，一下子来一个segment fault还是蛮棘手的，因为在上层应用中是gst_parse_launch这里出现了崩溃，所以一开始怀疑是launch的语法哪里出错了，导致了崩溃，且要和webrtc的例子一步步对比。后面还在gstreamer的插件中加打印，一步步定位出哪里出错，直到最后才想出来肯能是node环境导致的出错。
 
 后续发现，即使openssl做成静态库，plugin还是会先加载node中的符号，除非将dlopen的mode添加DEEPBIND，但是又会引发一些后续的问题。
+
+
+----
+
+C++程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。 https://www.cnblogs.com/coderzh/p/LinkAllSymbols.html
+
+和Visual C++不同，GCC编译器默认会导出所有符号(动态链接)  https://www.cnblogs.com/zzqcn/p/3640353.html
