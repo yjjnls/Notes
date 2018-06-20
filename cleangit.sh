@@ -1,7 +1,7 @@
 # start "C:\Program Files\Git\git-bash.exe"
 
 git gc --prune=now
-hash=$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | cut -f1 -d" ")
+hash=$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -1 | cut -f1 -d" ")
 
 for i in $hash;  
 do   
@@ -15,5 +15,3 @@ git reflog expire --expire=now --all
 git fsck --full --unreachable
 git repack -A -d
 git gc --aggressive --prune=now
-
-# 
