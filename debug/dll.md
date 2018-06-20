@@ -166,3 +166,25 @@ C++程序在链接一个静态库时，如果该静态库里的某些方法没�
 ★★linux 动态库符号表冲突  
 http://kouucocu.lofter.com/post/1cdb8c4b_50f631b   
 https://flameeyes.blog/2012/10/07/symbolism-and-elf-files-or-what-does-bsymbolic-do/  
+
+如果是non-PIC库，那么会用绝对地址，因为这里假设每次都是在相同的位置上加载库。而PIC库则是从加载位置开始计算一个offset来来获得函数或者变量地址。   
+如果是动态加载non-PIC库，那么就需要把代码搬迁到新地址上（ a text relocation (TEXTREL)），这会造成危险。
+
+
+为了更好的用户体验和内存CPU的利用率，程序编译时会采用两种表进行辅助，一个为PLT表，一个为GOT表，PLT表可以称为内部函数表，GOT表为全局函数表（也可以说是动态函数表这是个人自称），这两个表是相对应的，什么叫做相对应呢，PLT表中的数据就是GOT表中的一个地址，可以理解为一定是一一对应的。
+
+![plt-got](https://img-blog.csdn.net/20170123151558845?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMTg2NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+其实在大家进入带有@plt标志的函数时，这个函数其实就是个过渡作用，因为GOT表项中的数据才是函数最终的地址，而PLT表中的数据又是GOT表项的地址，我们就可以通过PLT表跳转到GOT表来得到函数真正的地址。
+
+那问题来了，这个@plt函数时怎么来的，这个函数是编译系统自己加的
+
+
+
+symbols that are exported are added to the symbol table of an object; symbols that are called are added to the symbol table as undefined (if they are not there already) and they are added to the procedure linking table (which then finds the position via its own offset table). By default, with no special options, as I said, **only static functions are called directly from the object’s global offset table, everything else is called through the PLT**, and thus through the linker’s table of resolved symbols.
+
+As my post about xine shows, there are situations where going through the PLT is not the desired behaviour, as you want to ensure that an object calls its own copy of any given symbol that is defined within itself. You can do that in many ways; the simplest possible of options, is not to expose those symbols at all. As I said with default options, only static functions are called straight through the GOT, but this can be easily extended to functions that are not exposed, which can be done either by marking the symbols as hidden (happens at compile time), or by using a linker script to only expose a limited set of symbols (happens at link time).
+
+This is logical: the moment when the symbols are no longer exported by the object, the dynamic loader has no way to answer for the PLT, which means the only option you have is to use the GOT directly.
+
+But sometimes you have to expose the symbols, and at the same time you want to make sure that you call your own copy and not any other interposed copy of those symbols. How do you do that? That’s where -Bsymbolic and -Bsymbolic-functions options come into play. What they do is duplicate the GOT entries for the symbols that are both called and defined in a shared object: the loader points to one, but the object itself points to the other. This way, it’ll always call its own copy. An almost identical solution is applied, just at compile-time rather than link-time, when you use protected visibility (instead of default or hidden).
