@@ -7,11 +7,9 @@ for i in $hash;
 do   
 filename=$(git rev-list --objects --all | grep $i | cut -f1 --complement -d" ")
 echo $filename
-git filter-branch --force --index-filter "git rm --cached --ignore-unmatch ""$filename"
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch ""$filename"   --prune-empty --tag-name-filter cat -- --all
 done
 
-rm -rf .git/refs/original/
+git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
 git reflog expire --expire=now --all
-git fsck --full --unreachable
-git repack -A -d
-git gc --aggressive --prune=now
+git gc --prune=now
