@@ -179,12 +179,27 @@ https://flameeyes.blog/2012/10/07/symbolism-and-elf-files-or-what-does-bsymbolic
 
 那问题来了，这个@plt函数时怎么来的，这个函数是编译系统自己加的
 
+GOT是一个存储外部库函数的表，PLT则是由代码片段组成的，每个代码片段都跳转到GOT表中的一个具体的函数调用。运行后加载动态库，把动态库中的相应函数地址填入GOT表，由于PLT表是跳转到GOT表的，这就构成了运行时重定位   
 
+GOT(Global Offset Table)：全局偏移表用于记录在ELF文件中所用到的共享库中符号的绝对地址。在程序刚开始运行时GOT表项是空的，**当符号第一次被调用时会动态解析符号的绝对地址然后转去执行，并将被解析符号的绝对地址记录在GOT中，第二次调用同一符号时**，由于GOT中已经记录了其绝对地址，直接转去执行即可，不用重新解析。   
+PLT(Procedure Linkage Table)：过程链接表的作用是将位置无关的符号转移到绝对地址。**当一个外部符号被调用时，PLT去引用GOT中的其符号对应的绝对地址，然后转入并执行**。
+
+每个plt指令中的jmp *0xf80496xx 都是访问相应的got项。在函数第一次调用之前，这些got项的内容都是链接器生成的，它的值指向对应plt中jmp的下一条指令。
+程序第一次调用printf时，通过printf@got表项引导到查找printf的plt指令的后半部分。在后半部分中跳到动态链接器中将printf址解析出来，并重写入printf@got项内，再跳转至printf@got，调用printf函数。那么神奇的作用来，第二次调用printf时，通过printf@got直接跳到printf函数执行了。 
+
+https://blog.csdn.net/linyt/article/details/51636753
+https://blog.csdn.net/qq_32400847/article/details/71001693    
+
+
+
+静态函数通过GOT调用，而其他的都是通过PLT在连接到GOT上调用。
 
 symbols that are exported are added to the symbol table of an object; symbols that are called are added to the symbol table as undefined (if they are not there already) and they are added to the procedure linking table (which then finds the position via its own offset table). By default, with no special options, as I said, **only static functions are called directly from the object’s global offset table, everything else is called through the PLT**, and thus through the linker’s table of resolved symbols.
 
-As my post about xine shows, there are situations where going through the PLT is not the desired behaviour, as you want to ensure that an object calls its own copy of any given symbol that is defined within itself. You can do that in many ways; the simplest possible of options, is not to expose those symbols at all. As I said with default options, only static functions are called straight through the GOT, but this can be easily extended to functions that are not exposed, which can be done either by marking the symbols as hidden (happens at compile time), or by using a linker script to only expose a limited set of symbols (happens at link time).
+As my post about xine shows, **there are situations where going through the PLT is not the desired behaviour, as you want to ensure that an object calls its own copy of any given symbol that is defined within itself.** You can do that in many ways; the simplest possible of options, is not to expose those symbols at all. As I said with default options, only static functions are called straight through the GOT, but this can be easily extended to functions that are not exposed, which can be done either by marking the symbols as hidden (happens at compile time), or by using a linker script to only expose a limited set of symbols (happens at link time).
 
 This is logical: the moment when the symbols are no longer exported by the object, the dynamic loader has no way to answer for the PLT, which means the only option you have is to use the GOT directly.
 
-But sometimes you have to expose the symbols, and at the same time you want to make sure that you call your own copy and not any other interposed copy of those symbols. How do you do that? That’s where -Bsymbolic and -Bsymbolic-functions options come into play. What they do is duplicate the GOT entries for the symbols that are both called and defined in a shared object: the loader points to one, but the object itself points to the other. This way, it’ll always call its own copy. An almost identical solution is applied, just at compile-time rather than link-time, when you use protected visibility (instead of default or hidden).
+**But sometimes you have to expose the symbols, and at the same time you want to make sure that you call your own copy and not any other interposed copy of those symbols.** How do you do that? That’s where -Bsymbolic and -Bsymbolic-functions options come into play. **What they do is `duplicate the GOT entries for the symbols that are both called and defined in a shared object`: the loader points to one, but the object itself points to the other.** This way, it’ll always call its own copy. An almost identical solution is applied, just at compile-time rather than link-time, when you use protected visibility (instead of default or hidden).
+
+最终问题在于dtls.so调用ssl_init时（此时openssl是动态库）先调用ssl_init@plt，再跳转至ssl_init@got，然而node中已经导出了ssl_init@got，所以根据上面的跳转规则，直接调用了node中的ssl_init。而-Bsymbolic把dtls的got复制了一份，ssl_init@plt跳转到自己的got，而且由于dtls链接了openssl静态库，所以dtls自己的ssl_init@got也是定义的，而非跳转到node的ssl_init@got而调用了node中的ssl_init。（暂且只能这么解释）
