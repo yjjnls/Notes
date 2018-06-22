@@ -70,7 +70,11 @@ cd my_project
 travis encrypt COVERITY_SCAN_TOKEN=project_token_from_coverity_scan
 ```
 
-最后是代码分析成功和失败的结果。
+或者可以在travis中设置该项目的环境变量COVERITY_SCAN_TOKEN，这里直接设置明文就可以了，不用设置加密后的密文。
+
+---
+
+代码分析成功和失败分别会有如下结果。
 
 ![](https://github.com/yjjnls/Notes/blob/master/img/coverity_success.png)
 
