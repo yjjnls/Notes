@@ -76,8 +76,147 @@ script:
 script: command1 && command2
 ```
 
-使用travis构建项目的一些例子：
+### 使用travis构建项目的一些例子
 *   [c/c++](https://docs.travis-ci.com/user/languages/c/)
 *   [nodejs](https://docs.travis-ci.com/user/languages/javascript-with-nodejs/)
 
+### 部署
+script阶段结束以后，还可以设置[通知步骤](https://docs.travis-ci.com/user/notifications/)和[部署步骤](https://docs.travis-ci.com/user/deployment/)，它们不是必须的。
 
+部署的脚本可以在script阶段执行，也可以使用 Travis 为几十种常见服务提供的快捷部署功能。比如，要部署到 Github Pages，可以写成下面这样。
+
+```yml
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  on:
+    branch: master
+```
+其他部署方式，请看[官方文档](https://docs.travis-ci.com/user/deployment/)。
+
+### 钩子方法
+Travis 为上面这些阶段提供了7个钩子。
+
+*   before_install：install 阶段之前执行
+*   before_script：script 阶段之前执行
+*   after_failure：script 阶段失败时执行
+*   after_success：script 阶段成功时执行
+*   before_deploy：deploy 步骤之前执行
+*   after_deploy：deploy 步骤之后执行
+*   after_script：script 阶段之后执行
+
+完整的生命周期，从开始到结束是下面的流程。
+
+1.  before_install
+2.  install
+3.  before_script
+4.  script
+5.  aftersuccess or afterfailure
+6.  [OPTIONAL] before_deploy
+7.  [OPTIONAL] deploy
+8.  [OPTIONAL] after_deploy
+9.  after_script
+
+### 运行状态
+Travis 每次运行，可能会返回四种状态。
+
+*   passed：运行成功，所有步骤的退出码都是0
+*   canceled：用户取消执行
+*   errored：before_install、install、before_script有非零退出码，运行会立即停止
+*   failed ：script有非零状态码 ，会继续运行
+
+## 环境变量
+.travis.yml的env字段可以定义环境变量。
+
+```yml
+env:
+  - DB=postgres
+  - SH=bash
+  - PACKAGE_VERSION="1.0.*"
+```
+
+然后，脚本内部就使用这些变量了。
+
+有些环境变量（比如用户名和密码）不能公开，这时可以通过 Travis 网站，写在每个仓库的设置页里面，Travis 会自动把它们加入环境变量。这样一来，脚本内部依然可以使用这些环境变量，但是只有管理员才能看到变量的值。具体操作请看[官方文档](https://docs.travis-ci.com/user/environment-variables)。
+
+![](http://www.ruanyifeng.com/blogimg/asset/2017/bg2017121903.png)
+
+## 加密信息
+如果不放心保密信息明文存在 Travis 的网站，可以使用 Travis 提供的加密功能。
+
+首先，安装 Ruby 的包travis。
+
+```yml
+$ gem install travis
+```
+然后，就可以用travis encrypt命令加密信息。
+
+在项目的根目录下，执行下面的命令。
+
+```yml
+$ travis encrypt SOMEVAR=secretvalue
+```
+上面命令中，SOMEVAR是要加密的变量名，secretvalue是要加密的变量值。执行以后，屏幕上会输出如下信息。
+
+```yml
+secure: ".... encrypted data ...."
+```
+现在，就可以把这一行加入.travis.yml。
+
+```yml
+env:
+  global:
+    - secure: ".... encrypted data ...."
+```
+然后，脚本里面就可以使用环境变量$SOMEVAR了，Travis 会在运行时自动对它解密。
+
+travis encrypt命令的--add参数会把输出自动写入.travis.yml，省掉了修改env字段的步骤。
+
+```yml
+$ travis encrypt SOMEVAR=secretvalue --add
+```
+详细信息请看[官方文档](https://docs.travis-ci.com/user/encryption-keys/)。
+
+## 加密文件
+如果要加密的是文件（比如私钥），Travis 提供了加密文件功能。
+
+安装命令行客户端以后，使用下面的命令登入 Travis CI。
+
+```shell
+$ travis login 
+```
+然后，进入项目的根目录，使用travis encrypt-file命令加密那些想要加密的文件。
+
+```shell
+$ travis encrypt-file bacon.txt
+
+encrypting bacon.txt for rkh/travis-encrypt-file-example
+storing result as bacon.txt.enc
+storing secure env variables for decryption
+
+Please add the following to your build script (before_install stage in your .travis.yml, for instance):
+
+    openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in bacon.txt.enc -out bacon.txt -d
+
+Pro Tip: You can add it automatically by running with --add.
+
+Make sure to add bacon.txt.enc to the git repository.
+Make sure not to add bacon.txt to the git repository.
+Commit all changes to your .travis.yml.
+```
+上面的代码对文件bacon.txt进行加密，加密后会生成bacon.txt.enc，该文件需要提交到代码库。此外，该命令还会生成一个环境变量$encrypted_0a6446eb3ae3_key，保存密钥，储存在 Travis CI，文件解密时需要这个环境变量。你需要把解密所需的openssl命令，写在.travis.yml的before_install字段里面。这些都写在上面的命令行提示里面。
+
+--add参数可以自动把环境变量写入.travis.yml。
+
+```shell
+$ travis encrypt-file bacon.txt --add
+
+encrypting bacon.txt for rkh/travis-encrypt-file-example
+storing result as bacon.txt.enc
+storing secure env variables for decryption
+
+Make sure to add bacon.txt.enc to the git repository.
+Make sure not to add bacon.txt to the git repository.
+Commit all changes to your .travis.yml.
+```
