@@ -107,3 +107,5 @@ https://ethfans.org/posts/219 以太坊紫皮书
 https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf
 
 相关钱包技术也要关心一下 比如 https://github.com/MyEtherWallet mist等
+
+各大链的奖励机制是什么，比如EOS、Cardano等
