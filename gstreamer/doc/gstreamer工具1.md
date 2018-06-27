@@ -1,27 +1,28 @@
 <font face="微软雅黑">
 
--   [1. gst-launch](#1-gst-launch)
-    -   [1.1 Basics](#11-basics)
-        -   [1.1.1 设置属性](#111-%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7)
-        -   [1.1.2 带名称的element](#112-%E5%B8%A6%E5%90%8D%E7%A7%B0%E7%9A%84element)
-        -   [1.1.3 设置pad](#113-%E8%AE%BE%E7%BD%AEpad)
-        -   [1.1.4 caps过滤](#114-caps%E8%BF%87%E6%BB%A4)
-        -   [1.1.5 查看pipeline中的caps](#115-%E6%9F%A5%E7%9C%8Bpipeline%E4%B8%AD%E7%9A%84caps)
-    -   [1.2. Examples](#12-examples)
-        -   [1.2.1 直接浏览视频流](#121-%E7%9B%B4%E6%8E%A5%E6%B5%8F%E8%A7%88%E8%A7%86%E9%A2%91%E6%B5%81)
-            -   [1.2.1.1 test video](#1211-test-video)
-            -   [1.2.1.2 ipc码流](#1212-ipc%E7%A0%81%E6%B5%81)
-                -   [1.2.1.2.1 playbin](#12121-playbin)
-                -   [1.2.1.2.2 uridecodebin](#12122-uridecodebin)
-                -   [1.2.1.2.3 rtspsrc](#12123-rtspsrc)
-        -   [1.2.2 录制视频流](#122-%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E6%B5%81)
-            -   [1.2.2.1 test video](#1221-test-video)
-            -   [1.2.2.2 ipc](#1222-ipc)
-        -   [1.2.3 Rtsp推流](#123-rtsp%E6%8E%A8%E6%B5%81)
-            -   [1.2.3.1 file](#1231-file)
-            -   [1.2.3.2 ipc](#1232-ipc)
-            -   [1.2.3.3 receive](#1233-receive)
--   [Extensions](#extensions)
+- [1. gst-launch](#1-gst-launch)
+    - [1.1 Basics](#11-basics)
+        - [1.1.1 设置属性](#111-%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7)
+        - [1.1.2 带名称的element](#112-%E5%B8%A6%E5%90%8D%E7%A7%B0%E7%9A%84element)
+        - [1.1.3 设置pad](#113-%E8%AE%BE%E7%BD%AEpad)
+        - [1.1.4 caps过滤](#114-caps%E8%BF%87%E6%BB%A4)
+        - [1.1.5 查看pipeline中的caps](#115-%E6%9F%A5%E7%9C%8Bpipeline%E4%B8%AD%E7%9A%84caps)
+    - [1.2. Examples](#12-examples)
+        - [1.2.1 直接浏览视频流](#121-%E7%9B%B4%E6%8E%A5%E6%B5%8F%E8%A7%88%E8%A7%86%E9%A2%91%E6%B5%81)
+            - [1.2.1.1 test video](#1211-test-video)
+            - [1.2.1.2 ipc码流](#1212-ipc%E7%A0%81%E6%B5%81)
+                - [1.2.1.2.1 playbin](#12121-playbin)
+                - [1.2.1.2.2 uridecodebin](#12122-uridecodebin)
+                - [1.2.1.2.3 rtspsrc](#12123-rtspsrc)
+        - [1.2.2 录制视频流](#122-%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E6%B5%81)
+            - [1.2.2.1 test video](#1221-test-video)
+            - [1.2.2.2 ipc](#1222-ipc)
+        - [1.2.3 Rtsp推流](#123-rtsp%E6%8E%A8%E6%B5%81)
+            - [1.2.3.1 file](#1231-file)
+            - [1.2.3.2 ipc](#1232-ipc)
+            - [1.2.3.3 receive](#1233-receive)
+- [Extensions](#extensions)
+- [test server](#test-server)
 
 # 1. gst-launch
 
@@ -174,3 +175,10 @@ gst-launch-1.0.exe rtspsrc location="rtsp://172.16.66.65:554/realtime?id=0;aid=0
 [GStreamer基础教程14——常用的element](http://blog.csdn.net/sakulafly/article/details/21748777)
 
 [Gstreamer cheat sheet](http://wiki.oz9aec.net/index.php/Gstreamer_cheat_sheet)
+
+
+# test server
+
+rtsp-server-test "( videotestsrc pattern=white ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=falseoutline-color=4278190080  ! video/x-raw, format=(string)I420, width=(int)320, height=(int)240  ! x264enc bitrate=512 key-int-max=5 ! rtph264pay pt=96 name=pay0  audiotestsrc freq=440 wave=sine ! audio/x-raw, rate=(int)8000, channels=(int)1 ! alawenc ! rtppcmapay pt=97 name=pay1 )"
+
+gst-launch-1.0.exe rtspsrc location=rtsp://127.0.0.1:8553/test ! rtph264depay ! avdec_h264 ! jpegenc ! multifilesink location="test/%05d.bmp"
