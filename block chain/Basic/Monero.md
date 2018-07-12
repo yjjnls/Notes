@@ -13,3 +13,6 @@ https://coinmarketcap.com/
 研究比特股里面的交易类型。https://github.com/bitshares/bitshares-core
 
 分片技术 https://zhuanlan.zhihu.com/p/38903236
+
+
+https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber
