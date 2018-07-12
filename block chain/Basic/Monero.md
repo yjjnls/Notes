@@ -14,5 +14,6 @@ https://coinmarketcap.com/
 
 分片技术 https://zhuanlan.zhihu.com/p/38903236
 
+bitcoin基础里面加入utxo账户模型与普通账户模型
 
 https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber
