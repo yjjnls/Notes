@@ -11,5 +11,8 @@ http://www.8btc.com/tan90d97
 
 分片技术 https://zhuanlan.zhihu.com/p/38903236
 
+Merkle DAG
+比特币和以太坊中的Merkle Tree有声么不同？
+DAG整理
 
 https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber
