@@ -7,7 +7,7 @@
 #include <string>
 
 
-#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=PCMA,payload="
+#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=OPUS,payload="
 #define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
 
 static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
@@ -30,7 +30,7 @@ class WebRTC
 
     void Initialize()
     {
-        std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_] + " ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! sendrecv. audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! alawenc ! rtppcmapay ! queue ! " + RTP_CAPS_OPUS + "8 ! sendrecv. webrtcbin name=local ! rtpvp8depay ! vp8dec ! videoconvert ! queue ! xvimagesink";
+        std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_] + " ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote. audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay ! queue ! " + RTP_CAPS_OPUS + "97 ! remote.  webrtcbin name=local";
 
         printf("%s\n", launch.c_str());
 
@@ -54,7 +54,7 @@ class WebRTC
         GstPromise *promise = gst_promise_new_with_change_func(WebRTC::on_offer_created, this, NULL);
         g_signal_emit_by_name(remote_webrtc_, "create-offer", NULL, promise);
         // g_signal_connect(remote_webrtc_, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
-        // g_signal_connect(local_webrtc_, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
+        g_signal_connect(local_webrtc_, "pad-added", G_CALLBACK(WebRTC::on_webrtc_pad_added), this);
         g_signal_connect(remote_webrtc_, "on-ice-candidate", G_CALLBACK(WebRTC::on_ice_candidate), local_webrtc_);
         g_signal_connect(local_webrtc_, "on-ice-candidate", G_CALLBACK(WebRTC::on_ice_candidate), remote_webrtc_);
         /* Lifetime is the same as the pipeline itself */
@@ -64,9 +64,9 @@ class WebRTC
     }
 
     static void on_offer_created(GstPromise *promise, gpointer user_data);
-
     static void on_answer_created(GstPromise *promise, gpointer user_data);
     static void on_ice_candidate(GstElement *webrtc, guint mlineindex, gchar *candidate, GstElement *other);
+    static void on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gpointer user_data);
 
  private:
     int pattern_;
@@ -104,9 +104,9 @@ void WebRTC::on_answer_created(GstPromise *promise, gpointer user_data)
     gst_structure_get(reply, "answer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &answer, NULL);
     gst_promise_unref(promise);
 
-    g_signal_emit_by_name(webrtc->local_webrtc_, "set-remote-description", answer, NULL);
+    g_signal_emit_by_name(webrtc->remote_webrtc_, "set-remote-description", answer, NULL);
     promise = gst_promise_new();
-    g_signal_emit_by_name(webrtc->remote_webrtc_, "set-local-description", answer, NULL);
+    g_signal_emit_by_name(webrtc->local_webrtc_, "set-local-description", answer, NULL);
     gst_promise_interrupt(promise);
     gst_promise_unref(promise);
 
@@ -116,7 +116,49 @@ void WebRTC::on_ice_candidate(GstElement *webrtc, guint mlineindex, gchar *candi
 {
     g_signal_emit_by_name(other, "add-ice-candidate", mlineindex, candidate);
 }
+void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gpointer user_data)
+{
+    WebRTC *webrtc = static_cast<WebRTC *>(user_data);
 
+    GstElement *out = NULL;
+    GstPad *sink = NULL;
+    GstCaps *caps;
+    GstStructure *s;
+    const gchar *encoding_name;
+
+    if (GST_PAD_DIRECTION(new_pad) != GST_PAD_SRC)
+        return;
+
+    caps = gst_pad_get_current_caps(new_pad);
+    if (!caps)
+        caps = gst_pad_query_caps(new_pad, NULL);
+    // GST_ERROR_OBJECT(new_pad, "caps %" GST_PTR_FORMAT, caps);
+    // g_assert(gst_caps_is_fixed(caps));
+    s = gst_caps_get_structure(caps, 0);
+    encoding_name = gst_structure_get_string(s, "encoding-name");
+    if (g_strcmp0(encoding_name, "VP8") == 0) {
+        out = gst_parse_bin_from_description(
+            "rtpvp8depay ! vp8dec ! videoconvert ! queue ! autovideosink sync=false",
+            TRUE,
+            NULL);
+    } else if (g_strcmp0(encoding_name, "OPUS") == 0) {
+        out = gst_parse_bin_from_description(
+            "rtpopusdepay ! opusdec ! "
+            "audioconvert ! audioresample ! audiorate ! queue ! autovideosink sync=false",
+            TRUE,
+            NULL);
+    } else {
+        g_critical("Unknown encoding name %s", encoding_name);
+        g_assert_not_reached();
+    }
+    gst_bin_add(GST_BIN(webrtc->pipeline_), out);
+    gst_element_sync_state_with_parent(out);
+    sink = (GstPad *)out->sinkpads->data;
+
+    gst_pad_link(new_pad, sink);
+
+    gst_caps_unref(caps);
+}
 
 /*---------------------------------------------------------------------------------------------*/
 class MultiPoints
