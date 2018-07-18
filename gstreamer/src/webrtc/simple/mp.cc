@@ -4,10 +4,16 @@
 #define GST_USE_UNSTABLE_API
 #include <gst/webrtc/webrtc.h>
 
+#include <vector>
+#include <string>
+
+
+#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=PCMA,payload="
+#define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
 
 class multipoint
 {
-public:
+ public:
     multipoint()
     {
         video_tee_ = gst_element_factory_make("tee", "video-tee");
@@ -28,68 +34,42 @@ public:
     }
     ~multipoint()
     {
-        if (pipeline_)
-        {
+        if (pipeline_) {
             gst_element_set_state(pipeline_, GST_STATE_NULL);
             g_object_unref(pipeline_);
             pipeline_ = NULL;
         }
     }
+    void generate_webrtc_enpoint(int num)
+    {
+        char pattern[] = {'white', 'red', 'yellow', 'blue'};
+        for (int i = 0; i < num; ++i) {
+            std::string launch = "webrtcbin name=" + to_string(i) + " videotestsrc pattern=" + std::string(pattern[i]) + " ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! sendrecv. audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! alawenc ! rtppcmapay ! queue ! " + RTP_CAPS_OPUS + "8 ! sendrecv. ";
+            printf("%s\n", launch.c_str());
+        }
 
-private:
+        // gst_element_set_state(GST_ELEMENT(pipe1), GST_STATE_PLAYING);
+    }
+
+ private:
     GstElement *video_tee_;
     GstElement *audio_tee_;
     GstElement *video_input_selector_;
     GstElement *audio_input_selector_;
 
     GstElement *pipeline_;
+    std::vector<GstElement *> endpoints_;
 };
+
 int main(int argc, char *argv[])
 {
     gst_init(&argc, &argv);
 
     GMainLoop *loop = g_main_loop_new(NULL, FALSE);
-    pipe1 =
-        gst_parse_launch(
-            "webrtcbin name=smpte webrtcbin name=ball "
-            "videotestsrc pattern=smpte ! queue ! vp8enc ! rtpvp8pay ! queue ! "
-            "application/x-rtp,media=video,payload=96,encoding-name=VP8 ! smpte.sink_0 "
-            "audiotestsrc ! opusenc ! rtpopuspay ! queue ! "
-            "application/x-rtp,media=audio,payload=97,encoding-name=OPUS ! smpte.sink_1 "
-            "videotestsrc pattern=ball ! queue ! vp8enc ! rtpvp8pay ! queue ! "
-            "application/x-rtp,media=video,payload=96,encoding-name=VP8 ! ball.sink_1 "
-            "audiotestsrc wave=saw ! opusenc ! rtpopuspay ! queue ! "
-            "application/x-rtp,media=audio,payload=97,encoding-name=OPUS ! ball.sink_0 ",
-            NULL);
-    bus1 = gst_pipeline_get_bus(GST_PIPELINE(pipe1));
-    gst_bus_add_watch(bus1, (GstBusFunc)_bus_watch, pipe1);
 
-    webrtc1 = gst_bin_get_by_name(GST_BIN(pipe1), "smpte");
-    g_signal_connect(webrtc1, "on-negotiation-needed",
-                     G_CALLBACK(_on_negotiation_needed), NULL);
-    g_signal_connect(webrtc1, "pad-added", G_CALLBACK(_webrtc_pad_added),
-                     pipe1);
-    webrtc2 = gst_bin_get_by_name(GST_BIN(pipe1), "ball");
-    g_signal_connect(webrtc2, "pad-added", G_CALLBACK(_webrtc_pad_added),
-                     pipe1);
-    g_signal_connect(webrtc1, "on-ice-candidate",
-                     G_CALLBACK(_on_ice_candidate), webrtc2);
-    g_signal_connect(webrtc2, "on-ice-candidate",
-                     G_CALLBACK(_on_ice_candidate), webrtc1);
-
-    g_print("Starting pipeline\n");
-    gst_element_set_state(GST_ELEMENT(pipe1), GST_STATE_PLAYING);
-
-    g_main_loop_run(loop);
-
-    gst_element_set_state(GST_ELEMENT(pipe1), GST_STATE_NULL);
-    g_print("Pipeline stopped\n");
-
-    gst_object_unref(webrtc1);
-    gst_object_unref(webrtc2);
-    gst_bus_remove_watch(bus1);
-    gst_object_unref(bus1);
-    gst_object_unref(pipe1);
+    multipoint *room = new multipoint();
+    room->generate_webrtc_enpoint(2);
+    // g_main_loop_run(loop);
 
     gst_deinit();
 
