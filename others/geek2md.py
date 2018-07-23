@@ -19,6 +19,7 @@ class Translator(object):
         self.is_started = False
         self.order_lable = False
         self.label = 1
+        self.is_code = False
 
     # markList = {"h1", "h2", "h3", "p"}
     def translate(self):
@@ -26,9 +27,11 @@ class Translator(object):
             fp = open(self.html, 'r', encoding='UTF-8')
             all_lines = fp.readlines()
             for line in all_lines:
+                if '' in line:
+                    line = line.replace('', '')
                 if "audio title=" in line:
                     self.trans_title(line)
-                if "总结" in line:
+                if ">总结<" in line:
                     break
                 if "<p>" in line:
                     self.trans_paragraph(line)
@@ -43,6 +46,15 @@ class Translator(object):
                     self.trans_label(line)
                 if "<img" in line:
                     self.trans_img(line)
+                if "<code>" in line:
+                    self.md_fp.write('```\n')
+                    self.is_code = True
+                    continue
+                if "</code>" in line:
+                    self.md_fp.write('```\n')
+                    self.is_code = False
+                if self.is_code:
+                    self.md_fp.write(line)
         except IOError as e:
             print(e.message)
         finally:
@@ -58,7 +70,7 @@ class Translator(object):
             self.md_fp = open(md, 'w', encoding='UTF-8')
             self.md_fp.seek(0)
             self.md_fp.truncate()
-            self.md_fp.write('#' + title + '\n')
+            self.md_fp.write('# ' + title + '\n')
             self.is_started = True
 
     def trans_paragraph(self, line):
@@ -76,39 +88,45 @@ class Translator(object):
                 while (i < int(searchObj.group(2))):
                     self.md_fp.write('#')
                     i += 1
-                self.md_fp.write(searchObj.group(1) + '\n')
+                self.md_fp.write(' ' + searchObj.group(1) + '\n')
 
     def trans_label(self, line):
-        searchObj = re.search('>(.*)<', line)
-        if searchObj:
-            if not self.order_lable:
-                self.md_fp.write('*\t' + searchObj.group(1) + '\n')
+        if self.is_started:
+            searchObj = re.search('>(.*)<', line)
+            if searchObj:
+                if not self.order_lable:
+                    self.md_fp.write('*\t' + searchObj.group(1) + '\n')
+                else:
+                    self.md_fp.write(
+                        str(self.label) + '.\t' + searchObj.group(1) + '\n')
+                    self.label += 1
             else:
-                self.md_fp.write(
-                    str(self.label) + '.\t' + searchObj.group(1) + '\n')
-                self.label += 1
+                if not self.order_lable:
+                    self.md_fp.write('*\t')
+                else:
+                    self.md_fp.write(str(self.label) + '.\t')
+                    self.label += 1
 
     def trans_img(self, line):
-        searchObj = re.search('<img src=\"./(.*)/(.*)\.(.*)\" alt=', line)
-        if searchObj:
-            origin_img = self.folder + searchObj.group(
-                1) + '/' + searchObj.group(2) + '.' + searchObj.group(3)
-            new_img_name = str(self.tutor) + '.' + str(
-                self.img_number) + '.' + searchObj.group(3)
-            new_img = self.img + '\\' + str(self.tutor) + '.' + str(
-                self.img_number) + '.' + searchObj.group(3)
-            self.img_number += 1
-            if not os.path.exists(self.img):
-                os.makedirs(self.img)
-            shutil.copyfile(origin_img, new_img)
-            self.md_fp.write('![](%s%s)\n\n' % (self.repo, new_img_name))
+        if self.is_started:
+            searchObj = re.search('<img src=\"./(.*)/(.*)\.(.*)\" alt=', line)
+            if searchObj:
+                origin_img = self.folder + searchObj.group(
+                    1) + '/' + searchObj.group(2) + '.' + searchObj.group(3)
+                new_img_name = str(self.tutor) + '.' + str(
+                    self.img_number) + '.' + searchObj.group(3)
+                new_img = self.img + '\\' + str(self.tutor) + '.' + str(
+                    self.img_number) + '.' + searchObj.group(3)
+                self.img_number += 1
+                if not os.path.exists(self.img):
+                    os.makedirs(self.img)
+                shutil.copyfile(origin_img, new_img)
+                self.md_fp.write('![](%s%s)\n\n' % (self.repo, new_img_name))
 
 
 if __name__ == "__main__":
-    tutor = 27
+    tutor = 33
     folder = "E:\\Administrator\\Desktop\\geek\\"
     repo = "https://github.com/yjjnls/blockchain-tutorial-cn/blob/master/img/"
     trans = Translator(tutor, folder, repo)
     trans.translate()
-
-    # fp = open(html, 'r')
