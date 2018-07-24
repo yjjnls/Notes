@@ -30,7 +30,7 @@ class WebRTC
 
     void Initialize()
     {
-        std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_] + " ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote. audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay ! queue ! " + RTP_CAPS_OPUS + "97 ! remote.  webrtcbin name=local";
+        std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_ + 1] + " ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote. webrtcbin name=local videotestsrc pattern=smpte ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! local.";
 
         printf("%s\n", launch.c_str());
 
@@ -44,25 +44,22 @@ class WebRTC
             return;
         }
 
-
         remote_webrtc_ = gst_bin_get_by_name(GST_BIN(pipeline_), "remote");
         g_assert_nonnull(remote_webrtc_);
+        g_signal_connect(remote_webrtc_, "on-negotiation-needed", G_CALLBACK(WebRTC::on_negotiation_needed), this);
+        g_signal_connect(remote_webrtc_, "pad-added", G_CALLBACK(WebRTC::on_webrtc_pad_added), this);
 
         local_webrtc_ = gst_bin_get_by_name(GST_BIN(pipeline_), "local");
         g_assert_nonnull(local_webrtc_);
-
-        GstPromise *promise = gst_promise_new_with_change_func(WebRTC::on_offer_created, this, NULL);
-        g_signal_emit_by_name(remote_webrtc_, "create-offer", NULL, promise);
-        // g_signal_connect(remote_webrtc_, "pad-added", G_CALLBACK(_webrtc_pad_added), pipe1);
         g_signal_connect(local_webrtc_, "pad-added", G_CALLBACK(WebRTC::on_webrtc_pad_added), this);
+
         g_signal_connect(remote_webrtc_, "on-ice-candidate", G_CALLBACK(WebRTC::on_ice_candidate), local_webrtc_);
         g_signal_connect(local_webrtc_, "on-ice-candidate", G_CALLBACK(WebRTC::on_ice_candidate), remote_webrtc_);
-        /* Lifetime is the same as the pipeline itself */
-
 
         gst_element_set_state(GST_ELEMENT(pipeline_), GST_STATE_PLAYING);
     }
 
+    static void on_negotiation_needed(GstElement *element, gpointer user_data);
     static void on_offer_created(GstPromise *promise, gpointer user_data);
     static void on_answer_created(GstPromise *promise, gpointer user_data);
     static void on_ice_candidate(GstElement *webrtc, guint mlineindex, gchar *candidate, GstElement *other);
@@ -74,6 +71,15 @@ class WebRTC
     GstElement *remote_webrtc_;
     GstElement *local_webrtc_;
 };
+
+void WebRTC::on_negotiation_needed(GstElement *element, gpointer user_data)
+{
+    WebRTC *webrtc = static_cast<WebRTC *>(user_data);
+    GstPromise *promise;
+
+    promise = gst_promise_new_with_change_func(WebRTC::on_offer_created, user_data, NULL);
+    g_signal_emit_by_name(webrtc->remote_webrtc_, "create-offer", NULL, promise);
+}
 void WebRTC::on_offer_created(GstPromise *promise, gpointer user_data)
 {
     WebRTC *webrtc = static_cast<WebRTC *>(user_data);
@@ -81,6 +87,11 @@ void WebRTC::on_offer_created(GstPromise *promise, gpointer user_data)
     const GstStructure *reply = gst_promise_get_reply(promise);
     gst_structure_get(reply, "offer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &sdp, NULL);
     gst_promise_unref(promise);
+
+    gchar *desc = gst_sdp_message_as_text(sdp->sdp);
+    g_print("Created offer:\n%s\n", desc);
+    g_free(desc);
+
     gst_sdp_media_add_attribute((GstSDPMedia *)&g_array_index(sdp->sdp->medias, GstSDPMedia, 0),
                                 "fmtp",
                                 "96 profile-level-id=42e01f");
@@ -104,6 +115,10 @@ void WebRTC::on_answer_created(GstPromise *promise, gpointer user_data)
     gst_structure_get(reply, "answer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &answer, NULL);
     gst_promise_unref(promise);
 
+    gchar *desc = gst_sdp_message_as_text(answer->sdp);
+    g_print("Created answer:\n%s\n", desc);
+    g_free(desc);
+
     g_signal_emit_by_name(webrtc->remote_webrtc_, "set-remote-description", answer, NULL);
     promise = gst_promise_new();
     g_signal_emit_by_name(webrtc->local_webrtc_, "set-local-description", answer, NULL);
@@ -118,6 +133,7 @@ void WebRTC::on_ice_candidate(GstElement *webrtc, guint mlineindex, gchar *candi
 }
 void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gpointer user_data)
 {
+    g_print("on_webrtc_pad_added\n");
     WebRTC *webrtc = static_cast<WebRTC *>(user_data);
 
     GstElement *out = NULL;
@@ -137,14 +153,21 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
     s = gst_caps_get_structure(caps, 0);
     encoding_name = gst_structure_get_string(s, "encoding-name");
     if (g_strcmp0(encoding_name, "VP8") == 0) {
+        // if (webrtc_element == webrtc->remote_webrtc_) {
         out = gst_parse_bin_from_description(
-            "rtpvp8depay ! vp8dec ! videoconvert ! queue ! autovideosink sync=false",
+            "rtpvp8depay ! vp8dec ! videoconvert ! queue ! xvimagesink sync=false",
             TRUE,
             NULL);
+        // } else {
+        //     out = gst_parse_bin_from_description(
+        //         "rtpvp8depay ! vp8dec ! videoconvert ! queue ! fakesink sync=false",
+        //         TRUE,
+        //         NULL);
+        // }
     } else if (g_strcmp0(encoding_name, "OPUS") == 0) {
         out = gst_parse_bin_from_description(
             "rtpopusdepay ! opusdec ! "
-            "audioconvert ! audioresample ! audiorate ! queue ! autovideosink sync=false",
+            "audioconvert ! audioresample ! audiorate ! queue ! autovideosink",
             TRUE,
             NULL);
     } else {
@@ -200,6 +223,7 @@ class MultiPoints
             WebRTC *ep = new WebRTC(i);
             ep->Initialize();
             endpoints_.push_back(ep);
+            // usleep(3 * 1000000);
         }
     }
 
@@ -213,18 +237,40 @@ class MultiPoints
     std::vector<WebRTC *> endpoints_;
 };
 /*---------------------------------------------------------------------------------------------*/
-
-int main(int argc, char *argv[])
+static GMainLoop *main_loop = NULL;
+static GThread *main_thread = NULL;
+static GMainContext *main_context = NULL;
+void MainLoop()
 {
-    gst_init(&argc, &argv);
-
-    GMainLoop *loop = g_main_loop_new(NULL, FALSE);
+    main_context = g_main_context_new();
+    main_loop = g_main_loop_new(main_context, FALSE);
+    g_main_context_push_thread_default(main_context);
 
     MultiPoints *room = new MultiPoints();
     room->generate_webrtc_enpoint(2);
-    g_main_loop_run(loop);
+
+    g_main_loop_run(main_loop);
+
+    delete room;
+
+    g_main_context_pop_thread_default(main_context);
+
+    g_main_loop_unref(main_loop);
 
     gst_deinit();
+    main_loop = NULL;
+    main_context = NULL;
+}
 
+int main(int argc, char *argv[])
+{
+    gst_init(NULL, NULL);
+    main_thread = g_thread_new("mp_main_loop",
+                               (GThreadFunc)MainLoop,
+                               NULL);
+    getchar();
+    // while (getchar() != 'q')
+    //     printf("press q to exit!\n");
+    g_main_loop_quit(main_loop);
     return 0;
 }
