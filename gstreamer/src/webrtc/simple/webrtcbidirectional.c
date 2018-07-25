@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
     loop = g_main_loop_new(NULL, FALSE);
     pipe1 =
         gst_parse_launch(
-            "videotestsrc ! queue ! vp8enc ! rtpvp8pay ! queue ! "
+            "videotestsrc pattern=white ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! queue ! vp8enc ! rtpvp8pay ! queue ! "
             "application/x-rtp,media=video,payload=96,encoding-name=VP8 ! "
             "webrtcbin name=smpte videotestsrc pattern=ball ! queue ! vp8enc ! rtpvp8pay ! queue ! "
             "application/x-rtp,media=video,payload=96,encoding-name=VP8 ! webrtcbin name=ball",

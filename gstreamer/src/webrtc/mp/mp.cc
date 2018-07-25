@@ -15,7 +15,8 @@
 #define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=OPUS,payload="
 #define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
 
-static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
+// static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
+static std::string pattern[] = {"white", "red", "green", "blue", "smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
 struct sink_link
 {
     GstElement *upstream_joint;
@@ -55,6 +56,7 @@ class WebRTC
     {
         std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_ + 1] + " ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote. webrtcbin name=local queue name=video_joint ! rtpvp8pay !" + RTP_CAPS_VP8 + " 96 ! local.";
 
+
         printf("%s\n", launch.c_str());
 
         GError *error = NULL;
@@ -84,19 +86,9 @@ class WebRTC
         std::string pipejoint_name = std::string("webrtc_video_endpoint_joint_") +
                                      std::to_string(session_count);
         video_joint_ = make_pipe_joint(media_type, pipejoint_name);
-
-        // app()->add_pipe_joint(video_joint_.upstream_joint);
-
         g_warn_if_fail(gst_bin_add(GST_BIN(pipeline_), video_joint_.downstream_joint));
-
         GstElement *video_joint = gst_bin_get_by_name_recurse_up(GST_BIN(pipeline_), "video_joint");
         g_warn_if_fail(gst_element_link(video_joint_.downstream_joint, video_joint));
-
-        // GstElement *sink = gst_element_factory_make("xvimagesink", NULL);
-        // g_object_set(G_OBJECT(sink), "sync", FALSE, NULL);
-        // g_warn_if_fail(gst_bin_add(GST_BIN(pipeline_), sink));
-        // g_warn_if_fail(gst_element_link(video_joint_.downstream_joint, sink));
-
 
         gst_element_set_state(GST_ELEMENT(pipeline_), GST_STATE_PLAYING);
         session_count++;
@@ -138,7 +130,7 @@ void WebRTC::on_offer_created(GstPromise *promise, gpointer user_data)
     gst_promise_unref(promise);
 
     gchar *desc = gst_sdp_message_as_text(sdp->sdp);
-    // g_print("Created offer:\n%s\n", desc);
+    g_print("-----\n%d Created offer:\n%s\n", webrtc->pattern_, desc);
     g_free(desc);
 
     gst_sdp_media_add_attribute((GstSDPMedia *)&g_array_index(sdp->sdp->medias, GstSDPMedia, 0),
@@ -165,7 +157,7 @@ void WebRTC::on_answer_created(GstPromise *promise, gpointer user_data)
     gst_promise_unref(promise);
 
     gchar *desc = gst_sdp_message_as_text(answer->sdp);
-    // g_print("Created answer:\n%s\n", desc);
+    g_print("%d Created answer:\n%s\n", webrtc->pattern_, desc);
     g_free(desc);
 
     g_signal_emit_by_name(webrtc->remote_webrtc_, "set-remote-description", answer, NULL);
@@ -201,13 +193,14 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
     if (g_strcmp0(encoding_name, "VP8") == 0) {
         if (webrtc_element == webrtc->remote_webrtc_) {
             out = gst_parse_bin_from_description(
-                "rtpvp8depay ! vp8dec ! videoconvert ! queue ! autovideosink sync=false",
+                "rtpvp8depay ! vp8dec ! videoconvert ! queue ! xvimagesink",
                 TRUE,
                 NULL);
             g_print("on_webrtc_pad_added %d\n", webrtc->pattern_);
         } else {
             out = gst_parse_bin_from_description(
-                "tee name=local_tee ! queue ! fakesink sync=false",
+                // "rtpvp8depay ! vp8dec ! videoconvert ! queue ! xvimagesink",
+                "tee name=local_tee ! queue ! fakesink",
                 TRUE,
                 NULL);
         }
@@ -302,7 +295,7 @@ class MultiPoints
             WebRTC *ep = new WebRTC(i);
             ep->Initialize();
             add_audience(ep);
-            usleep(1 * 1000000);
+            // usleep(1 * 1000000);
         }
     }
     void add_audience(WebRTC *ep)
@@ -458,7 +451,7 @@ void MainLoop()
     g_main_context_push_thread_default(main_context);
 
     MultiPoints *room = new MultiPoints();
-    room->generate_webrtc_enpoint(1);
+    room->generate_webrtc_enpoint(3);
 
     g_main_loop_run(main_loop);
 
