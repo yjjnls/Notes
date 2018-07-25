@@ -130,7 +130,7 @@ void WebRTC::on_offer_created(GstPromise *promise, gpointer user_data)
     gst_promise_unref(promise);
 
     gchar *desc = gst_sdp_message_as_text(sdp->sdp);
-    g_print("-----\n%d Created offer:\n%s\n", webrtc->pattern_, desc);
+    // g_print("-----\n%d Created offer:\n%s\n", webrtc->pattern_, desc);
     g_free(desc);
 
     gst_sdp_media_add_attribute((GstSDPMedia *)&g_array_index(sdp->sdp->medias, GstSDPMedia, 0),
@@ -157,7 +157,7 @@ void WebRTC::on_answer_created(GstPromise *promise, gpointer user_data)
     gst_promise_unref(promise);
 
     gchar *desc = gst_sdp_message_as_text(answer->sdp);
-    g_print("%d Created answer:\n%s\n", webrtc->pattern_, desc);
+    // g_print("%d Created answer:\n%s\n", webrtc->pattern_, desc);
     g_free(desc);
 
     g_signal_emit_by_name(webrtc->remote_webrtc_, "set-remote-description", answer, NULL);
@@ -254,7 +254,7 @@ class MultiPoints
         // g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), src));
         // g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), enc));
         // g_warn_if_fail(gst_element_link_many(src, enc, video_input_selector_, NULL));
-        std::string launch = "videotestsrc pattern=white ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc ! tee name=video-tee ! queue ! vp8dec ! videoconvert ! fakesink";
+        std::string launch = "videotestsrc pattern=white ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc ! tee name=video-tee allow-not-linked=true";
 
         GError *error = NULL;
 
