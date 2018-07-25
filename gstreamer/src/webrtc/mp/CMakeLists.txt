@@ -18,7 +18,7 @@ include_directories(${BASE_INCLUDE_DIRS})
 link_directories(${BASE_LIBRARY_DIRS})
 
 add_definitions(-std=c++11)
-add_executable (mp mp.cc)
+add_executable (mp mp.cc pipejoint.cc)
 target_link_libraries(mp ${BASE_LIBRARIES})
 
 install(TARGETS mp
