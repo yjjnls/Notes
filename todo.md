@@ -3,6 +3,9 @@
 
 # java
 https://github.com/guanzhenxing/java_interview_manual
+https://github.com/CyC2018/Interview-Notebook
+https://github.com/golang-china/gopl-zh
+
 
 # Redis
 - [ ] [Redis快速入门及应用](http://www.infoq.com/cn/articles/architecture-practice-01-redis)
