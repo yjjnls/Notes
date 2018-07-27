@@ -29,6 +29,7 @@ PipeJoint make_pipe_joint(const std::string &media_type, const std::string &name
     GstElement *psrc = gst_element_factory_make("proxysrc", (name_ + "_proxysrc").c_str());
     g_object_set(psrc, "proxysink", psink, NULL);
     g_object_set_data(G_OBJECT(psink), "media-type", (gchar *)media_type.c_str());
+    g_object_set_data(G_OBJECT(psrc), "media-type", (gchar *)media_type.c_str());
 
     ///-----------------
     PipeJoint pipejoint;

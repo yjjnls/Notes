@@ -17,6 +17,7 @@
 
 // static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
 static std::string pattern[] = {"white", "green", "blue", "blink", "snow", "red", "circular", "pinwheel", "spokes"};
+static std::string freq[] = {"5000", "10000", "20000", "30000", "40000", "50000", "2000"};
 struct sink_link
 {
     GstElement *joint;
@@ -53,12 +54,15 @@ class WebRTC
 
         destroy_pipe_joint(&video_input_joint_);
         destroy_pipe_joint(&video_output_joint_);
+        destroy_pipe_joint(&audio_input_joint_);
+        destroy_pipe_joint(&audio_output_joint_);
     }
 
     void Initialize()
     {
-        std::string launch = "webrtcbin name=remote videotestsrc pattern=" + pattern[pattern_] + " ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! textoverlay text=\"member" + std::to_string(pattern_ + 1) + " is speaking\" color=4278190080 font-desc=\"Sans 36\" draw-shadow=false draw-outline=true outline-color=4278190080 ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote. webrtcbin name=local queue name=video_joint ! rtpvp8pay !" + RTP_CAPS_VP8 + " 96 ! local.";
+        std::string videotestsrc = "videotestsrc pattern=" + pattern[pattern_] + " ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! textoverlay text=\"member" + std::to_string(pattern_ + 1) + " is speaking\" color=4278190080 font-desc=\"Sans 36\" draw-shadow=false draw-outline=true outline-color=4278190080";
 
+        std::string launch = "webrtcbin name=remote " + videotestsrc + " ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote.sink_0 audiotestsrc freq=" + freq[pattern_] + " ! queue ! opusenc ! rtpopuspay ! queue ! " + RTP_CAPS_OPUS + "97 ! remote.sink_1 webrtcbin name=local queue name=video_joint ! rtpvp8pay ! " + RTP_CAPS_VP8 + "96 ! local.sink_0 queue name=audio_joint ! rtpopuspay ! " + RTP_CAPS_OPUS + "97 ! local.sink_1";
 
         printf("%s\n", launch.c_str());
 
@@ -85,19 +89,34 @@ class WebRTC
         g_signal_connect(local_webrtc_, "on-ice-candidate", G_CALLBACK(WebRTC::on_ice_candidate), remote_webrtc_);
 
         static int session_count = 1;
-        static std::string media_type = "video";
-        std::string input_pipejoint_name = std::string("webrtc_video_input_joint_") +
-                                           std::to_string(session_count);
-        video_output_joint_ = make_pipe_joint(media_type, input_pipejoint_name);
+        // video
+        static std::string video_media_type = "video";
+        std::string video_output_pipejoint_name = std::string("webrtc_video_output_joint_") +
+                                                  std::to_string(session_count);
+        video_output_joint_ = make_pipe_joint(video_media_type, video_output_pipejoint_name);
         g_warn_if_fail(gst_bin_add(GST_BIN(pipeline_), video_output_joint_.downstream_joint));
         GstElement *video_joint = gst_bin_get_by_name_recurse_up(GST_BIN(pipeline_), "video_joint");
         g_warn_if_fail(gst_element_link(video_output_joint_.downstream_joint, video_joint));
 
-        std::string output_pipejoint_name = std::string("webrtc_video_output_joint_") +
-                                            std::to_string(session_count);
-        video_input_joint_ = make_pipe_joint(media_type, output_pipejoint_name);
+        std::string video_input_pipejoint_name = std::string("webrtc_video_input_joint_") +
+                                                 std::to_string(session_count);
+        video_input_joint_ = make_pipe_joint(video_media_type, video_input_pipejoint_name);
+        // audio
+        static std::string audio_media_type = "audio";
+        std::string audio_output_pipejoint_name = std::string("webrtc_audio_output_joint_") +
+                                                  std::to_string(session_count);
+        audio_output_joint_ = make_pipe_joint(audio_media_type, audio_output_pipejoint_name);
+        g_warn_if_fail(gst_bin_add(GST_BIN(pipeline_), audio_output_joint_.downstream_joint));
+        GstElement *audio_joint = gst_bin_get_by_name_recurse_up(GST_BIN(pipeline_), "audio_joint");
+        g_warn_if_fail(gst_element_link(audio_output_joint_.downstream_joint, audio_joint));
 
+        std::string audio_input_pipejoint_name = std::string("webrtc_audio_input_joint_") +
+                                                 std::to_string(session_count);
+        audio_input_joint_ = make_pipe_joint(audio_media_type, audio_input_pipejoint_name);
+
+        /////////////////////////////////////////////////////////////////
         gst_element_set_state(GST_ELEMENT(pipeline_), GST_STATE_PLAYING);
+
         session_count++;
     }
 
@@ -111,11 +130,24 @@ class WebRTC
         return video_input_joint_.downstream_joint;
     }
 
+    GstElement *audio_output_pipejoint()
+    {
+        return audio_output_joint_.upstream_joint;
+    }
+
+    GstElement *audio_input_pipejoint()
+    {
+        return audio_input_joint_.downstream_joint;
+    }
+
     static void on_negotiation_needed(GstElement *element, gpointer user_data);
     static void on_offer_created(GstPromise *promise, gpointer user_data);
     static void on_answer_created(GstPromise *promise, gpointer user_data);
     static void on_ice_candidate(GstElement *webrtc, guint mlineindex, gchar *candidate, GstElement *other);
     static void on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gpointer user_data);
+
+    static GstPadProbeReturn
+    on_monitor_data(GstPad *pad, GstPadProbeInfo *info, gpointer rtspclient);
 
  private:
     int pattern_;
@@ -124,6 +156,8 @@ class WebRTC
     GstElement *local_webrtc_;
     PipeJoint video_input_joint_;
     PipeJoint video_output_joint_;
+    PipeJoint audio_input_joint_;
+    PipeJoint audio_output_joint_;
 };
 
 void WebRTC::on_negotiation_needed(GstElement *element, gpointer user_data)
@@ -220,13 +254,31 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
             g_warn_if_fail(gst_bin_add(GST_BIN(out), webrtc->video_input_joint_.upstream_joint));
             GstElement *local_tee = gst_bin_get_by_name_recurse_up(GST_BIN(out), "local_tee");
             g_warn_if_fail(gst_element_link(local_tee, webrtc->video_input_joint_.upstream_joint));
+            gst_object_unref(local_tee);
         }
     } else if (g_strcmp0(encoding_name, "OPUS") == 0) {
-        out = gst_parse_bin_from_description(
-            "rtpopusdepay ! opusdec ! "
-            "audioconvert ! audioresample ! audiorate ! queue ! autovideosink",
-            TRUE,
-            NULL);
+        if (webrtc_element == webrtc->remote_webrtc_) {
+            out = gst_parse_bin_from_description(
+                "rtpopusdepay ! opusdec ! audioconvert ! spectrascope ! ximagesink",
+                // "rtpopusdepay ! faskesink",
+                TRUE,
+                NULL);
+        } else {
+            out = gst_parse_bin_from_description(
+                "rtpopusdepay ! tee name=local_audio_tee allow-not-linked=true",
+                TRUE,
+                NULL);
+
+            g_warn_if_fail(gst_bin_add(GST_BIN(out), webrtc->audio_input_joint_.upstream_joint));
+            GstElement *local_tee = gst_bin_get_by_name_recurse_up(GST_BIN(out), "local_audio_tee");
+            g_warn_if_fail(gst_element_link(local_tee, webrtc->audio_input_joint_.upstream_joint));
+
+            // GstPad *pad = gst_element_get_static_pad(webrtc->audio_input_joint_.upstream_joint, "sink");
+            // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+            // gst_object_unref(pad);
+
+            gst_object_unref(local_tee);
+        }
     } else {
         g_critical("Unknown encoding name %s", encoding_name);
         g_assert_not_reached();
@@ -239,7 +291,22 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
 
     gst_caps_unref(caps);
 }
+GstPadProbeReturn WebRTC::on_monitor_data(GstPad *pad,
+                                          GstPadProbeInfo *info,
+                                          gpointer rtspclient)
+{
 
+    // if (!GST_BUFFER_FLAG_IS_SET(info->data, GST_BUFFER_FLAG_DELTA_UNIT)) {
+    //     static int cnt = 0;
+    //     GDateTime *date_time = g_date_time_new_now_local();
+    //     gchar *s_date_time = g_date_time_format(date_time, "%H:%M:%S,%F");
+    //     g_warning("Received keyframe(%u) @ (%s)", cnt++, s_date_time);
+    //     g_free(s_date_time);
+    //     g_date_time_unref(date_time);
+    // }
+    printf("-");
+    return GST_PAD_PROBE_OK;
+}
 /*---------------------------------------------------------------------------------------------*/
 class MultiPoints
 {
@@ -248,12 +315,13 @@ class MultiPoints
         : video_tee_(NULL)
         , audio_tee_(NULL)
         , video_selector_(NULL)
-        , audio_input_selector_(NULL)
+        , audio_selector_(NULL)
         , default_video_src_(NULL)
+        , default_audio_src_(NULL)
         , main_pipeline_(NULL)
         , speaker_(NULL)
     {
-        std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true";
+        std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true  audiotestsrc ! opusenc name=default_audio_src input-selector name=audio-input-selector ! tee name=audio-tee allow-not-linked=true";
 
         GError *error = NULL;
 
@@ -267,27 +335,40 @@ class MultiPoints
 
         video_tee_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "video-tee");
         video_selector_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "video-input-selector");
+        audio_tee_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "audio-tee");
+        audio_selector_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "audio-input-selector");
 
-        // GstPad *pad = gst_element_get_static_pad(video_selector_, "src");
+        // GstPad *pad = gst_element_get_static_pad(audio_selector_, "src");
         // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
         // gst_object_unref(pad);
 
         default_video_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_video_src");
-        g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        // g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        default_audio_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_audio_src");
+        // g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
 
         gst_element_set_state(main_pipeline_, GST_STATE_PLAYING);
     }
     ~MultiPoints()
     {
         if (speaker_) {
+            // video
             GstPad *video_output_src_pad = gst_element_get_static_pad(default_video_src_, "src");
             GstPad *video_selector_sink_pad = gst_pad_get_peer(video_output_src_pad);
             g_object_set(G_OBJECT(video_selector_), "active-pad", video_selector_sink_pad, NULL);
             gst_object_unref(video_output_src_pad);
+            // audio
+            GstPad *audio_output_src_pad = gst_element_get_static_pad(default_audio_src_, "src");
+            GstPad *audio_selector_sink_pad = gst_pad_get_peer(audio_output_src_pad);
+            g_object_set(G_OBJECT(audio_selector_), "active-pad", audio_selector_sink_pad, NULL);
+            gst_object_unref(audio_output_src_pad);
         }
         for (WebRTC *ep : members_) {
             remove_stream_output_joint(ep->video_output_pipejoint());
             remove_stream_input_joint(ep->video_input_pipejoint());
+            remove_stream_output_joint(ep->audio_output_pipejoint());
+            remove_stream_input_joint(ep->audio_input_pipejoint());
+            // usleep(1 * 1000000);
             delete ep;
         }
         members_.clear();
@@ -297,6 +378,12 @@ class MultiPoints
             g_object_unref(main_pipeline_);
             main_pipeline_ = NULL;
         }
+        gst_object_unref(video_tee_);
+        gst_object_unref(video_selector_);
+        gst_object_unref(default_video_src_);
+        gst_object_unref(audio_tee_);
+        gst_object_unref(audio_selector_);
+        gst_object_unref(default_audio_src_);
     }
     void generate_webrtc_enpoint(int num)
     {
@@ -311,12 +398,17 @@ class MultiPoints
     }
     void add_member(WebRTC *ep)
     {
-        GstElement *upstream_joint = ep->video_output_pipejoint();
-        link_stream_output_joint(upstream_joint);
-        members_.push_back(ep);
+        // GstElement *video_upstream_joint = ep->video_output_pipejoint();
+        // link_stream_output_joint(video_upstream_joint);
+        // GstElement *video_downstream_joint = ep->video_input_pipejoint();
+        // link_stream_input_joint(video_downstream_joint);
 
-        GstElement *downstream_joint = ep->video_input_pipejoint();
-        link_stream_input_joint(downstream_joint);
+        GstElement *audio_upstream_joint = ep->audio_output_pipejoint();
+        link_stream_output_joint(audio_upstream_joint);
+        GstElement *audio_downstream_joint = ep->audio_input_pipejoint();
+        link_stream_input_joint(audio_downstream_joint);
+
+        members_.push_back(ep);
         if (speaker_ == NULL) {
             speaker_ = ep;
         }
@@ -337,6 +429,7 @@ class MultiPoints
 
     void link_stream_output_joint(GstElement *upstream_joint)
     {
+        g_assert_nonnull(upstream_joint);
         std::lock_guard<std::mutex> lck(tee_mutex_);
 
         gchar *media_type = (gchar *)g_object_get_data(G_OBJECT(upstream_joint), "media-type");
@@ -356,19 +449,20 @@ class MultiPoints
 
             tee_sinks_.push_back(info);
         } else if (g_str_equal(media_type, "audio")) {
-            // GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(audio_tee_), "src_%u");
-            // GstPad *pad = gst_element_request_pad(audio_tee_, templ, NULL, NULL);
-            // sink_link *info = new sink_link(pad, upstream_joint, this);
+            GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(audio_tee_), "src_%u");
+            GstPad *pad = gst_element_request_pad(audio_tee_, templ, NULL, NULL);
+            sink_link *info = new sink_link(pad, upstream_joint, this);
 
-            // g_warn_if_fail(gst_bin_add(GST_BIN(pipeline()), upstream_joint));
-            // gst_element_sync_state_with_parent(upstream_joint);
+            g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), upstream_joint));
+            gst_element_sync_state_with_parent(upstream_joint);
 
-            // GstPad *sinkpad = gst_element_get_static_pad(upstream_joint, "sink");
-            // GstPadLinkReturn ret = gst_pad_link(pad, sinkpad);
-            // g_warn_if_fail(ret == GST_PAD_LINK_OK);
-            // gst_object_unref(sinkpad);
+            GstPad *sinkpad = gst_element_get_static_pad(upstream_joint, "sink");
+            GstPadLinkReturn ret = gst_pad_link(pad, sinkpad);
+            g_warn_if_fail(ret == GST_PAD_LINK_OK);
+            gst_object_unref(sinkpad);
 
-            // tee_sinks_.push_back(info);
+            tee_sinks_.push_back(info);
+            printf("~~~~~~~~~tee ---> audio\n");
         }
     }
 
@@ -376,57 +470,85 @@ class MultiPoints
     {
         std::lock_guard<std::mutex> lck(tee_mutex_);
 
+
+        auto it = tee_sinks_.begin();
+        for (; it != tee_sinks_.end(); ++it) {
+            if ((*it)->joint == upstream_joint) {
+                break;
+            }
+        }
+        if (it == tee_sinks_.end()) {
+            g_warn_if_reached();
+            // TODO(yuanjunjie) notify application
+            return;
+        }
+
+
         gchar *media_type = (gchar *)g_object_get_data(G_OBJECT(upstream_joint), "media-type");
         if (g_str_equal(media_type, "video")) {
-            auto it = tee_sinks_.begin();
-            for (; it != tee_sinks_.end(); ++it) {
-                if ((*it)->joint == upstream_joint) {
-                    break;
-                }
-            }
-            if (it == tee_sinks_.end()) {
-                g_warn_if_reached();
-                // TODO(yuanjunjie) notify application
-                return;
-            }
             (*it)->video_probe_invoke_control = TRUE;
             gst_pad_add_probe((*it)->request_pad, GST_PAD_PROBE_TYPE_IDLE, on_request_pad_remove_video_probe, *it, NULL);
-            tee_sinks_.erase(it);
         } else if (g_str_equal(media_type, "audio")) {
-            // auto it = tee_sinks_.begin();
-            // for (; it != tee_sinks_.end(); ++it) {
-            //     if ((*it)->upstream_joint == upstream_joint) {
-            //         break;
-            //     }
-            // }
-            // if (it == tee_sinks_.end()) {
-            //     g_warn_if_reached();
-            //     // TODO(yuanjunjie) notify application
-            //     return;
-            // }
-            // (*it)->audio_probe_invoke_control = TRUE;
-            // gst_pad_add_probe((*it)->tee_pad, GST_PAD_PROBE_TYPE_IDLE, on_tee_pad_remove_audio_probe, *it, NULL);
-            // tee_sinks_.erase(it);
+            (*it)->audio_probe_invoke_control = TRUE;
+            gst_pad_add_probe((*it)->request_pad, GST_PAD_PROBE_TYPE_IDLE, on_request_pad_remove_audio_probe, *it, NULL);
         }
+        tee_sinks_.erase(it);
     }
 
     void link_stream_input_joint(GstElement *downstream_joint)
     {
+        g_assert_nonnull(downstream_joint);
         std::lock_guard<std::mutex> lck(selector_mutex_);
 
-        GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(video_selector_), "sink_%u");
-        GstPad *pad = gst_element_request_pad(video_selector_, templ, NULL, NULL);
-        sink_link *info = new sink_link(pad, downstream_joint, this, false);
+        gchar *media_type = (gchar *)g_object_get_data(G_OBJECT(downstream_joint), "media-type");
+        g_assert_nonnull(media_type);
 
-        g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), downstream_joint));
-        gst_element_sync_state_with_parent(downstream_joint);
+        if (g_str_equal(media_type, "video")) {
+            GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(video_selector_), "sink_%u");
+            GstPad *pad = gst_element_request_pad(video_selector_, templ, NULL, NULL);
+            sink_link *info = new sink_link(pad, downstream_joint, this, false);
 
-        GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
-        GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
-        g_warn_if_fail(ret == GST_PAD_LINK_OK);
-        gst_object_unref(srcpad);
+            g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), downstream_joint));
+            gst_element_sync_state_with_parent(downstream_joint);
 
-        selector_sinks_.push_back(info);
+            GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
+            GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
+            g_warn_if_fail(ret == GST_PAD_LINK_OK);
+            gst_object_unref(srcpad);
+
+            selector_sinks_.push_back(info);
+        } else if (g_str_equal(media_type, "audio")) {
+            GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(audio_selector_), "sink_%u");
+            GstPad *pad = gst_element_request_pad(audio_selector_, templ, NULL, NULL);
+            // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+
+            sink_link *info = new sink_link(pad, downstream_joint, this, false);
+
+            g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), downstream_joint));
+            gst_element_sync_state_with_parent(downstream_joint);
+
+            GstElement *dec = gst_element_factory_make("opusdec", NULL);
+            GstElement *convert = gst_element_factory_make("audioconvert", NULL);
+            GstElement *spectrascope = gst_element_factory_make("spectrascope", NULL);
+            GstElement *sink = gst_element_factory_make("ximagesink", NULL);
+
+            gst_bin_add_many(GST_BIN(main_pipeline_), dec, convert, spectrascope, sink, NULL);
+            gst_element_sync_state_with_parent(dec);
+            gst_element_sync_state_with_parent(convert);
+            gst_element_sync_state_with_parent(spectrascope);
+            gst_element_sync_state_with_parent(sink);
+            // g_warn_if_fail(gst_element_link_many(audio_tee_, dec, convert, spectrascope, sink, NULL));
+
+
+            GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
+            gst_pad_add_probe(srcpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+            GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
+            g_warn_if_fail(ret == GST_PAD_LINK_OK);
+            gst_object_unref(srcpad);
+
+            selector_sinks_.push_back(info);
+            printf("~~~~~~~~~audio ---> selector\n");
+        }
     }
     void remove_stream_input_joint(GstElement *downstream_joint)
     {
@@ -443,17 +565,32 @@ class MultiPoints
             // TODO(yuanjunjie) notify application
             return;
         }
-        (*it)->video_probe_invoke_control = TRUE;
-        gst_pad_add_probe((*it)->request_pad, GST_PAD_PROBE_TYPE_IDLE, on_request_pad_remove_video_probe, *it, NULL);
+
+        gchar *media_type = (gchar *)g_object_get_data(G_OBJECT(downstream_joint), "media-type");
+        if (g_str_equal(media_type, "video")) {
+            (*it)->video_probe_invoke_control = TRUE;
+            gst_pad_add_probe((*it)->request_pad, GST_PAD_PROBE_TYPE_IDLE, on_request_pad_remove_video_probe, *it, NULL);
+        } else if (g_str_equal(media_type, "audio")) {
+            (*it)->audio_probe_invoke_control = TRUE;
+            gst_pad_add_probe((*it)->request_pad, GST_PAD_PROBE_TYPE_IDLE, on_request_pad_remove_audio_probe, *it, NULL);
+        }
         selector_sinks_.erase(it);
     }
     void set_speaker(WebRTC *ep)
     {
-        GstElement *downstream_joint = ep->video_input_pipejoint();
-        GstPad *video_output_src_pad = gst_element_get_static_pad(downstream_joint, "src");
+        // video
+        GstElement *video_downstream_joint = ep->video_input_pipejoint();
+        GstPad *video_output_src_pad = gst_element_get_static_pad(video_downstream_joint, "src");
         GstPad *video_selector_sink_pad = gst_pad_get_peer(video_output_src_pad);
         g_object_set(G_OBJECT(video_selector_), "active-pad", video_selector_sink_pad, NULL);
         gst_object_unref(video_output_src_pad);
+        // audio
+        GstElement *audio_downstream_joint = ep->audio_input_pipejoint();
+        GstPad *audio_output_src_pad = gst_element_get_static_pad(audio_downstream_joint, "src");
+        GstPad *audio_selector_sink_pad = gst_pad_get_peer(audio_output_src_pad);
+        g_object_set(G_OBJECT(audio_selector_), "active-pad", audio_selector_sink_pad, NULL);
+        gst_object_unref(audio_output_src_pad);
+
         speaker_ = ep;
     }
     // for test
@@ -468,21 +605,20 @@ class MultiPoints
         set_speaker(*it);
     }
     static GstPadProbeReturn
-    on_request_pad_remove_video_probe(GstPad *pad,
-                                      GstPadProbeInfo *probe_info,
-                                      gpointer data);
+    on_request_pad_remove_video_probe(GstPad *pad, GstPadProbeInfo *probe_info, gpointer data);
+    static GstPadProbeReturn
+    on_request_pad_remove_audio_probe(GstPad *pad, GstPadProbeInfo *probe_info, gpointer data);
 
     static GstPadProbeReturn
-    on_monitor_data(GstPad *pad,
-                    GstPadProbeInfo *info,
-                    gpointer rtspclient);
+    on_monitor_data(GstPad *pad, GstPadProbeInfo *info, gpointer data);
 
  private:
     GstElement *video_tee_;
     GstElement *audio_tee_;
     GstElement *video_selector_;
-    GstElement *audio_input_selector_;
+    GstElement *audio_selector_;
     GstElement *default_video_src_;
+    GstElement *default_audio_src_;
 
     GstElement *main_pipeline_;
     std::list<WebRTC *> members_;
@@ -498,10 +634,10 @@ std::mutex MultiPoints::selector_mutex_;
 
 GstPadProbeReturn MultiPoints::on_monitor_data(GstPad *pad,
                                                GstPadProbeInfo *info,
-                                               gpointer rtspclient)
+                                               gpointer data)
 {
 
-    printf(".");
+    printf("(*)");
     return GST_PAD_PROBE_OK;
 }
 
@@ -524,7 +660,7 @@ GstPadProbeReturn MultiPoints::on_request_pad_remove_video_probe(GstPad *teepad,
         g_warn_if_fail(gst_bin_remove(GST_BIN(pipeline->main_pipeline_), joint));
         gst_element_release_request_pad(pipeline->video_tee_, info->request_pad);
         gst_object_unref(info->request_pad);
-        printf("~~~~~~~remove tee pad\n");
+        printf("~~~~~~~remove video tee pad\n");
     } else {
         GstPad *srckpad = gst_element_get_static_pad(joint, "src");
         gst_pad_unlink(srckpad, info->request_pad);
@@ -533,7 +669,40 @@ GstPadProbeReturn MultiPoints::on_request_pad_remove_video_probe(GstPad *teepad,
         g_warn_if_fail(gst_bin_remove(GST_BIN(pipeline->main_pipeline_), joint));
         gst_element_release_request_pad(pipeline->video_selector_, info->request_pad);
         gst_object_unref(info->request_pad);
-        printf("~~~~~~~remove selector pad\n");
+        printf("~~~~~~~remove video selector pad\n");
+    }
+    delete static_cast<sink_link *>(data);
+    return GST_PAD_PROBE_REMOVE;
+}
+GstPadProbeReturn MultiPoints::on_request_pad_remove_audio_probe(GstPad *teepad, GstPadProbeInfo *probe_info, gpointer data)
+{
+    sink_link *info = static_cast<sink_link *>(data);
+    if (!g_atomic_int_compare_and_exchange(&info->audio_probe_invoke_control, TRUE, FALSE)) {
+        return GST_PAD_PROBE_OK;
+    }
+
+    GstElement *joint = info->joint;
+    MultiPoints *pipeline = static_cast<MultiPoints *>(info->pipeline);
+
+    // remove pipeline dynamicaly
+    if (info->is_output) {
+        GstPad *sinkpad = gst_element_get_static_pad(joint, "sink");
+        gst_pad_unlink(info->request_pad, sinkpad);
+        gst_object_unref(sinkpad);
+        gst_element_set_state(joint, GST_STATE_NULL);
+        g_warn_if_fail(gst_bin_remove(GST_BIN(pipeline->main_pipeline_), joint));
+        gst_element_release_request_pad(pipeline->audio_tee_, info->request_pad);
+        gst_object_unref(info->request_pad);
+        printf("~~~~~~~remove audio tee pad\n");
+    } else {
+        GstPad *srckpad = gst_element_get_static_pad(joint, "src");
+        gst_pad_unlink(srckpad, info->request_pad);
+        gst_object_unref(srckpad);
+        gst_element_set_state(joint, GST_STATE_NULL);
+        g_warn_if_fail(gst_bin_remove(GST_BIN(pipeline->main_pipeline_), joint));
+        gst_element_release_request_pad(pipeline->audio_selector_, info->request_pad);
+        gst_object_unref(info->request_pad);
+        printf("~~~~~~~remove audio selector pad\n");
     }
     delete static_cast<sink_link *>(data);
     return GST_PAD_PROBE_REMOVE;
