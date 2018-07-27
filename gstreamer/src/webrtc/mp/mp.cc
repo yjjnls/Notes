@@ -263,6 +263,7 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
                 // "rtpopusdepay ! faskesink",
                 TRUE,
                 NULL);
+            printf("~~~receive audio~~~\n");
         } else {
             out = gst_parse_bin_from_description(
                 "rtpopusdepay ! tee name=local_audio_tee allow-not-linked=true",
@@ -343,9 +344,9 @@ class MultiPoints
         // gst_object_unref(pad);
 
         default_video_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_video_src");
-        // g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
         default_audio_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_audio_src");
-        // g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
+        g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
 
         gst_element_set_state(main_pipeline_, GST_STATE_PLAYING);
     }
@@ -637,7 +638,7 @@ GstPadProbeReturn MultiPoints::on_monitor_data(GstPad *pad,
                                                gpointer data)
 {
 
-    printf("(*)");
+    printf(".");
     return GST_PAD_PROBE_OK;
 }
 
@@ -715,6 +716,7 @@ static GMainContext *main_context = NULL;
 static gboolean test(gpointer data)
 {
     MultiPoints *room = static_cast<MultiPoints *>(data);
+    printf("\nchange speaker\n");
     room->change_speaker();
     return TRUE;
 }
