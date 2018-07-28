@@ -32,7 +32,7 @@ class Translator(object):
                     line = line.replace('﻿', '')
                 if "audio title=" in line:
                     self.trans_title(line)
-                if ">总结<" in line:
+                if ">一课一练<" in line:
                     break
                 if "<p>" in line:
                     self.trans_paragraph(line)
@@ -57,7 +57,7 @@ class Translator(object):
                 if self.is_code:
                     self.md_fp.write(line)
         except IOError as e:
-            print(e.message)
+            print(e)
         finally:
             fp.close()
             self.md_fp.close()
@@ -67,7 +67,8 @@ class Translator(object):
         searchObj = re.search('<audio title=\"(.*)\" src', line)
         if searchObj:
             title = searchObj.group(1).split(" ")[2].strip()
-            md = self.folder + str(self.tutor) + '.' + title + '.md'
+            md = (self.folder + str(self.tutor) + '.' + title + '.md')
+            print('*    '+title)
             self.md_fp = open(md, 'w', encoding='UTF-8')
             self.md_fp.seek(0)
             self.md_fp.truncate()
@@ -126,8 +127,10 @@ class Translator(object):
 
 
 if __name__ == "__main__":
-    tutor = 35
-    folder = "E:\\Administrator\\Desktop\\geek\\"
-    repo = "https://github.com/yjjnls/blockchain-tutorial-cn/blob/master/img/"
-    trans = Translator(tutor, folder, repo)
-    trans.translate()
+    tutor = 1
+    folder = "E:\\Administrator\\Desktop\\java\\"
+    repo = "https://github.com/yjjnls/Java-tutorial-cn/blob/master/img/"
+    while tutor<36 :
+        trans = Translator(tutor, folder, repo)
+        trans.translate()
+        tutor+=1
