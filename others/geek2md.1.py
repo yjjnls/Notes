@@ -68,7 +68,7 @@ class Translator(object):
         if searchObj:
             title = searchObj.group(1).split(" ")[2].strip()
             md = (self.folder + str(self.tutor) + '.' + title + '.md')
-            print('*    '+title)
+            print('*    ' + title)
             self.md_fp = open(md, 'w', encoding='UTF-8')
             self.md_fp.seek(0)
             self.md_fp.truncate()
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     tutor = 1
     folder = "E:\\Administrator\\Desktop\\java\\"
     repo = "https://github.com/yjjnls/Java-tutorial-cn/blob/master/img/"
-    while tutor<36 :
+    while tutor < 36:
         trans = Translator(tutor, folder, repo)
         trans.translate()
-        tutor+=1
+        tutor += 1
