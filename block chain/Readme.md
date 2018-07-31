@@ -4,6 +4,7 @@
 - [x] [★比特币白皮书](http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system)
 - [ ] [★精通比特币](http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html)
 [浅谈区块链共识机制与分布式一致性算法](https://blog.csdn.net/u011537073/article/details/54318840)
+[《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法）](https://blog.csdn.net/imfly/article/details/52171339)
 
 # 分布式共识机制
 ## 公链
