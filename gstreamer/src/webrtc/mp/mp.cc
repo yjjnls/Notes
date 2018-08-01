@@ -1,4 +1,6 @@
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include <gst/gst.h>
 #include <gst/sdp/sdp.h>
 
@@ -370,7 +372,9 @@ class MultiPoints
             GstPad *audio_selector_sink_pad = gst_pad_get_peer(audio_output_src_pad);
             g_object_set(G_OBJECT(audio_selector_), "active-pad", audio_selector_sink_pad, NULL);
             gst_object_unref(audio_output_src_pad);
+#ifndef _WIN32
             usleep(1 * 1000000);
+#endif
         }
         for (WebRTC *ep : members_) {
             remove_stream_output_joint(ep->video_output_pipejoint());
