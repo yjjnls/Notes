@@ -13,7 +13,7 @@
 
 
 #define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=PCMA,payload="
-#define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
+#define RTP_CAPS_H264 "application/x-rtp,media=video,encoding-name=H264,payload="
 
 // static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
 static std::string pattern[] = {"white", "green", "blue", "blink", "snow", "red", "circular", "pinwheel", "spokes"};
@@ -62,7 +62,7 @@ class WebRTC
     {
         std::string videotestsrc = "videotestsrc pattern=" + pattern[pattern_] + " ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! textoverlay text=\"member" + std::to_string(pattern_ + 1) + " is speaking\" color=4278190080 font-desc=\"Sans 36\" draw-shadow=false draw-outline=true outline-color=4278190080";
 
-        std::string launch = "webrtcbin name=remote " + videotestsrc + " ! queue ! vp8enc deadline=1 ! rtpvp8pay ! queue ! " + RTP_CAPS_VP8 + "96 ! remote.sink_0 audiotestsrc freq=" + freq[pattern_] + " ! queue ! alawenc ! rtppcmapay ! queue ! " + RTP_CAPS_OPUS + "8 ! remote.sink_1 webrtcbin name=local queue name=video_joint ! rtpvp8pay ! " + RTP_CAPS_VP8 + "96 ! local.sink_0 queue name=audio_joint ! rtppcmapay ! " + RTP_CAPS_OPUS + "8 ! local.sink_1";
+        std::string launch = "webrtcbin name=remote " + videotestsrc + " ! queue ! x264enc ! rtph264pay config-interval=-1 ! queue ! " + RTP_CAPS_H264 + "96 ! remote.sink_0 audiotestsrc freq=" + freq[pattern_] + " ! queue ! alawenc ! rtppcmapay ! queue ! " + RTP_CAPS_OPUS + "8 ! remote.sink_1 webrtcbin name=local queue name=video_joint ! rtph264pay config-interval=-1 ! " + RTP_CAPS_H264 + "96 ! local.sink_0 queue name=audio_joint ! rtppcmapay ! " + RTP_CAPS_OPUS + "8 ! local.sink_1";
 
         printf("%s\n", launch.c_str());
 
@@ -238,16 +238,16 @@ void WebRTC::on_webrtc_pad_added(GstElement *webrtc_element, GstPad *new_pad, gp
         caps = gst_pad_query_caps(new_pad, NULL);
     s = gst_caps_get_structure(caps, 0);
     encoding_name = gst_structure_get_string(s, "encoding-name");
-    if (g_strcmp0(encoding_name, "VP8") == 0) {
+    if (g_strcmp0(encoding_name, "H264") == 0) {
         if (webrtc_element == webrtc->remote_webrtc_) {
             out = gst_parse_bin_from_description(
-                "rtpvp8depay ! vp8dec ! videoconvert ! queue ! xvimagesink",
+                "rtph264depay ! avdec_h264 ! videoconvert ! queue ! xvimagesink",
                 TRUE,
                 NULL);
             g_print("on_webrtc_pad_added %d\n", webrtc->pattern_);
         } else {
             out = gst_parse_bin_from_description(
-                "rtpvp8depay ! tee name=local_tee allow-not-linked=true",
+                "rtph264depay ! tee name=local_tee allow-not-linked=true",
                 TRUE,
                 NULL);
 
@@ -321,7 +321,7 @@ class MultiPoints
         , main_pipeline_(NULL)
         , speaker_(NULL)
     {
-        std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc ! rtpvp8pay ! rtpvp8depay name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true  audiotestsrc ! alawenc ! rtppcmapay ! rtppcmadepay name=default_audio_src input-selector name=audio-input-selector ! tee name=audio-tee allow-not-linked=true";
+        std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! x264enc ! rtph264pay config-interval=-1 ! rtph264depay name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true  audiotestsrc ! alawenc ! rtppcmapay ! rtppcmadepay name=default_audio_src input-selector name=audio-input-selector ! tee name=audio-tee allow-not-linked=true";
 
         GError *error = NULL;
 
