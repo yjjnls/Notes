@@ -1,6 +1,10 @@
 #include <string.h>
 #include "pipejoint.h"
 
+// #define USE_H264 1
+#define USE_VP8 1
+
+
 enum AppState
 {
     APP_STATE_UNKNOWN = 0,

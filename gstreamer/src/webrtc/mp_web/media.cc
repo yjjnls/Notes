@@ -160,18 +160,25 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
         caps = gst_pad_query_caps(new_pad, NULL);
     s = gst_caps_get_structure(caps, 0);
     encoding_name = gst_structure_get_string(s, "encoding-name");
+#ifdef USE_VP8
     if (g_strcmp0(encoding_name, "VP8") == 0) {
         out = gst_parse_bin_from_description(
             // "rtpvp8depay ! tee name=local_tee allow-not-linked=true ! queue ! vp8dec ! videoconvert ! ximagesink",
             "rtpvp8depay ! tee name=local_tee allow-not-linked=true",
             TRUE,
             NULL);
+#elif USE_H264
+    if (g_strcmp0(encoding_name, "H264") == 0) {
+        out = gst_parse_bin_from_description(
+            "rtph264depay ! tee name=local_tee allow-not-linked=true",
+            TRUE,
+            NULL);
+#endif
 
         g_warn_if_fail(gst_bin_add(GST_BIN(out), webrtc->video_input_joint_.upstream_joint));
         GstElement *local_tee = gst_bin_get_by_name_recurse_up(GST_BIN(out), "local_tee");
         g_warn_if_fail(gst_element_link(local_tee, webrtc->video_input_joint_.upstream_joint));
         gst_object_unref(local_tee);
-
     } else if (g_strcmp0(encoding_name, "PCMA") == 0) {
         out = gst_parse_bin_from_description(
             "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true",
@@ -187,7 +194,6 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
         // gst_object_unref(pad);
 
         gst_object_unref(local_tee);
-
     } else {
         g_critical("Unknown encoding name %s", encoding_name);
         g_assert_not_reached();
@@ -298,9 +304,12 @@ on_negotiation_needed(GstElement *element, WebRTC *ep)
 }
 
 #define STUN_SERVER " stun-server=stun://stun.l.google.com:19302 "
-#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=PCMA,payload="
-#define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
-
+#define RTP_CAPS_AUDIO "application/x-rtp,media=audio,encoding-name=PCMA,payload="
+#ifdef USE_VP8
+#define RTP_CAPS_VIDEO "application/x-rtp,media=video,encoding-name=VP8,payload="
+#elif USE_H264
+#define RTP_CAPS_VIDEO "application/x-rtp,media=video,encoding-name=H264,payload="
+#endif
 static gboolean
 start_pipeline(WebRTC *ep)
 {
@@ -309,11 +318,15 @@ start_pipeline(WebRTC *ep)
 
     ep->pipe = gst_parse_launch(
         "webrtcbin name=sendrecv "
-        // "videotestsrc pattern=ball ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! "
-        "queue name=video_joint ! rtpvp8pay ! " RTP_CAPS_VP8
+    // "videotestsrc pattern=ball ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay ! "
+#ifdef USE_VP8
+        "queue name=video_joint ! rtpvp8pay ! " RTP_CAPS_VIDEO
+#elif USE_H264
+        "queue name=video_joint ! rtph264pay config-interval=-1 ! " RTP_CAPS_VIDEO
+#endif
         "96 ! sendrecv. "
         // "audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! alawenc ! rtppcmapay ! "
-        "queue name=audio_joint ! rtppcmapay ! " RTP_CAPS_OPUS "8 ! sendrecv. ",
+        "queue name=audio_joint ! rtppcmapay ! " RTP_CAPS_AUDIO "8 ! sendrecv. ",
         &error);
 
     if (error) {

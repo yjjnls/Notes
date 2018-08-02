@@ -18,8 +18,12 @@
 #include "media.h"
 
 
-#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=PCMA,payload="
-#define RTP_CAPS_VP8 "application/x-rtp,media=video,encoding-name=VP8,payload="
+#define RTP_CAPS_AUDIO "application/x-rtp,media=audio,encoding-name=PCMA,payload="
+#ifdef USE_VP8
+#define RTP_CAPS_VIDEO "application/x-rtp,media=video,encoding-name=VP8,payload="
+#elif USE_H264
+#define RTP_CAPS_VIDEO "application/x-rtp,media=video,encoding-name=H264,payload="
+#endif
 
 // static std::string pattern[] = {"smpte", "ball", "snow", "blink", "circular", "pinwheel", "spokes"};
 static std::string pattern[] = {"white", "green", "blue", "blink", "snow", "red", "circular", "pinwheel", "spokes"};
@@ -58,8 +62,11 @@ class MultiPoints
         , main_pipeline_(NULL)
         , speaker_(NULL)
     {
+#ifdef USE_VP8
         std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! vp8enc ! rtpvp8pay ! rtpvp8depay name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true  audiotestsrc ! alawenc ! rtppcmapay ! rtppcmadepay name=default_audio_src input-selector name=audio-input-selector ! tee name=audio-tee allow-not-linked=true";
-
+#elif USE_H264
+        std::string launch = "videotestsrc ! timeoverlay valignment=3 halignment=4 time-mode=2 xpos=0 ypos=0 color=4278190080 font-desc=\"Sans 48\" draw-shadow=false draw-outline=true outline-color=4278190080 ! x264enc ! rtph264pay config-interval=-1 ! rtph264depay name=default_video_src input-selector name=video-input-selector ! tee name=video-tee allow-not-linked=true  audiotestsrc ! alawenc ! rtppcmapay ! rtppcmadepay name=default_audio_src input-selector name=audio-input-selector ! tee name=audio-tee allow-not-linked=true";
+#endif
         GError *error = NULL;
 
         main_pipeline_ = gst_parse_launch(launch.c_str(), &error);
