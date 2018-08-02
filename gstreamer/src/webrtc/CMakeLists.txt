@@ -34,6 +34,7 @@ add_executable (webrtc-sendrecv-mp gstwebrtc-demos/multiparty-sendrecv/gst/mp-we
 target_link_libraries(webrtc-sendrecv-mp ${BASE_LIBRARIES})
 
 add_subdirectory(mp)
+add_subdirectory(mp_web)
 
 install(TARGETS webrtc-simple webrtc-bidirectional webrtc-swap webrtc-sendrecv webrtc-sendrecv-mp
 		RUNTIME DESTINATION .
