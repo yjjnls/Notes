@@ -80,9 +80,9 @@ class MultiPoints
         // gst_object_unref(pad);
 
         default_video_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_video_src");
-        // g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
         default_audio_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_audio_src");
-        // g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
+        g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
 
         gst_element_set_state(main_pipeline_, GST_STATE_PLAYING);
     }
@@ -270,9 +270,9 @@ class MultiPoints
 
             GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
 
-            // GstPad *testpad = gst_element_get_static_pad(downstream_joint, "src");
-            // gst_pad_add_probe(testpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
-            // gst_object_unref(testpad);
+            GstPad *testpad = gst_element_get_static_pad(downstream_joint, "src");
+            gst_pad_add_probe(testpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+            gst_object_unref(testpad);
 
             GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
             g_warn_if_fail(ret == GST_PAD_LINK_OK);

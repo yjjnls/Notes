@@ -136,6 +136,11 @@ on_incoming_decodebin_stream(GstElement *decodebin, GstPad *pad, GstElement *pip
     }
 }
 
+GstPadProbeReturn on_monitor_data(GstPad *pad, GstPadProbeInfo *info, gpointer rtspclient)
+{
+    printf("-");
+    return GST_PAD_PROBE_OK;
+}
 static void
 on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
 {
@@ -157,6 +162,7 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
     encoding_name = gst_structure_get_string(s, "encoding-name");
     if (g_strcmp0(encoding_name, "VP8") == 0) {
         out = gst_parse_bin_from_description(
+            // "rtpvp8depay ! tee name=local_tee allow-not-linked=true ! queue ! vp8dec ! videoconvert ! ximagesink",
             "rtpvp8depay ! tee name=local_tee allow-not-linked=true",
             TRUE,
             NULL);
