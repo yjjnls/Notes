@@ -2,3 +2,5 @@
 build
 /gstreamer/src/webrtc/examples/gstwebrtc-demos/signalling/.rnd
 out
+*node_modules
+package-lock.json
