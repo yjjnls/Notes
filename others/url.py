@@ -14,6 +14,16 @@ urls = ['https://blog.csdn.net/yjjnls/article/details/81380786',
         'https://blog.csdn.net/yjjnls/article/details/81283801',
         'https://blog.csdn.net/yjjnls/article/details/81283755',
         'https://blog.csdn.net/yjjnls/article/details/81283731']
-for url in urls:
-    requests.get(url)
-    time.sleep(10)
+
+
+while(1):
+    for url in urls:
+        try:
+            print url
+            res = requests.get(url)
+            print res.text
+            time.sleep(3)
+        except:
+            print "error"
+    print ""
+    time.sleep(20)
