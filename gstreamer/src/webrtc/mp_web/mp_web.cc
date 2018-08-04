@@ -87,9 +87,9 @@ class MultiPoints
         gst_object_unref(pad);
 
         default_video_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_video_src");
-        g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        // g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
         default_audio_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_audio_src");
-        g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
+        // g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
 
         gst_element_set_state(main_pipeline_, GST_STATE_PLAYING);
     }
@@ -343,13 +343,13 @@ class MultiPoints
         GstPad *audio_selector_sink_pad = gst_pad_get_peer(audio_output_src_pad);
         g_object_set(G_OBJECT(audio_selector_), "active-pad", audio_selector_sink_pad, NULL);
 
-        gst_pad_send_event(audio_output_src_pad,
-                           gst_event_new_custom(GST_EVENT_CUSTOM_UPSTREAM,
-                                                gst_structure_new("GstForceKeyUnit",
-                                                                  "all-headers",
-                                                                  G_TYPE_BOOLEAN,
-                                                                  TRUE,
-                                                                  NULL)));
+        // gst_pad_send_event(audio_output_src_pad,
+        //                    gst_event_new_custom(GST_EVENT_CUSTOM_UPSTREAM,
+        //                                         gst_structure_new("GstForceKeyUnit",
+        //                                                           "all-headers",
+        //                                                           G_TYPE_BOOLEAN,
+        //                                                           TRUE,
+        //                                                           NULL)));
 
         gst_object_unref(audio_output_src_pad);
 
