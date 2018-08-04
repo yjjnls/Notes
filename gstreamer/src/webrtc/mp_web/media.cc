@@ -163,8 +163,8 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
 #ifdef USE_VP8
     if (g_strcmp0(encoding_name, "VP8") == 0) {
         out = gst_parse_bin_from_description(
-            "rtpvp8depay ! tee name=local_tee allow-not-linked=true ! queue ! vp8dec ! videoconvert ! ximagesink",
-            // "rtpvp8depay ! tee name=local_tee allow-not-linked=true",
+            // "rtpvp8depay ! tee name=local_tee allow-not-linked=true ! queue ! vp8dec ! videoconvert ! ximagesink",
+            "rtpvp8depay ! tee name=local_tee allow-not-linked=true",
             TRUE,
             NULL);
 #elif USE_H264
