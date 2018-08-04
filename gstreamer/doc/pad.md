@@ -11,7 +11,7 @@ clock-rate=(int)90000, rtcp-fb-nack-pli=(int)1
 2. Make sure that your decoder sends an upstream GstForceKeyUnit event 
 when it detects an image loss (note: gst-libav still doesn't do that). 
 
-
+http://gstreamer-devel.966125.n4.nabble.com/How-to-send-a-RTCP-FIR-td4660687.html
 
 ```c
 if (rtph264depay->sps->len == 0 || rtph264depay->pps->len == 0) {
@@ -30,7 +30,7 @@ if (rtph264depay->sps->len == 0 || rtph264depay->pps->len == 0) {
     return NULL; 
     } 
 ```
-
+https://github.com/GStreamer/gst-plugins-good/blob/master/gst/rtp/gstrtph264depay.c
 
 `gst_pad_push_event ()`  
 Sends the event to the peer of the given pad. This function is mainly used by elements to send events to their peer elements.
