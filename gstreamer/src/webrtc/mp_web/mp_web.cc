@@ -82,14 +82,14 @@ class MultiPoints
         audio_tee_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "audio-tee");
         audio_selector_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "audio-input-selector");
 
-        // GstPad *pad = gst_element_get_static_pad(audio_selector_, "src");
-        // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
-        // gst_object_unref(pad);
+        GstPad *pad = gst_element_get_static_pad(video_selector_, "src");
+        gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+        gst_object_unref(pad);
 
         default_video_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_video_src");
-        g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
+        // g_warn_if_fail(gst_element_link(default_video_src_, video_selector_));
         default_audio_src_ = gst_bin_get_by_name(GST_BIN(main_pipeline_), "default_audio_src");
-        g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
+        // g_warn_if_fail(gst_element_link(default_audio_src_, audio_selector_));
 
         gst_element_set_state(main_pipeline_, GST_STATE_PLAYING);
     }
@@ -259,7 +259,13 @@ class MultiPoints
             g_warn_if_fail(gst_bin_add(GST_BIN(main_pipeline_), downstream_joint));
             gst_element_sync_state_with_parent(downstream_joint);
 
+
             GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
+
+            // GstPad *testpad = gst_element_get_static_pad(downstream_joint, "src");
+            // gst_pad_add_probe(testpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+            // gst_object_unref(testpad);
+
             GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
             g_warn_if_fail(ret == GST_PAD_LINK_OK);
             gst_object_unref(srcpad);
@@ -268,7 +274,6 @@ class MultiPoints
         } else if (g_str_equal(media_type, "audio")) {
             GstPadTemplate *templ = gst_element_class_get_pad_template(GST_ELEMENT_GET_CLASS(audio_selector_), "sink_%u");
             GstPad *pad = gst_element_request_pad(audio_selector_, templ, NULL, NULL);
-            // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
 
             sink_link *info = new sink_link(pad, downstream_joint, this, false);
 
@@ -277,9 +282,9 @@ class MultiPoints
 
             GstPad *srcpad = gst_element_get_static_pad(downstream_joint, "src");
 
-            GstPad *testpad = gst_element_get_static_pad(downstream_joint, "src");
-            gst_pad_add_probe(testpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
-            gst_object_unref(testpad);
+            // GstPad *testpad = gst_element_get_static_pad(downstream_joint, "src");
+            // gst_pad_add_probe(testpad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+            // gst_object_unref(testpad);
 
             GstPadLinkReturn ret = gst_pad_link(srcpad, pad);
             g_warn_if_fail(ret == GST_PAD_LINK_OK);
@@ -322,12 +327,30 @@ class MultiPoints
         GstPad *video_output_src_pad = gst_element_get_static_pad(video_downstream_joint, "src");
         GstPad *video_selector_sink_pad = gst_pad_get_peer(video_output_src_pad);
         g_object_set(G_OBJECT(video_selector_), "active-pad", video_selector_sink_pad, NULL);
+
+        gst_pad_send_event(video_output_src_pad,
+                           gst_event_new_custom(GST_EVENT_CUSTOM_UPSTREAM,
+                                                gst_structure_new("GstForceKeyUnit",
+                                                                  "all-headers",
+                                                                  G_TYPE_BOOLEAN,
+                                                                  TRUE,
+                                                                  NULL)));
+
         gst_object_unref(video_output_src_pad);
         // audio
         GstElement *audio_downstream_joint = ep->audio_input_pipejoint();
         GstPad *audio_output_src_pad = gst_element_get_static_pad(audio_downstream_joint, "src");
         GstPad *audio_selector_sink_pad = gst_pad_get_peer(audio_output_src_pad);
         g_object_set(G_OBJECT(audio_selector_), "active-pad", audio_selector_sink_pad, NULL);
+
+        // gst_pad_send_event(audio_output_src_pad,
+        //                    gst_event_new_custom(GST_EVENT_CUSTOM_UPSTREAM,
+        //                                         gst_structure_new("GstForceKeyUnit",
+        //                                                           "all-headers",
+        //                                                           G_TYPE_BOOLEAN,
+        //                                                           TRUE,
+        //                                                           NULL)));
+
         gst_object_unref(audio_output_src_pad);
 
         speaker_ = ep;
@@ -375,8 +398,15 @@ GstPadProbeReturn MultiPoints::on_monitor_data(GstPad *pad,
                                                GstPadProbeInfo *info,
                                                gpointer data)
 {
-
-    printf("*");
+    if (!GST_BUFFER_FLAG_IS_SET(info->data, GST_BUFFER_FLAG_DELTA_UNIT)) {
+        static int cnt = 0;
+        GDateTime *date_time = g_date_time_new_now_local();
+        gchar *s_date_time = g_date_time_format(date_time, "%H:%M:%S,%F");
+        g_warning("Received keyframe(%u) @ (%s)", cnt++, s_date_time);
+        g_free(s_date_time);
+        g_date_time_unref(date_time);
+    }
+    g_print(".");
     return GST_PAD_PROBE_OK;
 }
 
@@ -464,6 +494,7 @@ void start_test()
 {
     room->join_room_all();
     usleep(1 * 1000000);
+    test(room);
 
     test_source = g_timeout_source_new_seconds(3);
     g_source_set_callback(test_source, (GSourceFunc)test, room, NULL);
