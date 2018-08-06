@@ -16,7 +16,7 @@
 
 static GMainLoop *loop;
 // static const gchar *server_url = "wss://webrtc.nirbheek.in:8443";
-static const gchar *server_url = "ws://localhost:8443";
+static const gchar *server_url = "ws://172.16.64.58:8443";
 static gboolean strict_ssl = FALSE;
 
 // static GOptionEntry entries[] =
@@ -178,11 +178,16 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
         g_warn_if_fail(gst_bin_add(GST_BIN(out), webrtc->video_input_joint_.upstream_joint));
         GstElement *local_tee = gst_bin_get_by_name_recurse_up(GST_BIN(out), "local_tee");
         g_warn_if_fail(gst_element_link(local_tee, webrtc->video_input_joint_.upstream_joint));
+
+        // GstPad *pad = gst_element_get_static_pad(webrtc->audio_input_joint_.upstream_joint, "sink");
+        // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+        // gst_object_unref(pad);
+
         gst_object_unref(local_tee);
     } else if (g_strcmp0(encoding_name, "PCMA") == 0) {
         printf("~~~~~~~~~~~~~~~~~pcma~~~~~~~~~~~\n");
         out = gst_parse_bin_from_description(
-            "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true ! queue ! alawdec ! audioconvert ! spectrascope shader=3 ! ximagesink sync=false",
+            "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true ! queue ! alawdec ! audioconvert ! spectrascope shader=3 ! ximagesink sync=false local_audio_tee. ! queue ! alawdec ! audioconvert ! audioresample ! autoaudiosink sync=false",
             // "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true",
             TRUE,
             NULL);
@@ -191,9 +196,9 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
         GstElement *local_tee = gst_bin_get_by_name_recurse_up(GST_BIN(out), "local_audio_tee");
         g_warn_if_fail(gst_element_link(local_tee, webrtc->audio_input_joint_.upstream_joint));
 
-        // GstPad *pad = gst_element_get_static_pad(webrtc->audio_input_joint_.upstream_joint, "sink");
-        // gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
-        // gst_object_unref(pad);
+        GstPad *pad = gst_element_get_static_pad(webrtc->audio_input_joint_.upstream_joint, "sink");
+        gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, on_monitor_data, NULL, NULL);
+        gst_object_unref(pad);
 
         gst_object_unref(local_tee);
     } else {
