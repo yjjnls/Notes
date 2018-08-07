@@ -187,7 +187,7 @@ on_incoming_stream(GstElement *webrtc_element, GstPad *new_pad, WebRTC *ep)
     } else if (g_strcmp0(encoding_name, "PCMA") == 0) {
         printf("~~~~~~~~~~~~~~~~~pcma~~~~~~~~~~~\n");
         out = gst_parse_bin_from_description(
-            "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true ! queue ! alawdec ! audioconvert ! spectrascope shader=3 ! ximagesink sync=false local_audio_tee. ! queue ! alawdec ! audioconvert ! audioresample ! autoaudiosink sync=false",
+            "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true ! queue ! alawdec ! audioconvert ! spectrascope shader=3 ! ximagesink sync=false",
             // "rtppcmadepay ! tee name=local_audio_tee allow-not-linked=true",
             TRUE,
             NULL);
