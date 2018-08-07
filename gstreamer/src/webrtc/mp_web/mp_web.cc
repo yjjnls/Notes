@@ -496,7 +496,7 @@ void start_test()
     usleep(1 * 1000000);
     test(room);
 
-    test_source = g_timeout_source_new_seconds(3);
+    test_source = g_timeout_source_new_seconds(10);
     g_source_set_callback(test_source, (GSourceFunc)test, room, NULL);
     guint id = g_source_attach(test_source, main_context);
 }
