@@ -71,74 +71,18 @@ get_string_from_json_object(JsonObject *object)
     return text;
 }
 
-static void
-handle_media_stream(GstPad *pad, GstElement *pipe, const char *convert_name, const char *sink_name)
-{
-    GstPad *qpad;
-    GstElement *q, *conv, *resample, *sink;
-    GstPadLinkReturn ret;
-
-    g_print("Trying to handle stream with %s ! %s", convert_name, sink_name);
-
-    q = gst_element_factory_make("queue", NULL);
-    g_assert_nonnull(q);
-    conv = gst_element_factory_make(convert_name, NULL);
-    g_assert_nonnull(conv);
-    sink = gst_element_factory_make(sink_name, NULL);
-    g_assert_nonnull(sink);
-
-    if (g_strcmp0(convert_name, "audioconvert") == 0) {
-        /* Might also need to resample, so add it just in case.
-     * Will be a no-op if it's not required. */
-        resample = gst_element_factory_make("audioresample", NULL);
-        g_assert_nonnull(resample);
-        gst_bin_add_many(GST_BIN(pipe), q, conv, resample, sink, NULL);
-        gst_element_sync_state_with_parent(q);
-        gst_element_sync_state_with_parent(conv);
-        gst_element_sync_state_with_parent(resample);
-        gst_element_sync_state_with_parent(sink);
-        gst_element_link_many(q, conv, resample, sink, NULL);
-    } else {
-        gst_bin_add_many(GST_BIN(pipe), q, conv, sink, NULL);
-        gst_element_sync_state_with_parent(q);
-        gst_element_sync_state_with_parent(conv);
-        gst_element_sync_state_with_parent(sink);
-        gst_element_link_many(q, conv, sink, NULL);
-    }
-
-    qpad = gst_element_get_static_pad(q, "sink");
-
-    ret = gst_pad_link(pad, qpad);
-    g_assert_cmphex(ret, ==, GST_PAD_LINK_OK);
-}
-
-static void
-on_incoming_decodebin_stream(GstElement *decodebin, GstPad *pad, GstElement *pipe)
-{
-    GstCaps *caps;
-    const gchar *name;
-
-    if (!gst_pad_has_current_caps(pad)) {
-        g_printerr("Pad '%s' has no caps, can't do anything, ignoring\n",
-                   GST_PAD_NAME(pad));
-        return;
-    }
-
-    caps = gst_pad_get_current_caps(pad);
-    name = gst_structure_get_name(gst_caps_get_structure(caps, 0));
-
-    if (g_str_has_prefix(name, "video")) {
-        handle_media_stream(pad, pipe, "videoconvert", "autovideosink");
-    } else if (g_str_has_prefix(name, "audio")) {
-        handle_media_stream(pad, pipe, "audioconvert", "autoaudiosink");
-    } else {
-        g_printerr("Unknown pad %s, ignoring", GST_PAD_NAME(pad));
-    }
-}
 
 GstPadProbeReturn on_monitor_data(GstPad *pad, GstPadProbeInfo *info, gpointer rtspclient)
 {
-    printf("-");
+    // if (!GST_BUFFER_FLAG_IS_SET(info->data, GST_BUFFER_FLAG_DELTA_UNIT)) {
+    //     static int cnt = 0;
+    //     GDateTime *date_time = g_date_time_new_now_local();
+    //     gchar *s_date_time = g_date_time_format(date_time, "%H:%M:%S,%F");
+    //     g_warning("Received keyframe(%u) @ (%s)", cnt++, s_date_time);
+    //     g_free(s_date_time);
+    //     g_date_time_unref(date_time);
+    // }
+    g_print("-");
     return GST_PAD_PROBE_OK;
 }
 static void
