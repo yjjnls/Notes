@@ -12,8 +12,9 @@ function sleep(numberMillis) {
     }
 }
 
+pages = [];
 (async function test() {
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch();
     // const browser = await puppeteer.launch({ headless: false, slowMo: 250});
     const page = await browser.newPage();
     await page.goto('https://passport.csdn.net/account/login');
@@ -29,13 +30,18 @@ function sleep(numberMillis) {
 
     await page.waitFor(1000);
 
+    for (var i = 0; i < urls.length; i += 1) {
+        const new_page = await browser.newPage();
+        pages.push(new_page);
+        await pages[i].goto(urls[i]);
+    }
     while (true) {
         for (var i = 0; i < urls.length; i += 1) {
-            await page.goto(urls[i]);
+            await pages[i].reload();
             // await page.waitFor(1000);
-        // sleep(500);
+            // sleep(500);
         }
-        await page.waitFor(8000);
+        sleep(10000);
     }
     await browser.close();
 })();
