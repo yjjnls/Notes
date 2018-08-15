@@ -127,10 +127,10 @@ class Translator(object):
 
 
 if __name__ == "__main__":
-    tutor = 1
+    tutor = 36
     folder = "E:\\Administrator\\Desktop\\java\\"
     repo = "https://github.com/yjjnls/Java-tutorial-cn/blob/master/img/"
-    while tutor < 36:
+    while tutor < 40:
         trans = Translator(tutor, folder, repo)
         trans.translate()
         tutor += 1
