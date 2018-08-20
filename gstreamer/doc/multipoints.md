@@ -5,8 +5,13 @@
 
 我们这里将其进行简化，每个房间限制为只能有两个参与者进行一对一的链接，这样一个room就退化成了一个connection，一端为网页用户，一端为gstreamer webrtc。将多个gstreamer webrtc并联在一起就形成了多点链接。
 
+![](img/multipoints2.png)
+
 
 ## 时序图
+
+
+![](img/multipoints3.png)
 
 ## 接口设计
 
