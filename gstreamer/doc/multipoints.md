@@ -1,13 +1,17 @@
 ## 原理设计
 这里利用RTCMultiConnection的demo `Video-Conferencing` 进行改造来实现多点连接。原始demo界面如下，分为open room和join room两个操作，每个用户都能看到所有参与者的画面。
 
->>![](img/multipoints1.png)
+![](img/multipoints1.png)  
 
 
 我们这里将其进行简化，每个房间限制为只能有两个参与者进行一对一的链接，一端为网页用户，一端为gstreamer webrtc。
->>![](img/multipoints2.png)
+![](img/multipoints2.png)
 
-![](img/multipoints3.png)
+<!-- <div align=center>![](img/multipoints3.png)</div> -->
+
+<div style="align: center">
+<img src="img/multipoints3.png"/>
+</div>
 
 将多个gstreamer webrtc并联在一起就形成了多点连接的形式。这里原来room的概念退化成了connection，而多个connection由webstreamer一起控制就形成了多点连接的room的概念。
 
