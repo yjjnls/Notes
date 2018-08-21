@@ -1,11 +1,14 @@
 ## 原理设计
 这里利用RTCMultiConnection的demo `Video-Conferencing` 进行改造来实现多点连接。原始demo界面如下，分为open room和join room两个操作，每个用户都能看到所有参与者的画面。
 
-![](img/multipoints1.png)
+>>![](img/multipoints1.png)
+
+>>![](img/multipoints2.png)
+
+>![](img/multipoints3.png)
 
 我们这里将其进行简化，每个房间限制为只能有两个参与者进行一对一的链接，一端为网页用户，一端为gstreamer webrtc，将多个gstreamer webrtc并联在一起就形成了多点连接的形式。这里原来room的概念退化成了connection，而多个connection由webstreamer一起控制就形成了多点连接的room的概念。
 
-![](img/multipoints2.png)
 
 
 ## 时序图
@@ -45,7 +48,15 @@ remoteUserId、message和sender这三个属性必不可少，其他的属性还�
     "password": false
 }
 ```
-这是chrome发出的第一条消息，remoteUserId为1表示加入的connection id为1；sender为chrome生成的id；password为false表示加入这个connection不需要密码；而message中为码流配置选项。
+
+这是chrome发出的第一条消息  
+*   `"remoteUserId": "1"` 表示加入id为1的connection  
+*   `"sender": "49h2hqiv3fb"` 为chrome生成的id  
+*   `"password": false` 表示加入这个connection不需要密码  
+*   `"message"` 中的信息为码流配置选项
+
+
+
 
 
 ## 接口设计
