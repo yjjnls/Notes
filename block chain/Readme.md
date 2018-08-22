@@ -111,7 +111,7 @@ https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF
 
 各大链的奖励机制是什么，比如EOS、Cardano等
 
-https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/
+https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ 数字货币交易所课程
 
 
 https://blog.csdn.net/HiBlock/article/details/81297461
