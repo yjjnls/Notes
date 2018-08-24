@@ -41,7 +41,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 
 # bitcoin
-- [ ] 比特币白皮书
+- [x] 比特币白皮书
 - [ ] 精通比特币
 - [ ] [比特币可以跟进的项目](https://github.com/bitpay/bitcore)
 - [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)
@@ -117,9 +117,9 @@ https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF
 
 各大链的奖励机制是什么，比如EOS、Cardano等
 
-https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ 数字货币交易所课程
+[数字货币交易所课程](https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ )
 github上的awesome-block-chain等也有关于exchange的整理
-https://learnblockchain.cn/ solidity 开发
-https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/  Python实现一条基于POS算法的区块链
+[solidity 开发](https://learnblockchain.cn/) 
+[Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
 
 https://blog.csdn.net/HiBlock/article/details/81297461
