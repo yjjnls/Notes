@@ -107,11 +107,18 @@ https://ethfans.org/posts/219 以太坊紫皮书
 比特币网络源代码分析
 https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf
 
+[深入理解比特币交易的脚本](http://mp.weixin.qq.com/s/tbU9Pg0vQkA7JdKSgNyPAQ)
+
+[干货 | 权益证明 FAQ（完整版）](https://ethfans.org/posts/Proof-of-Stake-FAQ-new-2018-3-15) 可以加到consensus里面
+
+[区块链实践，动手写一个](https://github.com/wecodexyz/awesome-blockchain-articles#%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%A7)
+
 相关钱包技术也要关心一下 比如 https://github.com/MyEtherWallet mist等
 
 各大链的奖励机制是什么，比如EOS、Cardano等
 
 https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ 数字货币交易所课程
+github上的awesome-block-chain等也有关于exchange的整理
 https://learnblockchain.cn/ solidity 开发
 https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/  Python实现一条基于POS算法的区块链
 
