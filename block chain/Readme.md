@@ -70,7 +70,7 @@ https://cn.hyperledger.org/
 - [ ] http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1
 
 # 书籍
-- [ ] [Nodejs开发加密货币](https://github.com/imfly/bitcoin-on-nodejs) / [源码](https://github.com/Ebookcoin/ebookcoin)
+- [ ] [Nodejs开发加密货币](https://github.com/imfly/bitcoin-on-nodejs) / [源码](https://github.com/Ebookcoin/ebookcoin) http://book.8btc.com/books/1/bitcoin-on-nodejs-master/_book/
 - [x] [★区块链技术指南（有密码学相关）](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/blockchain_guide/content/)
 
 
