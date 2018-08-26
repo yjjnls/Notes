@@ -70,6 +70,14 @@ Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl
 
 # 符号问题
 
+---
+![](https://img-blog.csdn.net/20161106180515946)
+.o文件是二进制目标文件，链接就是把各个.o文件打包成可执行文件。
+
+>ELF（文件格式）是一种用于二进制文件、可执行文件、目标代码、共享库和核心转储格式文件。
+>ELF文件由4部分组成，分别是ELF头（ELF header）、程序头表（Program header table）、节（Section）和节头表（Section header table）。实际上，一个文件中不一定包含全部内容，而且他们的位置也未必如同所示这样安排，只有ELF头的位置是固定的，其余各部分的位置、大小等信息由ELF头中的各项值来决定。
+---
+
 链接器ld的选项有 -L，-rpath 和 -rpath-link，看了下 man ld，大致是这个意思：
 
 -L: “链接”的时候，去找的目录，也就是所有的 -lFOO 选项里的库，都会先从 -L 指定的目录去找，然后是默认的地方。编译时的-L选项并不影响环境变量LD_LIBRARY_PATH， **`-L只是指定了程序编译连接时库的路径，并不影响程序执行时库的路径`**，系统还是会到默认路径下查找该程序所需要的库，**如果找不到，还是会报错，类似cannot open shared object file**。
@@ -80,9 +88,6 @@ Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl
 
 
 linux下编译的动态库有real name（libtest.so.0.0.0）、soname（libtest.so.0）和libname（libtest.so）三种
-
->ELF（文件格式）是一种用于二进制文件、可执行文件、目标代码、共享库和核心转储格式文件。
->ELF文件由4部分组成，分别是ELF头（ELF header）、程序头表（Program header table）、节（Section）和节头表（Section header table）。实际上，一个文件中不一定包含全部内容，而且他们的位置也未必如同所示这样安排，只有ELF头的位置是固定的，其余各部分的位置、大小等信息由ELF头中的各项值来决定。
 
 ```shell
 readelf -d libtest.so.0.0.0 | grep soname
