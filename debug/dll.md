@@ -16,13 +16,13 @@ int open(const char \*pathname, int flags);
 
 **因为这么做会破坏二进制兼容性。对于已经编译好的可执行文件，它调用 open(2) 的参数是写死的，更改头文件并不能影响已经编译好的可执行文件。**比方说这个可执行文件会调用 open(path, 1) 来写 文件，而在新规定中，这表示读 文件，程序就错乱了。
 
-## C++ ABI 的主要内容
+## C++ ABI(Application Binary Interface) 的主要内容
 
 -   函数参数传递的方式，比如 x86-64 用寄存器来传函数的前 4 个整数参数
 -   `虚函数的调用`方式，通常是 vptr/vtbl 然后用 vtbl[offset] 来调用
 -   struct 和 class 的内存布局，通过`偏移量`来访问数据成员
 -   name mangling
--   RTTI 和异常处理的实现（以下本文不考虑异常处理）
+-   [RTTI](RTTI.md) 和异常处理的实现（以下本文不考虑异常处理）
     C/C++ 通过头文件暴露出动态库的使用方法，这个“使用方法”主要是给编译器看的，编译器会据此生成二进制代码，然后在运行的时候通过装载器(loader)把可执行文件和动态库绑到一起。**如何判断一个改动是不是二进制兼容，主要就是看头文件暴露的这份“使用说明”能否与新版本的动态库的实际使用方法兼容。因为新的库必然有新的头文件，但是现有的二进制可执行文件还是按旧的头文件来调用动态库。**
 
 ## 有哪些情况会破坏库的 ABI
@@ -80,6 +80,9 @@ Impl为单独的一个类或者c文件，外部直接调用Impl.dll，而在Impl
 
 
 linux下编译的动态库有real name（libtest.so.0.0.0）、soname（libtest.so.0）和libname（libtest.so）三种
+
+>ELF（文件格式）是一种用于二进制文件、可执行文件、目标代码、共享库和核心转储格式文件。
+>ELF文件由4部分组成，分别是ELF头（ELF header）、程序头表（Program header table）、节（Section）和节头表（Section header table）。实际上，一个文件中不一定包含全部内容，而且他们的位置也未必如同所示这样安排，只有ELF头的位置是固定的，其余各部分的位置、大小等信息由ELF头中的各项值来决定。
 
 ```shell
 readelf -d libtest.so.0.0.0 | grep soname
