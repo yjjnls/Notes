@@ -6,13 +6,104 @@ WebAssembly 是除了 JavaScript 以外，另一种可以在网页中运行的�
 ## WebAssembly 处于哪个环节？
 你想要从任意一个高级语言翻译到众多汇编语言中的一种（依赖机器内部结构），其中一种方式是创建不同的翻译器来完成各种高级语言到汇编的映射。
 
-这种翻译的效率实在太低了。为了解决这个问题，大多数编译器都会在中间多加一层。它会把高级语言翻译到一个低层，而这个低层又没有低到机器码这个层级。这就是中间代码（intermediate representation，IR）。
+这种翻译的效率实在太低了。为了解决这个问题，大多数编译器都会在中间多加一层。它会把高级语言翻译到一个低层，而这个低层又没有低到机器码这个层级。这就是 **中间代码**（intermediate representation，IR）。
 
 这就是说编译器会把高级语言翻译到 IR 语言，而编译器另外的部分再把 IR 语言编译成特定目标结构的可执行代码。
 
-![](https://img-blog.csdn.net/20170324103635846?)
+![](https://upload-images.jianshu.io/upload_images/11336404-419cee8995bc923e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
+那么在上图中，WebAssembly 在什么位置呢？实际上，你可以把它看成另一种“目标汇编语言”。
+
+每一种目标汇编语言（x86、ARM）都依赖于特定的机器结构。当你想要把你的代码放到用户的机器上执行的时候，你并不知道目标机器结构是什么样的。
+
+而 WebAssembly 与其他的汇编语言不一样，它不依赖于具体的物理机器。可以抽象地理解成它是概念机器的机器语言，而不是实际的物理机器的机器语言。
+
+正因为如此，WebAssembly 指令有时也被称为虚拟指令。它比 JavaScript 代码更直接地映射到机器码，它也代表了“如何能在通用的硬件上更有效地执行代码”的一种理念。所以它并不直接映射成特定硬件的机器码。
+
+![](https://upload-images.jianshu.io/upload_images/11336404-cfa4040458b748c7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+## 编译到 .wasm 文件
+目前对于 WebAssembly 支持情况最好的编译器工具链是 LLVM。有很多不同的前端和后端插件可以用在 LLVM 上。
+
+假设想从 C 语言到 WebAssembly，我们就需要 clang 前端来把 C 代码变成 LLVM 中间代码。当变换成了 LLVM IR 时，说明 LLVM 已经理解了代码，它会对代码自动地做一些优化。
+
+为了从 LLVM IR 生成 WebAssembly，还需要后端编译器。在 LLVM 的工程中有正在开发中的后端，而且应该很快就开发完成了，现在这个时间节点，暂时还看不到它是如何起作用的。
+
+还有一个工具叫做 **Emscripten**。**它通过自己的后端先把代码转换成自己的中间代码（叫做 `asm.js`），然后再转化成 WebAssembly，实际上它背后也是使用的 LLVM**。
+
+![](https://upload-images.jianshu.io/upload_images/11336404-800102fede3a5503.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+Emscripten 还包含了许多额外的工具和库来包容整个 C/C++ 代码库，所以它更像是一个软件开发者工具包（SDK）而不是编译器。例如系统开发者需要文件系统以对文件进行读写，Emscripten 就有一个 IndexedDB 来模拟文件系统。
+
+不考虑太多的这些工具链，只要知道最终生成了 .wasm 文件就可以了。后面我会介绍 .wasm 文件的结构，在这之前先一起了解一下在 JS 中如何使用它。
+
+## .wasm 文件结构
+如果你是写高级语言的开发者，并且通过编译器编译成 WebAssembly，那你不用关心 WebAssembly 模块的结构。但是了解它的结构有助于你理解一些基本问题。
+
+这段代码是即将生成 WebAssembly 的 C 代码：
+```c
+int add42(int num) { 
+    return num + 42; 
+}
+```
+
+你可以使用 [WASM Explorer](http://mbebenita.github.io/WasmExplorer/) 来编译这个函数。
+
+打开 .wasm 文件（假设你的编辑器支持的话），可以看到下面代码：
+```
+00 61 73 6D 0D 00 00 00 01 86 80 80 80 00 01 60 
+
+01 7F 01 7F 03 82 80 80 80 00 01 00 04 84 80 80 
+
+80 00 01 70 00 00 05 83 80 80 80 00 01 00 01 06 
+
+81 80 80 80 00 00 07 96 80 80 80 00 02 06 6D 65 
+
+6D 6F 72 79 02 00 09 5F 5A 35 61 64 64 34 32 69 
+
+00 00 0A 8D 80 80 80 00 01 87 80 80 80 00 00 20 
+
+00 41 2A 6A 0B
+```
+这是模块的“二进制”表示。之所以用引号把“二进制”引起来，是因为上面其实是用十六进制表示的，不过把它变成二进制或者人们能看懂的十进制表示也很容易。
+
+例如，下面是 num + 42 的各种表示方法。
+
+![](https://upload-images.jianshu.io/upload_images/11336404-4a9eae3541b7cc0a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+## 代码是如何工作的：基于栈的虚拟机
+如果你对具体的操作过程很好奇，那么这幅图可以告诉你指令都做了什么。
+
+![](https://upload-images.jianshu.io/upload_images/11336404-9c5c798b2f43391f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+从图中我们可以注意到 加 操作并没有指定哪两个数字进行加。这是因为 WebAssembly 是采用“基于栈的虚拟机”的机制。即一个操作符所需要的所有值，在操作进行之前都已经存放在堆栈中。
+
+所有的操作符，比如加法，都知道自己需要多少个值。加需要两个值，所以它从堆栈顶部取两个值就可以了。那么加指令就可以变的更短（单字节），因为指令不需要指定源寄存器和目的寄存器。这也使得 .wasm 文件变得更小，进而使得加载 .wasm 文件更快。
+
+尽管 WebAssembly 使用基于栈的虚拟机，但是并不是说在实际的物理机器上它就是这么生效的。当浏览器翻译 WebAssembly 到机器码时，浏览器会使用寄存器，而 WebAssembly 代码并不指定用哪些寄存器，这样做的好处是给浏览器最大的自由度，让其自己来进行寄存器的最佳分配。
+
+## WebAssembly 模块的组成部分
+除了上面介绍的，.wasm 文件还有其他部分。一些组成部分对于模块来讲是必须的，一些是可选的。
+
+必须部分：
+
+*   Type。在模块中定义的函数的函数声明和所有引入函数的函数声明。
+*   Function。给出模块中每个函数一个索引。
+*   Code。模块中每个函数的实际函数体。
+
+可选部分：
+
+*   Export。使函数、内存、表（tables）、全局变量等对其他 WebAssembly 或 JavaScript 可见，允许动态链接一些分开编译的组件，即 .dll 的WebAssembly 版本。
+*   Import。允许从其他 WebAssembly 或者 JavaScript 中导入指定的函数、内存、表或者全局变量。
+*   Start。当 WebAssembly 模块加载进来的时候，可以自动运行的函数（类似于 main 函数）。
+*   Global。声明模块的全局变量。
+*   Memory。定义模块用到的内存。
+*   Table。使得可以映射到 WebAssembly 模块以外的值，如映射到 JavaScript 的对象。这在间接函数调用时很有用。
+*   Data。初始化导入的或者局部内存。
+*   Element。初始化导入的或者局部的表。
+
+如果你想了解关于这些组成部分的更深入的内容，可以阅读这些[组成部分的工作原理](https://rsms.me/wasm-intro)。
 
 ## asm.js 的简介
 asm.js 不仅能让浏览器运行 3D 游戏，还可以运行各种服务器软件，比如 Lua、Ruby 和 SQLite。 这意味着很多工具和算法，都可以使用现成的代码，不用重新写一遍。
