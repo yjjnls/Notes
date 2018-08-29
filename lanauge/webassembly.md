@@ -73,7 +73,7 @@ int add42(int num) {
 
 00 41 2A 6A 0B
 ```
-这是 **模块的“二进制”**表示。之所以用引号把“二进制”引起来，是因为上面其实是用十六进制表示的，不过把它变成二进制或者人们能看懂的十进制表示也很容易。
+这是 **模块的“二进制”** 表示。之所以用引号把“二进制”引起来，是因为上面其实是用十六进制表示的，不过把它变成二进制或者人们能看懂的十进制表示也很容易。
 
 例如，下面是 num + 42 的各种表示方法。
 
@@ -152,17 +152,17 @@ WebAssembly由许多工具支持，以帮助开发人员构建和处理源文件
 
 请注意，WABT支持的[S表达式](https://en.wikipedia.org/wiki/S-expression)格式不是WebAssembly本身。它是可以表示WebAssembly文件内容的许多可能的文本格式之一，因此它被开发为WABT工具解码和编码的便捷格式。开发人员可以轻松地为能够表达WebAssembly堆栈机器语义的任何其他文本格式构建解码器/编码器实现。
 
-*   wasm2wat
+*   wasm2wat  
     此工具将WebAssembly二进制文件转换为S表达式。它是一个命令行工具，它将二进制文件作为输入，并生成包含可读文本的输出文件。开发人员可以以其他方式编辑或操作文本文件，并将其转换回二进制格式，例如尝试优化算法，跟踪，插入调试钩子等。
-*   wat2wasm
+*   wat2wasm  
     此命令行工具执行wasm2wat的反转，即它将S表达式wat文件转换为二进制WebAssembly文件。使用wasm2wat和wat2wasm可以实现WebAssembly二进制文件的无损往返，并为开发人员提供了一种使用外部工具操作WebAssembly二进制文件内容的便捷方法。
-*   wasm-interp
+*   wasm-interp  
     这是一个解释器，**允许开发人员从命令行独立运行WebAssembly二进制文件**。它实现了一个 **基于堆栈机器的解释器**，可以直接解释WebAssembly二进制文件。这与浏览器在加载时将WebAssembly二进制文件JIT作为其目标体系结构的本机代码的方式不同。**解释器可用于在浏览器环境之外运行单元测试，验证WebAssembly二进制文件等**。
-*   wasm-objdump
+*   wasm-objdump  
     打印有关wasm二进制文件的信息，与objdump类似。
-*   wat-desugar
+*   wat-desugar  
     解析.wat文本格式，由spec解释器支持（s表达式，平面语法或混合）并打印“规范”平面格式。
-*   wasm2c
+*   wasm2c  
     将WebAssembly二进制文件转换为C源文件和头文件。
 
 
@@ -205,5 +205,7 @@ asm.js 没有垃圾回收机制，所有内存操作都由程序员自己控制�
 
 但是，这并不意味着 asm.js 肯定会被淘汰，因为它有两个优点：首先，它是文本，人类可读，比较直观；其次，所有浏览器都支持 asm.js，不会有兼容性问题。
 
-## Emscripten 编译器
+---
+
+# Emscripten
 ![](http://kripken.github.io/emscripten-site//_static/Emscripten_logo_full.png)
