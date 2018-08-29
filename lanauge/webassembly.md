@@ -1,7 +1,8 @@
 # Webassembly
 [![](https://avatars1.githubusercontent.com/u/11578470?s=200&v=4)](https://github.com/WebAssembly)
 
-WebAssembly 是除了 JavaScript 以外，另一种可以在网页中运行的编程语言。WebAssembly 模块定义的一些功能可以通过 JavaScript 来调用。
+WebAssembly 是除了 JavaScript 以外，另一种可以在网页中运行的编程语言，并提供了功能和性能上的优势。可以将其它语言，如C/C++等，编译成Assembly格式的代码，然后在浏览器中运行。
+
 ## 介绍
 ### WebAssembly 处于哪个环节？
 你想要从任意一个高级语言翻译到众多汇编语言中的一种（依赖机器内部结构），其中一种方式是创建不同的翻译器来完成各种高级语言到汇编的映射。
@@ -23,6 +24,7 @@ WebAssembly 是除了 JavaScript 以外，另一种可以在网页中运行的�
 
 ![](https://upload-images.jianshu.io/upload_images/11336404-cfa4040458b748c7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+Web平台有两部分组成：a)执行应用程序的虚拟机，b)Web API,例如（DOM,WebGL等）。为了让浏览器支持Assembly，虚拟机实现了加载两种语言（javascript,Assembly）的功能，javascript可以通过Web API引入WebAssembly代码，WebAssembly可以导入和异步执行javascript的模块。
 
 ### 编译到 .wasm 文件
 目前对于 WebAssembly 支持情况最好的编译器工具链是 LLVM。有很多不同的前端和后端插件可以用在 LLVM 上。
@@ -37,7 +39,11 @@ WebAssembly 是除了 JavaScript 以外，另一种可以在网页中运行的�
 
 Emscripten 还包含了许多额外的工具和库来包容整个 C/C++ 代码库，所以它更像是一个软件开发者工具包（SDK）而不是编译器。例如系统开发者需要文件系统以对文件进行读写，Emscripten 就有一个 IndexedDB 来模拟文件系统。
 
+![](https://upload-images.jianshu.io/upload_images/11336404-57ded56460500c07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
 不考虑太多的这些工具链，只要知道最终生成了 .wasm 文件就可以了。后面我会介绍 .wasm 文件的结构，在这之前先一起了解一下在 JS 中如何使用它。
+
 
 ### .wasm 文件结构
 如果你是写高级语言的开发者，并且通过编译器编译成 WebAssembly，那你不用关心 WebAssembly 模块的结构。但是了解它的结构有助于你理解一些基本问题。
@@ -146,12 +152,19 @@ WebAssembly由许多工具支持，以帮助开发人员构建和处理源文件
 
 请注意，WABT支持的[S表达式](https://en.wikipedia.org/wiki/S-expression)格式不是WebAssembly本身。它是可以表示WebAssembly文件内容的许多可能的文本格式之一，因此它被开发为WABT工具解码和编码的便捷格式。开发人员可以轻松地为能够表达WebAssembly堆栈机器语义的任何其他文本格式构建解码器/编码器实现。
 
-*   wasm2wast
+*   wasm2wat
     此工具将WebAssembly二进制文件转换为S表达式。它是一个命令行工具，它将二进制文件作为输入，并生成包含可读文本的输出文件。开发人员可以以其他方式编辑或操作文本文件，并将其转换回二进制格式，例如尝试优化算法，跟踪，插入调试钩子等。
-*   wast2wasm
-    此命令行工具执行wasm2wast的反转，即它将S表达式WAST文件转换为二进制WebAssembly文件。使用wasm2wast和wast2wasm可以实现WebAssembly二进制文件的无损往返，并为开发人员提供了一种使用外部工具操作WebAssembly二进制文件内容的便捷方法。
+*   wat2wasm
+    此命令行工具执行wasm2wat的反转，即它将S表达式wat文件转换为二进制WebAssembly文件。使用wasm2wat和wat2wasm可以实现WebAssembly二进制文件的无损往返，并为开发人员提供了一种使用外部工具操作WebAssembly二进制文件内容的便捷方法。
 *   wasm-interp
     这是一个解释器，**允许开发人员从命令行独立运行WebAssembly二进制文件**。它实现了一个 **基于堆栈机器的解释器**，可以直接解释WebAssembly二进制文件。这与浏览器在加载时将WebAssembly二进制文件JIT作为其目标体系结构的本机代码的方式不同。**解释器可用于在浏览器环境之外运行单元测试，验证WebAssembly二进制文件等**。
+*   wasm-objdump
+    打印有关wasm二进制文件的信息，与objdump类似。
+*   wat-desugar
+    解析.wat文本格式，由spec解释器支持（s表达式，平面语法或混合）并打印“规范”平面格式。
+*   wasm2c
+    将WebAssembly二进制文件转换为C源文件和头文件。
+
 
 ### Binaryen
 Binaryen是一套全面的工具，具有支持基础结构，可用作将WebAssembly作为输出格式的编译器的后端。它有一个C API并实现了自己的程序逻辑内部中间表示（IR），可以在IR上执行许多优化，支持代码生成的并行化等。
