@@ -208,4 +208,69 @@ asm.js 没有垃圾回收机制，所有内存操作都由程序员自己控制�
 ---
 
 # Emscripten
-![](http://kripken.github.io/emscripten-site//_static/Emscripten_logo_full.png)
+[![](http://kripken.github.io/emscripten-site//_static/Emscripten_logo_full.png)](http://kripken.github.io/emscripten-site/index.html)
+
+## 语法
+emcc hello.c -s WASM=1 -O2 -o hello.html
+* -s WASM=1  指定使用WebAssembly，WASM=0表示生成asm.js
+* -O2 代码优化级别
+* -o 指定生成文件，可以是html、js或字节码.bc
+
+
+### single file
+```sh
+# Generate a.out.js from C++. Can also take .ll (LLVM assembly) or .bc (LLVM bitcode) as input
+./emcc src.cpp
+
+# Generate src.o containing LLVM bitcode.
+./emcc src.cpp -c
+
+# Generate result.js containing JavaScript.
+./emcc src.cpp -o result.js
+
+# Generate result.bc containing LLVM bitcode (the suffix matters).
+./emcc src.cpp -o result.bc
+
+# Generate a.out.js from two C++ sources.
+./emcc src1.cpp src2.cpp
+
+# Generate src1.o and src2.o, containing LLVM bitcode
+./emcc src1.cpp src2.cpp -c
+
+# Combine two LLVM bitcode files into a.out.js
+./emcc src1.o src2.o
+
+# Combine two LLVM bitcode files into another LLVM bitcode file
+./emcc src1.o src2.o -o combined.o
+```
+### [project](http://kripken.github.io/emscripten-site/docs/compiling/Building-Projects.html)
+```sh
+# Compile libstuff to bitcode
+./emconfigure ./configure
+./emmake make
+
+# Compile project to bitcode
+./emconfigure ./configure
+./emmake make
+
+# Compile the library and code together to HTML
+emcc project.bc libstuff.bc -o final.html
+
+####################################################
+# Generate bitcode files project.bc and libstuff.bc
+...
+
+# Link together the bitcode files
+emcc project.bc libstuff.bc -o allproject.bc
+
+# Compile the combined bitcode to HTML
+emcc allproject.bc -o final.html
+```
+
+## 文件系统
+本机代码和“普通”JavaScript使用完全不同的文件访问范例。可移植的本机代码通常在libc和libcxx中调用同步文件API ，而JavaScript只允许异步文件访问（Web worker除外）。此外，在Web浏览器提供的沙箱环境中运行时，JavaScript无法直接访问主机文件系统。
+
+Emscripten提供了一个模拟本地文件系统的虚拟文件系统，因此可以编译和运行使用同步文件API的本机代码，只需很少或不需要更改。
+
+https://www.jianshu.com/p/b2d403872f20
+https://blog.csdn.net/sinat_32582203/article/details/73355211
