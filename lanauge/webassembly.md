@@ -311,9 +311,16 @@ Emscripten提供了一个模拟本地文件系统的虚拟文件系统，因此�
 
     ./emcc file.cpp -o file.html --embed-file ../res/gen123.png@main.png
 
-下面的字符可能在文件名中使用A-Z，a-z，0-9，空格字符和任意字符!#$%&'()+,-.;=@[]^_`{}~。此外，如果您的主机文件系统支持以下字符，则可以使用以下字符:（"*<>?|Windows不允许在文件名中使用这些字符）。在@命令行上指定字符时，必须将其转义为表单@@以避免触发src@dst映射表示法（参见上文）。字符/，\并且:不能使用。
+下面的字符可能在文件名中使用`A-Z`，`a-z`，`0-9`，空格字符和任意字符!#$%&'()+,-.;=@[]^_`{}~。此外，如果您的主机文件系统支持以下字符，则可以使用以下字符:（"*<>?|Windows不允许在文件名中使用这些字符）。在@命令行上指定字符时，必须将其转义为表单@@以避免触发src@dst映射表示法（参见上文）。字符/，\并且:不能使用。
 
 预加载可以支持多种文件，比如图片（.jpg, .jpeg, .png, .bmp）、音频（.ogg, .wav, .mp3）还有动态库（.so）。将动态库加载到虚拟文件系统中后，可以用dlopen打开；另一种方法是直接编译成字节码，和c++源码一起编译到目标文件中去。
 
-https://www.jianshu.com/p/b2d403872f20
-https://blog.csdn.net/sinat_32582203/article/details/73355211
+参考 [File System API](http://kripken.github.io/emscripten-site/docs/api_reference/Filesystem-API.html#filesystem-api)     
+[Asynchronous File System API](http://kripken.github.io/emscripten-site/docs/api_reference/emscripten.h.html#emscripten-h-asynchronous-file-system-api)
+
+## 异步化
+C++中的sleep调用是一个阻塞的过程，如果直接编译到js，那么会阻塞js的循环，这是不可取的。应该将其翻译为js中的异步sleep函数，但为了减少c++代码的改动，可以用[emscripten_sleep()](http://kripken.github.io/emscripten-site/docs/porting/asyncify.html)函数来代替sleep()，并在编译时加上`-s ASYNCIFY=1`参数。
+
+还有些[方法](http://kripken.github.io/emscripten-site/docs/porting/asyncify.html#extensions)可以将c中的同步函数改造成JS中的异步函数。
+
+async改造会拖慢程序，setjmp/longjmp和c++异常也不适用async改造。
