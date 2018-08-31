@@ -236,7 +236,9 @@ emcc hello.c -s WASM=1 -O2 -o hello.html
 * -O2 代码优化级别
 * -o 指定生成文件，可以是html、js或字节码.bc
 
+一般会生成.wasm(webassembly code)、 .js(glue code) 以及html。胶接代码glue code可以让js调用webassembly。
 
+## 构建
 ### single file
 ```sh
 # Generate a.out.js from C++. Can also take .ll (LLVM assembly) or .bc (LLVM bitcode) as input
@@ -287,6 +289,47 @@ emcc project.bc libstuff.bc -o allproject.bc
 emcc allproject.bc -o final.html
 ```
 
+
+## C++与JavaScript交互
+### JS调用webassembly
+一种方法是通过ccall来调用，该方法允许我们通过函数名从C代码中调用一个函数，然后就向一般的JS函数一样使用就行了。
+```js
+var result = Module.ccall(
+    'funcName',     // 函数名
+    'number',       // 返回类型
+    ['number'],     // 参数类型
+    [42]);          // 参数
+```
+调用此方法之后，result就将拥有对应C函数的所有功能，除函数名以外的所有参数都是可选的。
+
+通过在函数名前添加下划线来调用C函数
+var result = _funcName();
+
+```c
+//api_example.c
+#include <stdio.h>
+#include <emscripten.h>
+
+EMSCRIPTEN_KEEPALIVE
+void sayHi() {
+  printf("Hi!\n");
+}
+
+EMSCRIPTEN_KEEPALIVE
+int daysInWeek() {
+  return 7;
+}
+```
+```sh
+$ emcc api_example.c -o api_example.js
+```
+```js
+var em_module = require('./api_example.js');
+
+em_module._sayHi(); // direct calling works
+em_module.ccall("sayHi"); // using ccall etc. also work
+console.log(em_module._daysInWeek()); // values can be returned, etc.
+```
 ## 文件系统
 本机代码和“普通”JavaScript使用完全不同的文件访问方式。可移植的本机代码通常在libc和libcxx中调用同步文件API，依次调用底层文件系统API，默认情况下使用MEMFS虚拟文件系统。而JavaScript只允许异步文件访问（Web worker除外），此外，在Web浏览器提供的沙箱环境中运行时，JavaScript无法直接访问主机文件系统。
 
