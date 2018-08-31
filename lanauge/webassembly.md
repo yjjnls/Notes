@@ -288,9 +288,32 @@ emcc allproject.bc -o final.html
 ```
 
 ## 文件系统
-本机代码和“普通”JavaScript使用完全不同的文件访问范例。可移植的本机代码通常在libc和libcxx中调用同步文件API ，而JavaScript只允许异步文件访问（Web worker除外）。此外，在Web浏览器提供的沙箱环境中运行时，JavaScript无法直接访问主机文件系统。
+本机代码和“普通”JavaScript使用完全不同的文件访问方式。可移植的本机代码通常在libc和libcxx中调用同步文件API，依次调用底层文件系统API，默认情况下使用MEMFS虚拟文件系统。而JavaScript只允许异步文件访问（Web worker除外），此外，在Web浏览器提供的沙箱环境中运行时，JavaScript无法直接访问主机文件系统。
+
+![](http://kripken.github.io/emscripten-site/_images/FileSystemArchitecture.png)
 
 Emscripten提供了一个模拟本地文件系统的虚拟文件系统，因此可以编译和运行使用同步文件API的本机代码，只需很少或不需要更改。
+
+在运行时库初始化时，MEMFS会挂载在/目录。要添加到MEMFS虚拟文件系统的文件是在编译时使用emcc指定的，如Packaging Files中所述。首次加载页面时，使用Synchronous XHR通过JavaScript异步加载文件。只有在异步下载完成且文件在虚拟文件系统中可用时，才允许编译的代码运行（并调用同步API）。
+
+随着MEMFS所有文件严格存在于内存中，当重新加载页面写入到其中的任何数据都将丢失。如果需要持久化数据可以装入IDBFS在浏览器或文件系统NODEFS上的node.js。NODEFS提供对本地文件系统的直接访问，但仅限于在node.js内运行时。您可以直接从自己的JavaScript 调用文件系统API来安装新的文件系统，并执行可能需要的其他同步文件系统操作。在[文件系统](http://kripken.github.io/emscripten-site/docs/api_reference/Filesystem-API.html#filesystem-api-filesystems)中有关于此主题的更多信息。
+
+要使用Emscripten提供的虚拟文件系统，需要将文件[打包](http://kripken.github.io/emscripten-site/docs/porting/files/packaging_files.html)。  
+文件的打包方式有两种：`预加载`和`嵌入`。嵌入将指定的文件放在生成的JavaScript中，而预加载则单独打包文件。嵌入文件的效率远低于预加载，只应在包装少量小文件时使用。预加载还允许选项单独托管数据。 
+
+打包的默认方法是在编译时将嵌套文件结构（相对于编译时命令提示符目录）直接映射到虚拟文件系统的根目录。若想改变文件在虚拟文件系统中的位置，可以在构建时用@符号指定资源在运行时的路径。
+
+例如，我们可以使用以下方法将预加载的文件夹../../asset_dir映射到虚拟文件系统的根目录（/）：
+
+    ./emcc file.cpp -o file.html --preload-file ../../asset_dir@/
+
+我们还可以映射新的路径和文件名。例如，要使嵌入文件../res/gen123.png可用作/main.png，我们可能会这样做：
+
+    ./emcc file.cpp -o file.html --embed-file ../res/gen123.png@main.png
+
+下面的字符可能在文件名中使用A-Z，a-z，0-9，空格字符和任意字符!#$%&'()+,-.;=@[]^_`{}~。此外，如果您的主机文件系统支持以下字符，则可以使用以下字符:（"*<>?|Windows不允许在文件名中使用这些字符）。在@命令行上指定字符时，必须将其转义为表单@@以避免触发src@dst映射表示法（参见上文）。字符/，\并且:不能使用。
+
+预加载可以支持多种文件，比如图片（.jpg, .jpeg, .png, .bmp）、音频（.ogg, .wav, .mp3）还有动态库（.so）。将动态库加载到虚拟文件系统中后，可以用dlopen打开；另一种方法是直接编译成字节码，和c++源码一起编译到目标文件中去。
 
 https://www.jianshu.com/p/b2d403872f20
 https://blog.csdn.net/sinat_32582203/article/details/73355211
