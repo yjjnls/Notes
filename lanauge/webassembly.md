@@ -210,8 +210,28 @@ asm.js 没有垃圾回收机制，所有内存操作都由程序员自己控制�
 # Emscripten
 [![](http://kripken.github.io/emscripten-site//_static/Emscripten_logo_full.png)](http://kripken.github.io/emscripten-site/index.html)
 
-## 语法
+## [语法](http://kripken.github.io/emscripten-site/docs/tools_reference/emcc.html)
+    emcc [options] file...
+
+输入文件可以是c/c++源代码，LLVM二进制字节码或者是LLVM汇编文件。    
+参数：
+*   -O 优化级别。
+*   -s OPTION=VALUE 传给Emscripten编译器的参数，具体可以参考[设置文件](https://github.com/kripken/emscripten/blob/master/src/settings.js)。
+*   -g 保存调试信息。如果编译成字节码，那么和clang和gcc的参数意义一样；如果是从字节码或者源文件编译成javascript，那么等同于-g3。
+*   -g\<level> 不同调试级别。
+*   --pre-js \<file> 指定的文件会在生成代码和优化前加入到生成文件中去。
+*   --embed-file \<file> 指定文件嵌入生成的js中，适用于小文件。
+*   --preload-file \<name>  在运行代码之前先异步地加载指定文件。
+*   -o \<target> 指定生成的目标文件
+    \<name> .js : JavaScript.
+    \<name> .html : HTML + separate JavaScript file (<name>.js). Having the separate JavaScript file improves page load time.
+    \<name> .bc : LLVM bitcode (default).
+    \<name> .o : LLVM bitcode (same as .bc).
+
+举个例子
+```
 emcc hello.c -s WASM=1 -O2 -o hello.html
+```
 * -s WASM=1  指定使用WebAssembly，WASM=0表示生成asm.js
 * -O2 代码优化级别
 * -o 指定生成文件，可以是html、js或字节码.bc
