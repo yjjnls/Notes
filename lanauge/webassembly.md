@@ -330,6 +330,10 @@ em_module._sayHi(); // direct calling works
 em_module.ccall("sayHi"); // using ccall etc. also work
 console.log(em_module._daysInWeek()); // values can be returned, etc.
 ```
+
+ref [How to Use WebAssembly with Node.js](https://www.codepool.biz/use-webassembly-node-js.html)
+
+
 ## 文件系统
 本机代码和“普通”JavaScript使用完全不同的文件访问方式。可移植的本机代码通常在libc和libcxx中调用同步文件API，依次调用底层文件系统API，默认情况下使用MEMFS虚拟文件系统。而JavaScript只允许异步文件访问（Web worker除外），此外，在Web浏览器提供的沙箱环境中运行时，JavaScript无法直接访问主机文件系统。
 
