@@ -110,7 +110,8 @@ int add42(int num) {
 *   Data。初始化导入的或者局部内存。
 *   Element。初始化导入的或者局部的表。
 
-如果你想了解关于这些组成部分的更深入的内容，可以阅读这些[组成部分的工作原理](https://rsms.me/wasm-intro)。
+如果你想了解关于这些组成部分的更深入的内容，可以阅读这些[组成部分的工作原理](https://rsms.me/wasm-intro)。   
+https://www.jianshu.com/p/b2d403872f20
 
 ## [安装环境](https://webassembly.org/getting-started/developers-guide/)
 
