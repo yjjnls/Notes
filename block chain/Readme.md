@@ -132,6 +132,8 @@ https://ethfans.org/posts/219 以太坊紫皮书
 
 ## blog
 https://hiblock.one/blog里面的区块链100讲
+[区块链技术博客](http://me.tryblockchain.org/)
+[深入浅出区块链](https://learnblockchain.cn/)
 
 
 ## build your own blockchain   
