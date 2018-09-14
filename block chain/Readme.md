@@ -46,6 +46,9 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 - [ ] [比特币可以跟进的项目](https://github.com/bitpay/bitcore)
 - [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)
 - [ ] [比特币源码分析](https://www.jianshu.com/u/30081a05cf95)
+- [ ] [比特币网络源代码分析](https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf)
+
+[深入理解比特币交易的脚本](http://mp.weixin.qq.com/s/tbU9Pg0vQkA7JdKSgNyPAQ)
 
 可以看看https://github.com/hpb-project/ico  
 最好能做些项目！  比如自己建一个币（改比特币源码）/自己用fabric做一个小应用之类的
@@ -54,8 +57,10 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 - [ ] [简单的智能合约例子](https://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum)
 - [ ] [★以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
 英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
-- [ ] [](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
+- [ ] [区块链100讲：从开发者的角度快速解读以太坊白皮书](https://blog.csdn.net/HiBlock/article/details/81297461)
+- [ ] [[以太坊源代码分析] I.区块和交易，合约和虚拟机](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
 - [ ] [solidity语言学习](https://solidity.readthedocs.io/en/develop/)
+- [ ] [solidity 开发](https://learnblockchain.cn/) 
 - [ ] [solidity](http://ethfans.org/wikis/Solidity-%E6%96%87%E6%A1%A3--%E7%AC%AC%E4%B8%80%E7%AB%A0)
 - [ ] [web3.js(与以太坊交互的js语言)](https://github.com/ethereum/web3.js)
 - [ ] [truffle框架](http://truffleframework.com/)
@@ -76,7 +81,7 @@ https://cn.hyperledger.org/
 
 # 密码学
 - [x] [什么是椭圆曲线加密（ECC）](https://link.zhihu.com/?target=http%3A//8btc.com/article-138-1.html)
-- [ ] [比特币背后的密码学原理](https://link.zhihu.com/?target=http%3A//www.jianshu.com/p/225ff9439132)
+- [ ] [！！比特币背后的密码学原理（看完比特币以后添加到crypto里面）](https://link.zhihu.com/?target=http%3A//www.jianshu.com/p/225ff9439132)
 - [x] [密码学一小时必知](https://link.zhihu.com/?target=https%3A//blog.helong.info/blog/2015/04/12/translate-Everything-you-need-to-know-about-cryptgraphy-in-1-hour/)
 - [x] [现代密码学实践指南](https://blog.helong.info/blog/2015/06/06/modern-crypto/)
 
@@ -85,41 +90,54 @@ https://cn.hyperledger.org/
 - [ ] [IPFS](https://link.zhihu.com/?target=https%3A//ipfs.io/) IPFS 是基于区块链实现的分布式文件存储系统
 - [ ] [布比区块链](https://link.zhihu.com/?target=http%3A//www.bubi.cn/) 《区块链技术原理与底层架构》有相关介绍
 
+---
+
+## 交易所
+- [] 极客教程整理
+- [] 买的课程整理+课程里面的论文
+
+https://github.com/imbaniac/awesome-blockchain 关注里面的交易所   
+中文的一个github资料，可以看那些交易所。https://github.com/dily3825002/awesome-blockchain 
+[数字货币交易所课程](https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ )
+github上的awesome-block-chain等也有关于exchange的整理
+
+----
 
 ★公有链客户端是否真的持有数据？到底是怎么个原理？
 如果客户端不是一直挖，那会保存数据么？客户端重新上线后如何同步数据？
 用户数据加密授权等如何操作？
 
 
+
 一些白皮书资料 https://github.com/mipengchong/blockchain/tree/master/white_papers
 
 !!!最小可行区块链原理
 
-★https://github.com/openblockchains/awesome-blockchains 里面也有教程  
 闪电网络  
-中文的一个github资料，可以看那些交易所。https://github.com/dily3825002/awesome-blockchain  
+ 
 HelloZeroNet / ZeroNet    
-[200行代码搞懂区块链](https://mp.weixin.qq.com/s/9g-c3_YR4MJ3JWzrQN_b6A)  
-https://github.com/imbaniac/awesome-blockchain 关注里面的交易所   
 https://ethfans.org/posts/219 以太坊紫皮书
 元界链如何防止被篡改
 
-比特币网络源代码分析
-https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf
 
-[深入理解比特币交易的脚本](http://mp.weixin.qq.com/s/tbU9Pg0vQkA7JdKSgNyPAQ)
 
 [干货 | 权益证明 FAQ（完整版）](https://ethfans.org/posts/Proof-of-Stake-FAQ-new-2018-3-15) 可以加到consensus里面
 
-[区块链实践，动手写一个](https://github.com/wecodexyz/awesome-blockchain-articles#%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%A7)
+
 
 相关钱包技术也要关心一下 比如 https://github.com/MyEtherWallet mist等
 
 各大链的奖励机制是什么，比如EOS、Cardano等
 
-[数字货币交易所课程](https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/ )
-github上的awesome-block-chain等也有关于exchange的整理
-[solidity 开发](https://learnblockchain.cn/) 
-[Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
 
-https://blog.csdn.net/HiBlock/article/details/81297461
+
+
+
+## build your own blockchain   
+[Do-It-Yourself (DIY) - Build Your Own Blockchain(include talk notes)](https://github.com/openblockchains/awesome-blockchains#do-it-yourself-diy---build-your-own-blockchain)
+[build-your-own-blockchain](https://github.com/danistefanovic/build-your-own-x#build-your-own-blockchain--cryptocurrency)
+[Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
+[200行代码搞懂区块链](https://mp.weixin.qq.com/s/9g-c3_YR4MJ3JWzrQN_b6A)  
+[go 搭建公链 youtue教程](https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber)  
+[go 搭建公链 youtue教程](https://github.com/yjjnls/blockchain_go_videos)
+[区块链实践，动手写一个](https://github.com/wecodexyz/awesome-blockchain-articles#%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%A7)

@@ -11,6 +11,8 @@ https://github.com/golang-china/gopl-zh
 - [ ] [Redis快速入门及应用](http://www.infoq.com/cn/articles/architecture-practice-01-redis)
 - [ ] [如何基于Redis Replication设计并实现Redis-replicator？](http://www.infoq.com/cn/articles/Redis-Replication-Redis-replicator)
 - [ ] [Redis 如何分布式，来看京东金融的设计与实践](http://www.infoq.com/cn/articles/jingdong-redis-practice)
+- [ ] [Implementing a Key-Value Store](http://codecapsule.com/2012/11/07/ikvs-implementing-a-key-value-store-table-of-contents/) https://github.com/danistefanovic/build-your-own-x#build-your-own-database
+- [ ] [Let's Build a Simple Database](https://cstack.github.io/db_tutorial/)
 
 ## Go
 - [ ] [今日头条Go建千亿级微服务的实践](http://36kr.com/p/5073181.html)
