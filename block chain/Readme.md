@@ -156,3 +156,5 @@ HelloZeroNet / ZeroNet
 
 
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
+
+[Proof-of-Stake (vs proof-of-work)](https://www.youtube.com/watch?v=M3EFi_POhps)
