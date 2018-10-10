@@ -153,7 +153,11 @@ HelloZeroNet / ZeroNet
 [go 搭建公链 youtue教程](https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber)  
 [go 搭建公链 youtue教程](https://github.com/yjjnls/blockchain_go_videos)
 [区块链实践，动手写一个](https://github.com/wecodexyz/awesome-blockchain-articles#%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%A7)
+
 [tinychain](https://github.com/tinychain/tinychain)
+[区块链reference](https://github.com/Blockchain-zju/references) 里面有算法分析以及一些资料
+[简历验证系统](https://github.com/Dearkano/ResumeVerification)
+[Nebulas上的一些项目](https://incentive.nebulas.io/dapps-board.html#5)  可以看看有哪些项目，以及一些项目的code
 
 
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
