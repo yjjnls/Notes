@@ -6,7 +6,7 @@ https://github.com/guanzhenxing/java_interview_manual
 https://github.com/CyC2018/Interview-Notebook
 https://github.com/golang-china/gopl-zh
 [Gc](https://github.com/GoldenLiang/GCAlgorithms)
-
+[weibo](https://github.com/CyC2018/MBlog)
 # Redis
 - [ ] [Redis快速入门及应用](http://www.infoq.com/cn/articles/architecture-practice-01-redis)
 - [ ] [如何基于Redis Replication设计并实现Redis-replicator？](http://www.infoq.com/cn/articles/Redis-Replication-Redis-replicator)
