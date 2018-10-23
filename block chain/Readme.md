@@ -108,13 +108,15 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 ## 交易所
 
--   \[] 极客教程整理
--   \[] 买的课程整理+课程里面的论文
+-   [ ] 极客教程整理
+-   [ ] 买的课程整理+课程里面的论文
 
--   \[] <https://github.com/imbaniac/awesome-blockchain> 关注里面的交易所   
--   \[] 中文的一个github资料，可以看那些交易所。<https://github.com/dily3825002/awesome-blockchain> 
--   [][数字货币交易所课程](<https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/> )
--   \[] github上的awesome-block-chain等也有关于exchange的整理
+-   [ ] <https://github.com/imbaniac/awesome-blockchain> 关注里面的交易所   
+-   [ ] 中文的一个github资料，可以看那些交易所。<https://github.com/dily3825002/awesome-blockchain> 
+-   [ ][数字货币交易所课程](<https://hiblock.one/blog/%E5%8C%BA%E5%9D%97%E9%93%BE100%E8%AE%B2%EF%BC%9A%E4%BB%A3%E5%B8%81%E9%94%81%E4%BB%93%E5%90%8E%E9%80%90%E6%AD%A5%E9%87%8A%E6%94%BE%E7%9A%84erc20%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%9E%E8%B7%B5/> )
+-   [ ] github上的awesome-block-chain等也有关于exchange的整理
+
+!!! 每一部分研究都可以参考 https://github.com/yjjnls/awesome-blockchain-cn 里面的部分
 
 * * *
 
@@ -146,9 +148,12 @@ HelloZeroNet / ZeroNet
 
 ## build your own blockchain
 
+[lets-build-a-blockchain](https://github.com/Haseeb-Qureshi/lets-build-a-blockchain)
 [Do-It-Yourself (DIY) - Build Your Own Blockchain(include talk notes)](https://github.com/openblockchains/awesome-blockchains#do-it-yourself-diy---build-your-own-blockchain)
 [build-your-own-blockchain](https://github.com/danistefanovic/build-your-own-x#build-your-own-blockchain--cryptocurrency)
 [Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
+[想学习区块链？那就用 Python 构建一个](http://python.jobbole.com/89246/)
+[20分钟，我用简单的Python代码创建了一个完整的区块链！想学吗？](https://blog.csdn.net/yjjnls/article/details/82979410)
 [200行代码搞懂区块链](https://mp.weixin.qq.com/s/9g-c3_YR4MJ3JWzrQN_b6A)  
 [go 搭建公链 youtue教程](https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber)  
 [go 搭建公链 youtue教程](https://github.com/yjjnls/blockchain_go_videos)
@@ -165,3 +170,20 @@ PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS�
 [Proof-of-Stake (vs proof-of-work)](https://www.youtube.com/watch?v=M3EFi_POhps)    
 [GO语言打造区块链](https://edu.csdn.net/course/detail/9385)    
 [区块链与身份验证](https://edu.csdn.net/course/detail/9526)    
+
+[Taireum 一种兼容以太坊的企业级分布式账本与智能合约平台](http://www.codeorg.cn/article/detail/blockchain/517)  
+https://github.com/taireum/go-taireum
+
+- [ ][关于Tangle](https://www.jianshu.com/p/5d932cecce3a)
+
+!!! 每一部分研究都可以参考 https://github.com/yjjnls/awesome-blockchain-cn 里面的部分
+
+--------
+## 测试
+[区块链性能测评实战案例](http://www.infoq.com/cn/articles/block-chain-practice)  
+[Hyperledger Caliper：测量区块链性能的工具](http://www.infoq.com/cn/articles/tool-to-measure-blockchain-performance-hyperledger-caliper?utm_source=notification_web&utm_campaign=notifications&utm_medium=link&utm_content=content_in_followed_topic)   
+[如何十分钟搭建你的区块链概念验证环境？](https://quant.la/Article/View/1037/%E5%A6%82%E4%BD%95%E5%8D%81%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A6%82%E5%BF%B5%E9%AA%8C%E8%AF%81%E7%8E%AF%E5%A2%83%EF%BC%9F.html)
+
+
+## 安全
+[区块链安全技术总结](http://www.sohu.com/a/243770504_354899)
