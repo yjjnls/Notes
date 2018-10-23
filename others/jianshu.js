@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const stringRandom = require('string-random');
 
-urls = ['https://www.jianshu.com/p/91c4178616fb', 'https://www.jianshu.com/p/a81194479b67', 'https://www.jianshu.com/p/19bbe6b7a73f', 'https://www.jianshu.com/p/ca569196dff6', 'https://www.jianshu.com/p/f82436325fc6', 'https://www.jianshu.com/p/5a89014c3345'];
+urls = ['https://www.jianshu.com/p/de155f6ef657', 'https://www.jianshu.com/p/04ef9509112f', 'https://www.jianshu.com/p/a56dac78b4ad', 'https://www.jianshu.com/p/890aab800ea6'];
 
 (async function test() {
     const browser = await puppeteer.launch();
@@ -13,7 +13,7 @@ urls = ['https://www.jianshu.com/p/91c4178616fb', 'https://www.jianshu.com/p/a81
                 //     await page.goto(urls[i]);
                 //     // sleep(500);
                 // }
-                await page.goto(urls[stringRandom(1, '012345')]);
+                await page.goto(urls[stringRandom(1, '0123')]);
             }
             await page.waitFor(1000);
         }
