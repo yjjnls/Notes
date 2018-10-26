@@ -85,6 +85,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [Hyperledger 源码分析之 Fabric](https://link.zhihu.com/?target=https%3A//yeasy.gitbooks.io/hyperledger_code_fabric/content/)
 -   [ ] [fabric 源码分析](https://blog.csdn.net/idsuf698987/article/category/7016640/2)
 -   [ ] <http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1>
+-   [ ] [杨宝华的书](https://yeasy.gitbooks.io/blockchain_guide/content/fabric_design/)
 
 # 书籍
 
@@ -119,6 +120,12 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 !!! 每一部分研究都可以参考 https://github.com/yjjnls/awesome-blockchain-cn 里面的部分
 
 * * *
+
+分叉
+http://www.8btc.com/tan90d97
+https://baijiahao.baidu.com/s?id=1608264747005780350&wfr=spider&for=pc
+
+分片技术 https://zhuanlan.zhihu.com/p/38903236
 
 ★公有链客户端是否真的持有数据？到底是怎么个原理？
 如果客户端不是一直挖，那会保存数据么？客户端重新上线后如何同步数据？
@@ -177,6 +184,8 @@ https://github.com/taireum/go-taireum
 - [ ][关于Tangle](https://www.jianshu.com/p/5d932cecce3a)
 
 !!! 每一部分研究都可以参考 https://github.com/yjjnls/awesome-blockchain-cn 里面的部分
+
+区块链实例：信息公正、交易资产等 https://yeasy.gitbooks.io/blockchain_guide/content/app_dev/chaincode_example01.html
 
 --------
 ## 测试
