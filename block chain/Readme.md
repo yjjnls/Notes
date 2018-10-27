@@ -86,6 +86,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [fabric 源码分析](https://blog.csdn.net/idsuf698987/article/category/7016640/2)
 -   [ ] <http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1>
 -   [ ] [杨宝华的书](https://yeasy.gitbooks.io/blockchain_guide/content/fabric_design/)
+http://blockgeek.org/t/topic/301 和微信里面的比较一下
 
 # 书籍
 
@@ -165,7 +166,7 @@ HelloZeroNet / ZeroNet
 [go 搭建公链 youtue教程](https://www.youtube.com/channel/UCRxmNhjCYQkGVbKSumcK5Wg/videos?view_as=subscriber)  
 [go 搭建公链 youtue教程](https://github.com/yjjnls/blockchain_go_videos)
 [区块链实践，动手写一个](https://github.com/wecodexyz/awesome-blockchain-articles#%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%A7)
-
+[java的](http://blockgeek.org/t/topic/559)
 [tinychain](https://github.com/tinychain/tinychain)
 [区块链reference](https://github.com/Blockchain-zju/references) 里面有算法分析以及一些资料
 [简历验证系统](https://github.com/Dearkano/ResumeVerification)
