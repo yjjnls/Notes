@@ -87,6 +87,8 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] <http://www.cnblogs.com/aberic/tag/Fabric/default.html?page=1>
 -   [ ] [杨宝华的书](https://yeasy.gitbooks.io/blockchain_guide/content/fabric_design/)
 http://blockgeek.org/t/topic/301 和微信里面的比较一下
+-   [ ] [IBM fabric教程](http://www.yanglajiao.com/article/yunlilang/79726682)
+
 
 # 书籍
 
