@@ -140,7 +140,7 @@ https://baijiahao.baidu.com/s?id=1608264747005780350&wfr=spider&for=pc
 
 HelloZeroNet / ZeroNet  
 <https://ethfans.org/posts/219> 以太坊紫皮书
-元界链如何防止被篡改
+
 
 [干货 | 权益证明 FAQ（完整版）](https://ethfans.org/posts/Proof-of-Stake-FAQ-new-2018-3-15) 可以加到consensus里面
 
@@ -150,7 +150,7 @@ HelloZeroNet / ZeroNet
 
 ## blog
 
-<https://hiblock.one/blog里面的区块链100讲>
+★<https://hiblock.one/blog里面的区块链100讲>
 [区块链技术博客](http://me.tryblockchain.org/)
 [深入浅出区块链](https://learnblockchain.cn/)
 
