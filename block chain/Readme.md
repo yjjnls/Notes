@@ -78,7 +78,8 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [x] [BlockChain 与 Ethereum 介绍](https://jysperm.me/2016/05/blockchain-slides/)
 -   [ ] [以太坊设计原理](https://ethfans.org/posts/510)
 -   [ ] [智能合约案例](https://github.com/vczh2/solidityExample)
-
+ 
+ ！！！https://github.com/xianfeng92/Love-Ethereum 整理这里面的资源
 
 # Hyperledger
 
@@ -174,8 +175,10 @@ HelloZeroNet / ZeroNet
 [tinychain](https://github.com/tinychain/tinychain)
 [区块链reference](https://github.com/Blockchain-zju/references) 里面有算法分析以及一些资料
 [简历验证系统](https://github.com/Dearkano/ResumeVerification)
-[Nebulas上的一些项目](https://incentive.nebulas.io/dapps-board.html#5)  可以看看有哪些项目，以及一些项目的code
-
+[Nebulas上的一些项目](https://incentive.nebulas.io/dapps-board.html#5)  可以看看有哪些项目，以及一些项目的code  
+！！！ 各语言搭建blockchain https://github.com/liuchengxu/blockchain-tutorial   
+！！！ go搭建blockchain https://jeiwan.cc/tags/bitcoin/   
+[Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
 
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
 
