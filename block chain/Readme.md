@@ -79,7 +79,9 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [以太坊设计原理](https://ethfans.org/posts/510)
 -   [ ] [智能合约案例](https://github.com/vczh2/solidityExample)
  
- ！！！https://github.com/xianfeng92/Love-Ethereum 整理这里面的资源
+-   [ ] ！！！https://github.com/xianfeng92/Love-Ethereum 整理这里面的资源
+-   [ ] ！！！[以太坊源码分析](https://github.com/ZtesoftCS/go-ethereum-code-analysis)
+
 
 # Hyperledger
 
