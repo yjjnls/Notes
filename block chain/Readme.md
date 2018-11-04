@@ -199,6 +199,8 @@ https://github.com/taireum/go-taireum
 
 ERC20
 
+软分叉最后如何合并到主链上面？
+
 --------
 ## 测试
 [区块链性能测评实战案例](http://www.infoq.com/cn/articles/block-chain-practice)  
