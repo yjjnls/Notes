@@ -42,10 +42,11 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 -   [ ] 整理一个最简单的比特币关键术语和结构流程说明（可以用问答形式对关键点进行整理）
 -   [ ] 共识机制整理
+-   [ ] [！！！Dpos的补充，整理到共识机制里面去](http://blockgeek.org/t/dpos/207)
 
 # extension
 
--   [ ] [区块链的在鉴权、物联网、能源方面的应用](https://github.com/yjjnls/awesome-non-financial-blockchain)
+-   [x] [区块链的在鉴权、物联网、能源方面的应用](https://github.com/yjjnls/awesome-non-financial-blockchain)
 
 # bitcoin
 
@@ -199,7 +200,9 @@ https://github.com/taireum/go-taireum
 
 ERC20
 
-软分叉最后如何合并到主链上面？
+软分叉最后如何合并到主链上面？（比特币分叉之后如何达成最长链的共识？）
+
+比特币中交易费是比特币，那么以太坊中的交易费为什么是gas，发送Ether，交易费却是gas，gas和Ether有什么关系？怎么算钱，怎么计算？
 
 --------
 ## 测试
