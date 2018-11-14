@@ -204,6 +204,8 @@ ERC20
 
 比特币中交易费是比特币，那么以太坊中的交易费为什么是gas，发送Ether，交易费却是gas，gas和Ether有什么关系？怎么算钱，怎么计算？
 
+离线签名  https://blog.csdn.net/wypeng2010/article/details/81357381
+
 --------
 ## 测试
 [区块链性能测评实战案例](http://www.infoq.com/cn/articles/block-chain-practice)  
