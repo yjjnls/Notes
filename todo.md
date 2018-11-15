@@ -13,6 +13,7 @@ https://github.com/golang-china/gopl-zh
 - [ ] [Redis 如何分布式，来看京东金融的设计与实践](http://www.infoq.com/cn/articles/jingdong-redis-practice)
 - [ ] [Implementing a Key-Value Store](http://codecapsule.com/2012/11/07/ikvs-implementing-a-key-value-store-table-of-contents/) https://github.com/danistefanovic/build-your-own-x#build-your-own-database
 - [ ] [Let's Build a Simple Database](https://cstack.github.io/db_tutorial/)
+- [ ] ★resdis知识点整理 https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95
 
 ## Go
 - [ ] [今日头条Go建千亿级微服务的实践](http://36kr.com/p/5073181.html)
