@@ -182,6 +182,7 @@ HelloZeroNet / ZeroNet
 ！！！ 各语言搭建blockchain https://github.com/liuchengxu/blockchain-tutorial   
 ！！！ go搭建blockchain https://jeiwan.cc/tags/bitcoin/   
 [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
+[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md)
 
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
 
@@ -205,6 +206,7 @@ ERC20
 比特币中交易费是比特币，那么以太坊中的交易费为什么是gas，发送Ether，交易费却是gas，gas和Ether有什么关系？怎么算钱，怎么计算？
 
 离线签名  https://blog.csdn.net/wypeng2010/article/details/81357381
+
 
 --------
 ## 测试
