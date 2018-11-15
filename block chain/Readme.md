@@ -62,6 +62,13 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 可以看看<https://github.com/hpb-project/ico>  
 最好能做些项目！  比如自己建一个币（改比特币源码）/自己用fabric做一个小应用之类的
 
+★比特币部分基本流程：
+1. 比特币基础概念整理好
+2. 比特币源码分析整理（看重思路流程，不用全部整理）（大头）
+3. 构建最小的链POW，包括不同的语言
+4. 上面的资料和awesome资料整理好
+5. frequent Q&A 整理
+
 # 以太坊
 
 -   [ ] [简单的智能合约例子](https://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum)
@@ -83,6 +90,13 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] ！！！https://github.com/xianfeng92/Love-Ethereum 整理这里面的资源
 -   [ ] ！！！[以太坊源码分析](https://github.com/ZtesoftCS/go-ethereum-code-analysis)
 
+以太坊部分基本流程：
+1. 白皮书等基本概念整理好
+2. 源码分析整理好
+3. solidity基本概念整理好
+4. Dapp开发整理（合约、web3、truffle）
+5. 上述资源和awesome整理好
+6. EVM原理、设计，最好有代码分析
 
 # Hyperledger
 
@@ -154,7 +168,7 @@ HelloZeroNet / ZeroNet
 
 相关钱包技术也要关心一下 比如 <https://github.com/MyEtherWallet> mist等
 
-各大链的奖励机制是什么，比如EOS、Cardano等
+!!!! 各大链的奖励机制是什么，比如EOS、Cardano等
 
 ## blog
 
@@ -182,7 +196,7 @@ HelloZeroNet / ZeroNet
 ！！！ 各语言搭建blockchain https://github.com/liuchengxu/blockchain-tutorial   
 ！！！ go搭建blockchain https://jeiwan.cc/tags/bitcoin/   
 [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
-[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md)
+！！！[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md)
 
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
 
@@ -217,3 +231,14 @@ ERC20
 
 ## 安全
 [区块链安全技术总结](http://www.sohu.com/a/243770504_354899)
+
+
+- [ ] iota、menero、eos的awesome整理好
+- [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
+- [ ] 密码学完善（比特币背后的密码学原理（看完比特币以后添加到crypto里面））
+- [ ] DAG， merkle tree以及以太坊结构整理好
+- [ ] 比特币部分整理
+- [ ] 以太坊部分整理
+- [ ] 所有可以跟进的项目，应用整理，仿照着做几个也可以
+- [ ] exchange、wallet 等等再说吧
+
