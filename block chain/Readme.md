@@ -64,7 +64,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 ★比特币部分基本流程：
 1. 比特币基础概念整理好
-2. 比特币源码分析整理（看重思路流程，不用全部整理）（大头）
+2. 比特币源码分析整理（看重思路流程，不用全部整理，一定要做简化，注重流程分析就可以）（大头）
 3. 构建最小的链POW，包括不同的语言
 4. 上面的资料和awesome资料整理好
 5. frequent Q&A 整理
