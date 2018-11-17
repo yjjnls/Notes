@@ -168,7 +168,7 @@ todo: 该僵局（tie）的打破要等到下一个工作量证明被发现？ho
 ## 2. 《精通比特币》相关要点整理
 - [ ] 区块链原理、设计与应用 第6章
 - [ ] 第二版 http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch02.html
-- [ ] 第一版 http://book.8btc.com/books/1/master_bitcoin/_book/2/2.html
+<!-- - [ ] 第一版 http://book.8btc.com/books/1/master_bitcoin/_book/2/2.html -->
 
 
 ### 2.1 比特币交易介绍
