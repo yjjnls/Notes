@@ -62,9 +62,16 @@ assert()返回0xfe来表示异常，而require()返回0xfd表示异常。
 
 此外assert触发后会消耗所有gas，而require触发后会返回剩余gas。**他们触发后都会停止当前操作，回退状态，交易会失败，event不会记录到log中**。
 
+当发生require类型的异常时，Solidity会执行一个回退操作（指令0xfd）。
+当发生assert类型的异常时，Solidity会执行一个无效操作（指令0xfe）。
+
 [实际测试例子](https://stackoverflow.com/a/48847724/10605675)
 
 [实际例子2](https://learnblockchain.cn/2018/04/07/solidity-errorhandler/)
+
+assert(false) compiles to 0xfe, which is an invalid opcode, using up all remaining gas, and reverting all changes.
+
+require(false) compiles to 0xfd which is the REVERT opcode, meaning it will refund the remaining gas. The opcode can also return a value.
 
 * Use  `assert()`  to:
     * check for overflow/underflow
@@ -82,7 +89,7 @@ assert()返回0xfe来表示异常，而require()返回0xfd表示异常。
     * Generally, you should use  `require`  more often,
     * Generally, it will be used towards the beginning of a function.
 
-另外，如果我们正确使用assert，有一个Solidity分析工具就可以帮我们分析出智能合约中的错误，帮助我们发现合约中有逻辑错误的bug。
+另外，如果我们正确使用assert，有一个**Solidity分析工具就可以帮我们分析出智能合约中的错误**，帮助我们发现合约中有逻辑错误的bug。
 
 #### revert
 revert的用法和throw很像，也会撤回所有的状态转变。但是它有两点不同：
