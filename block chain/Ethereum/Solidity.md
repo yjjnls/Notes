@@ -30,6 +30,8 @@ Solidity中合约的含义就是一组代码( 它的函数 )和数据( 它的状
 
 
 ### 异常处理
+Solidity是通过回退状态的方式来处理错误。**发生异常时会撤消当前调用（及其所有子调用）所改变的状态，同时给调用者返回一个错误标识**。注意捕捉异常是不可能的，因此没有try … catch…。
+
 * 传统方式 if throw
 ```
 contract HasAnOwner {
@@ -41,7 +43,7 @@ contract HasAnOwner {
     }
 }
 ```
-throw将抛出“返回无效操作代码错误”，回滚所有状态改变，而且消耗掉剩下的gas。
+throw将抛出“返回无效操作代码错误”，**回滚所有状态改变**，而且消耗掉剩下的gas。
 
 * 新的方式
 `if(msg.sender != owner) { throw; }`
@@ -58,33 +60,49 @@ assert函数只能用于测试内部错误，并检查不变量。
 
 assert()返回0xfe来表示异常，而require()返回0xfd表示异常。
 
-此外assert 消耗gas，而require不消耗gas。
+此外assert触发后会消耗所有gas，而require触发后会返回剩余gas。**他们触发后都会停止当前操作，回退状态，交易会失败，event不会记录到log中**。
 
-##### Use  `assert()`  to:
+[实际测试例子](https://stackoverflow.com/a/48847724/10605675)
 
-* check for overflow/underflow
-* check invariants
-* validate contract state  *after*  making changes
-* avoid conditions which should never, ever be possible.
-* Generally, you should use  `assert`  less often
-* Generally, it will be use towards the end of your function.
+[实际例子2](https://learnblockchain.cn/2018/04/07/solidity-errorhandler/)
 
-#### require
+* Use  `assert()`  to:
+    * check for overflow/underflow
+    * check invariants
+    * validate contract state  *after*  making changes
+    * avoid conditions which should never, ever be possible.
+    * Generally, you should use  `assert`  less often
+    * Generally, it will be use towards the end of your function.
 
+* Use  `require()`  to:
+    * Validate user inputs
+    * Validate the response from an external contract
+    ie. use  `require(external.send(amount))`
+    * Validate state conditions prior to executing state changing operations, for example in an  `owned` contract situation
+    * Generally, you should use  `require`  more often,
+    * Generally, it will be used towards the beginning of a function.
 
-##### Use  `require()`  to:
+另外，如果我们正确使用assert，有一个Solidity分析工具就可以帮我们分析出智能合约中的错误，帮助我们发现合约中有逻辑错误的bug。
 
-* Validate user inputs
-* Validate the response from an external contract
-ie. use  `require(external.send(amount))`
-* Validate state conditions prior to executing state changing operations, for example in an  `owned` contract situation
-* Generally, you should use  `require`  more often,
-* Generally, it will be used towards the beginning of a function.
+#### revert
+revert的用法和throw很像，也会撤回所有的状态转变。但是它有两点不同：
 
+1. 它允许你返回一个值；
 
-http://blockgeek.org/t/topic/554   
-http://blockgeek.org/t/assert-require/1523/3   
-https://ethereum.stackexchange.com/questions/15166/difference-between-require-and-assert-and-the-difference-between-revert-and-thro   
+2. 它会把所有剩下的gas退回给caller
+
+调用起来就像这样子：
+
+```
+revert(‘Something bad happened’);
+
+require(condition, ‘Something bad happened’);
+```
+
+ref  
+http://blockgeek.org/t/topic/554     
+http://blockgeek.org/t/assert-require/1523/3     
+https://ethereum.stackexchange.com/questions/15166/difference-between-require-and-assert-and-the-difference-between-revert-and-thro     
 
 
 ### ABI
