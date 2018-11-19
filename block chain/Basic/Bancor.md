@@ -125,3 +125,6 @@ Bancor协议是一个自动运行的智能合约，项目的资金池也通常�
 
 
 todo http://blockgeek.org/t/topic/1552
+http://blockgeek.org/t/topic/1593
+http://blockgeek.org/t/topic/1610
+http://blockgeek.org/t/topic/1612
