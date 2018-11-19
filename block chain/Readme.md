@@ -90,6 +90,13 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] ！！！https://github.com/xianfeng92/Love-Ethereum 整理这里面的资源
 -   [ ] ！！！[以太坊源码分析](https://github.com/ZtesoftCS/go-ethereum-code-analysis)
 
+-   [x] [查看以太坊价格](http://blockgeek.org/t/topic/516)
+-   [ ] [锁定合约1](http://blockgeek.org/t/topic/338)
+-   [ ] [锁定合约2](http://blockgeek.org/t/topic/386)
+-   [ ] [用 Parity 发送 ERC20 Token](http://blockgeek.org/t/topic/391)
+-   [ ] [代币与 ERC](http://blockgeek.org/t/topic/513)
+
+
 以太坊部分基本流程：
 1. 白皮书等基本概念整理好
 2. 源码分析整理好
@@ -182,6 +189,7 @@ HelloZeroNet / ZeroNet
 [Do-It-Yourself (DIY) - Build Your Own Blockchain(include talk notes)](https://github.com/openblockchains/awesome-blockchains#do-it-yourself-diy---build-your-own-blockchain)
 [build-your-own-blockchain](https://github.com/danistefanovic/build-your-own-x#build-your-own-blockchain--cryptocurrency)
 [Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
+[用 Python 从零开始创建区块链](http://blockgeek.org/t/topic/498)
 [想学习区块链？那就用 Python 构建一个](http://python.jobbole.com/89246/)
 [20分钟，我用简单的Python代码创建了一个完整的区块链！想学吗？](https://blog.csdn.net/yjjnls/article/details/82979410)
 [200行代码搞懂区块链](https://mp.weixin.qq.com/s/9g-c3_YR4MJ3JWzrQN_b6A)  
@@ -202,7 +210,8 @@ PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS�
 
 [Proof-of-Stake (vs proof-of-work)](https://www.youtube.com/watch?v=M3EFi_POhps)    
 [GO语言打造区块链](https://edu.csdn.net/course/detail/9385)    
-[区块链与身份验证](https://edu.csdn.net/course/detail/9526)    
+[区块链与身份验证](https://edu.csdn.net/course/detail/9526)  
+[Go语言构造区块链](http://blockgeek.org/t/topic/234)
 
 [Taireum 一种兼容以太坊的企业级分布式账本与智能合约平台](http://www.codeorg.cn/article/detail/blockchain/517)  
 https://github.com/taireum/go-taireum
@@ -231,6 +240,7 @@ ERC20
 
 ## 安全
 [区块链安全技术总结](http://www.sohu.com/a/243770504_354899)
+[以太坊智能合约安全](http://blockgeek.org/t/topic/556)
 
 
 - [ ] iota、menero、eos的awesome整理好
