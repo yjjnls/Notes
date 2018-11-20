@@ -230,6 +230,7 @@ ERC20
 
 离线签名  https://blog.csdn.net/wypeng2010/article/details/81357381
 
+todo 一个区块包含多少条交易，是否有限制？
 
 --------
 ## 测试
