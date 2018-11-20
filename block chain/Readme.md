@@ -231,6 +231,15 @@ ERC20
 离线签名  https://blog.csdn.net/wypeng2010/article/details/81357381
 
 todo 一个区块包含多少条交易，是否有限制？
+gas price是多少Gwei，那Gwei和Ether怎么换算？
+
+ethereum 查询网站
+[etherscan](https://etherscan.io/blocks)
+[EthStats.net](https://ethstats.net/)  
+https://ethgasstation.info/
+
+根据地址查看合约
+https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 
 --------
 ## 测试
