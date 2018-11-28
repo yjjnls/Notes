@@ -254,6 +254,7 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 [以太坊智能合约安全](http://blockgeek.org/t/topic/556)
 
 
+http://blockgeek.org/t/topic/1795 里面的目录整理进去
 - [ ] iota、menero、eos的awesome整理好
 - [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
 - [ ] 密码学完善（比特币背后的密码学原理（看完比特币以后添加到crypto里面））（https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
