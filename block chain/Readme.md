@@ -207,6 +207,9 @@ HelloZeroNet / ZeroNet
 [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
 ！！！[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md)
 
+(https://github.com/anders94/blockchain-demo/) A web-based demonstration of blockchain concepts
+
+
 pow http://blockgeek.org/t/topic/558
 PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS最大的两个问题，长程攻击和nothing at stake是非常致命的。(https://zhuanlan.zhihu.com/p/45037610)
 
