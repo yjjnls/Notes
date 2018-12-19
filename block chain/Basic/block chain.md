@@ -188,11 +188,14 @@ todo: 该僵局（tie）的打破要等到下一个工作量证明被发现？ho
 ## 1. 比特币交易介绍
 每一笔交易包含一个或多个“输入”，有一个或多个“输出”，这些输入和输出的总额不需要相等，当输出累加略少于输入量时，两者的差额就代表了一笔隐含的“矿工费”，这也是将交易放进账簿的矿工所收集到的一笔小额支付。
 
-![](./img/bitcoin/2.1.png)
+<div align="center"><img src="./img/bitcoin/2.1.png" width="380"></div>
+<!-- ![](./img/bitcoin/2.1.png) -->
 
 交易是将钱从交易输入移至输出。**输入是指钱币的来源**，通常是之前一笔交易的输出。**交易的输出**则是通过**关联一个密钥**的方式**将钱赋予一个新的所有者**。一笔交易的输出可以被当做另一笔新交易的输入，这样随着钱从一个地址被移动到另一个地址的同时形成了一条所有权链。 
 
-![](./img/bitcoin/2.2.png)
+<div align="center"><img src="./img/bitcoin/2.2.png" width="680"></div>
+
+<!-- ![](./img/bitcoin/2.2.png) -->
 
 
 Alice的密钥提供了解锁之前交易输出的签名，因此向比特币网络证明她拥有这笔钱。她将咖啡的支付附到Bob的地址上，实现“阻止”那笔输出，指明要求是Bob签名才能消费这笔钱。
@@ -254,7 +257,9 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 ### **2.3 生成地址**
 一个比特币钱包中包含一系列的密钥对，每个密钥对包括一个私钥和一个公钥。私钥（k）是一个数字，通常是随机选出的。有了私钥，我们就可以使用椭圆曲线乘法这个单向加密函数产生一个公钥（K）。有了公钥（K），我们就可以使 用一个单向加密哈希函数生成比特币地址（A）。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 首先生成一个随机数作为私钥k，私钥k为起点，我们将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K。生成点是secp256k1标准的一部分，比特币密钥的生成点都是相同的：
 
@@ -273,7 +278,8 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 公式中，K是公钥，A是生成的比特币地址。
 通常用户见到的比特币地址是经过“Base58Check”编码的（参见“Base58和Base58Check编码”一节），这种编码 使用了58个字符（一种Base58数字系统）和校验码，提高了可读性、避免歧义并有效防止了在地址转录和输入中产生的错误。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 **由于加密计算都是单向的，所以保证了唯一性。**
 
@@ -319,8 +325,8 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 6.  生成的有顺序的单词组就是助记码。
 
 生成熵和编码作为助记词
-
-![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 熵数据的大小和助记词的长度之间的关系
 
@@ -336,7 +342,8 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 
 9.  PBKDF2使用HMAC-SHA512算法，使用2048次哈希来延伸助记符和盐参数，产生一个512位的值作为其最终输出。 这个512位的值就是种子。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 为了从助记词中生成二进制种子，BIP39 采用 PBKDF2 函数推算种子，其参数如下：
 
@@ -354,8 +361,8 @@ DK = PBKDF2(PRF, Password, Salt, c, dkLen)
 **主私钥和主链码**  
 
 首先是从根种子生成主密钥 (master key) 和主链码 (master chain code)
-
-![](http://upload-images.jianshu.io/upload_images/1785959-838fb4445a1d179c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-838fb4445a1d179c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-838fb4445a1d179c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 上图中根种子通过不可逆 HMAC-SHA512 算法推算出 512 位的哈希串，左 256 位是 `Master Private key(m)`， 右 256 位是 `master chain code`， 通过 m 结合推导公钥的椭圆曲线算法能推导出与之对应的 264 位 `master public Key (M)`。**chain code 作为推导下级密钥的熵**。
 
@@ -367,7 +374,10 @@ HD 钱包使用 CKD(child key derivation) 函数从父密钥(parent keys)推导�
 *   链码作为熵 (chain code 256 bits)
 *   子代索引序号 (index 32 bits)
 
-![](http://upload-images.jianshu.io/upload_images/1785959-1224f8f1acd381d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-1224f8f1acd381d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-1224f8f1acd381d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 索引号个数为 2 的 32 次方，每个父级密钥能推导出该数目一半的子密钥（索引号从 0x00 到 0x7fffffff (0 to 2 的 21 次方减 1) 会生成正常的密钥；索引号从 0x80000000 到 0xffffffff 会生成增强密钥）。CKD 采用不可逆的 HMAC-SHA512 不可逆加密算法，**子密钥不能向上推导出父密钥、同时也不能水平推导出同一级的密钥**。
 
@@ -391,7 +401,8 @@ HD 钱包通过公钥推导子公钥的使用场景：在接受数字货币支�
 *   把子私钥推导过程中私钥替换为公钥。
 *   子公钥推导出对应出与之的子链码。
 
-![](https://pic2.zhimg.com/80/v2-4c3a5922678ea93a32e42500a74a17f9_hd.jpg)
+<div align="center"><img src="https://pic2.zhimg.com/80/v2-4c3a5922678ea93a32e42500a74a17f9_hd.jpg" width="580"></div>
+<!-- ![](https://pic2.zhimg.com/80/v2-4c3a5922678ea93a32e42500a74a17f9_hd.jpg) -->
 
 **增强扩展密钥推导**
 
@@ -405,7 +416,8 @@ HD 钱包通过公钥推导子公钥的使用场景：在接受数字货币支�
 CKD 函数以推导扩展密钥的序列号 ( 0x00 到 0x7fffffff)、父链码和父公钥或父私钥生成子链码和子公钥，子私钥从父私钥推导；
 而 HKD 通过父私钥、父链码和推导增强扩展密钥的序列号 (0x80000000 到 0xffffffff) 增强子私钥和增强子链码。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-da0636d43b3579ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-da0636d43b3579ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-da0636d43b3579ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 todo:父私钥、公钥直接推导出子私钥、公钥？增强扩展的目的到底是什么？
 
@@ -598,8 +610,10 @@ if __name__ == "__main__":
 ### 7.2 P2PKH（Pay-to-Public-Key-Hash）
 P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
-将解锁脚本与锁定脚本拼接后组成**组合脚本**：  
-![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+将解锁脚本与锁定脚本拼接后组成**组合脚本**： 
+
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
     解锁脚本：<Sig> <PubKey>
 
@@ -609,7 +623,8 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 锁定脚本是由一连串**堆栈命令**和**公钥哈希**组成，公钥哈希即RIPEMD160(SHA256(公钥))，大小20字节，必须拥有该地址的私钥才能将锁定脚本解锁。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 **只有当解锁脚本与锁定脚本的设定条件相匹配时，执行组合验证脚本时才会显示结果为真（TRUE）。**
@@ -701,7 +716,8 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 ### 8.1 节点类型
 尽管比特币P2P网络中的各个节点相互对等，但是根据所提供的功能不同，各节点可能具有不同的角色。每个比特币节点都是**路由、区块链数据库、挖矿、钱包服务**的功能集合。一个全节点（full node）包括如图所示的四个功能：
 
-![](http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 另外还有一些节点只保留了区块链的一部分，它们通过一种名为“简易支付验证（SPV）”的方 式来完成交易验证。这样的节点被称为“SPV节点”，又叫“轻量级节点”。
@@ -734,7 +750,8 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 2.  手动通过-seednode命令指定一个比特币节点的IP地址作为比特币种子节点
 
 #### 8.2.2 与有效节点连接
-![](http://upload-images.jianshu.io/upload_images/1785959-80dd26e54d1fe3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-80dd26e54d1fe3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-80dd26e54d1fe3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 节点发送一条包含基本认证内容的version消息开始“握手”通信过程，该消息包括如下内容：
 
@@ -747,7 +764,9 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 *   BestHeight：当前节点区块链的区块高度（初始为0，即只包含创世区块）
 
 #### 8.2.3 与更多节点连接
-![](http://upload-images.jianshu.io/upload_images/1785959-87ee55e52ccd5b68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-87ee55e52ccd5b68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-87ee55e52ccd5b68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 1.  发送一条包含自身IP地址的addr发送给已连接的节点，这些节点收到后将此转发给它们各自的连接节点，使网络中更多的节点接收到新节点
 
@@ -763,8 +782,8 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 
 #### 8.2.4 交换区块清单
 该步骤仅在全节点上会执行，全节点在连接到其他节点后，需要构建完整的区块链，如果是新节点，它仅包含静态植入客户端中的0号区块（创世区块）。
-
-![](http://upload-images.jianshu.io/upload_images/1785959-e76673d0a358adfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e76673d0a358adfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-e76673d0a358adfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 1.  通过version消息中的BestHeight字段可知双方节点的区块高度，然后节点之间交换一个getblocks消息，其中包含本地区块链顶部区块的Hash，这样节点间就可以判断谁的链更长。
 
@@ -788,7 +807,7 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" align="center" width="380"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
 
 SPV节点使用getheaders消息替代getblocks消息，收到请求的节点将用一条headers消息发送2000个区块头给请求节点，不断循环直到区块头同步完毕。
 
