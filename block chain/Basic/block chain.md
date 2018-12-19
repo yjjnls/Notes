@@ -595,7 +595,9 @@ UTXO是永久性地记录在区块链中的，因此它不会因一笔新交易�
 
 
 #### 节点发现
+todo
 https://bbs.huaweicloud.com/blogs/5e740f8b1adc11e89fc57ca23e93a89f
+https://bbs.huaweicloud.com/blogs/405becb21d1c11e89fc57ca23e93a89f?icn_source=%E5%8D%9A%E5%AE%A2%E5%B9%BF%E5%91%8A&icn_medium=left1&icn_campaign=201803
 #### SPV
 http://blockgeek.org/t/spv/1133/3
 [Merkle树和SPV机制](https://cloud.tencent.com/developer/news/212113)
