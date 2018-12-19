@@ -278,7 +278,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 公式中，K是公钥，A是生成的比特币地址。
 通常用户见到的比特币地址是经过“Base58Check”编码的（参见“Base58和Base58Check编码”一节），这种编码 使用了58个字符（一种Base58数字系统）和校验码，提高了可读性、避免歧义并有效防止了在地址转录和输入中产生的错误。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 **由于加密计算都是单向的，所以保证了唯一性。**
@@ -325,7 +325,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 6.  生成的有顺序的单词组就是助记码。
 
 生成熵和编码作为助记词
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 熵数据的大小和助记词的长度之间的关系
@@ -342,7 +342,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 
 9.  PBKDF2使用HMAC-SHA512算法，使用2048次哈希来延伸助记符和盐参数，产生一个512位的值作为其最终输出。 这个512位的值就是种子。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 为了从助记词中生成二进制种子，BIP39 采用 PBKDF2 函数推算种子，其参数如下：
@@ -612,8 +612,9 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 将解锁脚本与锁定脚本拼接后组成**组合脚本**： 
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
-<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
+<!-- <div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div> -->
+
+![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
     解锁脚本：<Sig> <PubKey>
 
@@ -623,8 +624,9 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 锁定脚本是由一连串**堆栈命令**和**公钥哈希**组成，公钥哈希即RIPEMD160(SHA256(公钥))，大小20字节，必须拥有该地址的私钥才能将锁定脚本解锁。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
-<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
+<!-- <div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div> -->
+![](http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 **只有当解锁脚本与锁定脚本的设定条件相匹配时，执行组合验证脚本时才会显示结果为真（TRUE）。**
@@ -716,13 +718,13 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 ### 8.1 节点类型
 尽管比特币P2P网络中的各个节点相互对等，但是根据所提供的功能不同，各节点可能具有不同的角色。每个比特币节点都是**路由、区块链数据库、挖矿、钱包服务**的功能集合。一个全节点（full node）包括如图所示的四个功能：
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="280"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 另外还有一些节点只保留了区块链的一部分，它们通过一种名为“简易支付验证（SPV）”的方 式来完成交易验证。这样的节点被称为“SPV节点”，又叫“轻量级节点”。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="600"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="680"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 1.  比特币核心客户端（Refernce Clent(Bitcoin Core)）  
