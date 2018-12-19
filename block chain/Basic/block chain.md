@@ -329,7 +329,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 熵数据的大小和助记词的长度之间的关系
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="680"></div>
 
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
@@ -625,8 +625,8 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 锁定脚本是由一连串**堆栈命令**和**公钥哈希**组成，公钥哈希即RIPEMD160(SHA256(公钥))，大小20字节，必须拥有该地址的私钥才能将锁定脚本解锁。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
+<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0605.png" width="550"></div>
+<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0606.png" width="550"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
