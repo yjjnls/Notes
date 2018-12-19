@@ -458,8 +458,7 @@ UTXO是不能再分割、被所有者锁住或记录于区块链中的并被整�
 "vout": [
   {
     "value": 0.01500000,
-    "scriptPubKey": "OP_DUP OP_HASH160 ab68025513c3dbd2f7b92a94e0581f5d50f654e7 OP_EQUALVERIFY
-OP_CHECKSIG"
+    "scriptPubKey": "OP_DUP OP_HASH160 ab68025513c3dbd2f7b92a94e0581f5d50f654e7 OP_EQUALVERIFY OP_CHECKSIG"
   },
   {
     "value": 0.08450000,
@@ -726,20 +725,80 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 
 
 ### 8.2 节点发现
-todo
-https://bbs.huaweicloud.com/blogs/5e740f8b1adc11e89fc57ca23e93a89f
-https://bbs.huaweicloud.com/blogs/405becb21d1c11e89fc57ca23e93a89f?icn_source=%E5%8D%9A%E5%AE%A2%E5%B9%BF%E5%91%8A&icn_medium=left1&icn_campaign=201803
+#### 8.2.1 发现有效节点
+1.  使用“DNS种子”（DNS seeds），DNS种子提供比特币节点的IP地址列表，Bitcoin Core客户端提供五种不同的DNS种子，通常默认使用即可
+
+2.  手动通过-seednode命令指定一个比特币节点的IP地址作为比特币种子节点
+
+#### 8.2.2 与有效节点连接
+![](http://upload-images.jianshu.io/upload_images/1785959-80dd26e54d1fe3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+节点发送一条包含基本认证内容的version消息开始“握手”通信过程，该消息包括如下内容：
+
+*   nVersion：客户端的比特币P2P协议所采用的版本（例如：70002）。
+*   nLocalServices：一组该节点支持的本地服务列表，当前仅支持NODE_NETWORK
+*   nTime：当前时间
+*   addrYou：当前节点可见的远程节点的IP地址（上例中NodeB IP）
+*   addrMe：当前节点的IP地址（上例中NodeA IP）
+*   subver：指示当前节点运行的软件类型的子版本号（例如：”/Satoshi:0.9.2.1/”）
+*   BestHeight：当前节点区块链的区块高度（初始为0，即只包含创世区块）
+
+#### 8.2.3 与更多节点连接
+![](http://upload-images.jianshu.io/upload_images/1785959-87ee55e52ccd5b68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+1.  发送一条包含自身IP地址的addr发送给已连接的节点，这些节点收到后将此转发给它们各自的连接节点，使网络中更多的节点接收到新节点
+
+2.  发送一条getaddr消息，要求已连接节点返回其已知的节点IP地址列表，通过这种方式，节点可以找到更多可连接的节点。
+
+3.  已建立连接的节点会定期发送信息维持连接，如果某个节点长达90分钟没有通信，会被认为已经断开，网络会开始寻找一个新的节点。
+
+每个节点连接不超过1000个对等节点，超过数量的IP地址会被忽略，连接过多的节点浪费网络资源，没有必要。
+
+用户可指定-connect选项来指定一个或多个IP地址，如果设置该选项，节点将只连接选项中的地址，不会自动发现并维护节点之间的连接。
+
+启动完成后，节点会记住最近成功连接的节点，当重新启动后可以迅速与先前的节点重新建立连接。如果先前节点均无法连接，会重新从步骤1开始执行。
+
+#### 8.2.4 交换区块清单
+该步骤仅在全节点上会执行，全节点在连接到其他节点后，需要构建完整的区块链，如果是新节点，它仅包含静态植入客户端中的0号区块（创世区块）。
+
+![](http://upload-images.jianshu.io/upload_images/1785959-e76673d0a358adfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+1.  通过version消息中的BestHeight字段可知双方节点的区块高度，然后节点之间交换一个getblocks消息，其中包含本地区块链顶部区块的Hash，这样节点间就可以判断谁的链更长。
+
+2.  拥有更长链的节点识别出其他节点需要“补充”的区块后，开始分批发送区块（500个区块为一批），通过inv消息先将第一批的区块清单发送给对端节点（inv消息包含500个区块的Hash清单）。限制每次同步区块的数量，是为了减少新节点同步区块对网络造成的影响。
+
+3.  缺少区块的节点发送getdata消息向所有已连接的节点请求全区块数据，“正在传输”的区块数量不能超过客户端MAX_BLOCKS_IN_TRANSIT_PER_PEER参数设置的值。
+
 #### SPV
-http://blockgeek.org/t/spv/1133/3
-[Merkle树和SPV机制](https://cloud.tencent.com/developer/news/212113)
+运行全节点需要消耗非常多的存储空间，并不是所有设备都有条件成为全节点。简单支付验证（SPV）即是为了再不存储完整区块链的情况下进行工作。
 
-btc 交易费计算 https://zhuanlan.zhihu.com/p/38479785 
+**SPV节点只需要下载区块头**，大小约只有全节点的1/1000。
 
+*   全节点交易验证方式
+
+    全节点沿着区块链按时间倒叙一直追溯到创世区块，建立一个完整的UTXO数据库，通过查询UTXO是否未被支付来验证交易的有效性。
+
+*   SPV节点验证方式
+    **简易支付验证**是通过参考交易在区块链中的深度，而不是高度，来验证它们。SPV节点通过向其他节点请求某笔交易的Merkle路径，如果路径正确无误，并且该交易之上已有6个或以上区块被确认，则证明该交易不是双重支付。
+
+**SPV强调的是验证支付，不是验证交易。** 这两个概念是不同的。验证支付，比较简单，只需要判断用于支付的那笔交易是否被验证过，以及得到网络多少次确认（即有多少个区块叠加）。而交易验证则复杂的多，需要验证账户余额是否足够支出、是否存在双重支付、交易脚本是否通过等问题，一般这个操作是由全节点的矿工来完成。
+
+![](http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+SPV节点使用getheaders消息替代getblocks消息，收到请求的节点将用一条headers消息发送2000个区块头给请求节点，不断循环直到区块头同步完毕。
+
+注：SPV的通信会产生一个隐私风险，由于SPV节点总是通过广播选择性的验证交易，用户的比特币地址与钱包很容易能被关联起来，所以在使用SPV节点需要使用Bloom过滤器。Bloom过滤器作用就是每次要求发送验证信息的节点发送一批交易的信息，而不是某一个交易，再由SPV节点自己来筛选需要的信息，这样就保证了验证的具体交易无法被追踪。
+
+    SPV的目标是为了验证某个交易支付是否存在，以及得到比特币网络多少个确认（多少个区块）。
+
+    
+1.  SPV节点如果只关心某个支付到自己比特币地址的交易，则可以通过建立布隆过滤器限制只接收含有目标比特币地址的交易。
+2.  一旦比特币网络中其他当节点探测到某个交易符合SPV节点设置的布隆过滤器条件时，其它节点将以**Merkleblock消息**的形式发送该区块，**Merkleblock消息包含`区块头`和一条连接目标交易与Merkle根的`Merkle路径`**。
+3.  SPV节点通过零知识证明来验证对应区块中是否存在目标交易（**Merkle Path Proof**）。
+4.  SPV节点还需查询该包含目标交易的区块之后的区块个数，区块个数越多说明该区块被全网更多节点共识。一般来说，一笔交易所属区块之后的区块个数达到6个时，就说明这笔交易是被大家核准过（达成共识）的，没有重花，而且被篡改的可能性也很低。
 
 -------
 
-
-[结点发现](https://github.com/yjjnls/blockchain-tutorial-cn/blob/master/doc/10.%E6%B7%B1%E5%85%A5%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AP2P%E7%BD%91%E7%BB%9C.md#%E8%8A%82%E7%82%B9%E5%8F%91%E7%8E%B0)
 
 
 # 共识机制
