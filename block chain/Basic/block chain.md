@@ -188,7 +188,7 @@ todo: 该僵局（tie）的打破要等到下一个工作量证明被发现？ho
 ## 1. 比特币交易介绍
 每一笔交易包含一个或多个“输入”，有一个或多个“输出”，这些输入和输出的总额不需要相等，当输出累加略少于输入量时，两者的差额就代表了一笔隐含的“矿工费”，这也是将交易放进账簿的矿工所收集到的一笔小额支付。
 
-<div align="center"><img src="./img/bitcoin/2.1.png" width="380"></div>
+<div align="center"><img src="./img/bitcoin/2.1.png" width="450"></div>
 <!-- ![](./img/bitcoin/2.1.png) -->
 
 交易是将钱从交易输入移至输出。**输入是指钱币的来源**，通常是之前一笔交易的输出。**交易的输出**则是通过**关联一个密钥**的方式**将钱赋予一个新的所有者**。一笔交易的输出可以被当做另一笔新交易的输入，这样随着钱从一个地址被移动到另一个地址的同时形成了一条所有权链。 
@@ -278,7 +278,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 公式中，K是公钥，A是生成的比特币地址。
 通常用户见到的比特币地址是经过“Base58Check”编码的（参见“Base58和Base58Check编码”一节），这种编码 使用了58个字符（一种Base58数字系统）和校验码，提高了可读性、避免歧义并有效防止了在地址转录和输入中产生的错误。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 **由于加密计算都是单向的，所以保证了唯一性。**
@@ -325,7 +325,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 6.  生成的有顺序的单词组就是助记码。
 
 生成熵和编码作为助记词
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 熵数据的大小和助记词的长度之间的关系
@@ -342,7 +342,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 
 9.  PBKDF2使用HMAC-SHA512算法，使用2048次哈希来延伸助记符和盐参数，产生一个512位的值作为其最终输出。 这个512位的值就是种子。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="450"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-155e604188878b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 为了从助记词中生成二进制种子，BIP39 采用 PBKDF2 函数推算种子，其参数如下：
@@ -716,13 +716,14 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 ### 8.1 节点类型
 尽管比特币P2P网络中的各个节点相互对等，但是根据所提供的功能不同，各节点可能具有不同的角色。每个比特币节点都是**路由、区块链数据库、挖矿、钱包服务**的功能集合。一个全节点（full node）包括如图所示的四个功能：
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-b3232e2beb8cfa6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 另外还有一些节点只保留了区块链的一部分，它们通过一种名为“简易支付验证（SPV）”的方 式来完成交易验证。这样的节点被称为“SPV节点”，又叫“轻量级节点”。
 
-![](http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="600"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-5714bcf15cf8273a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 1.  比特币核心客户端（Refernce Clent(Bitcoin Core)）  
     包含钱包、矿工、完整区块、路由网络全部四种功能的节点
