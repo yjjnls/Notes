@@ -257,7 +257,7 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 ### **2.3 生成地址**
 一个比特币钱包中包含一系列的密钥对，每个密钥对包括一个私钥和一个公钥。私钥（k）是一个数字，通常是随机选出的。有了私钥，我们就可以使用椭圆曲线乘法这个单向加密函数产生一个公钥（K）。有了公钥（K），我们就可以使 用一个单向加密哈希函数生成比特币地址（A）。
 
-<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="680"></div>
 
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-dd62f685376a57d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
@@ -329,8 +329,9 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-bed496243dd75389.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 熵数据的大小和助记词的长度之间的关系
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
 
-![](http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-4b5a86e421dabfe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 ### 3.2 从助记词生成根种子
@@ -624,9 +625,10 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 锁定脚本是由一连串**堆栈命令**和**公钥哈希**组成，公钥哈希即RIPEMD160(SHA256(公钥))，大小20字节，必须拥有该地址的私钥才能将锁定脚本解锁。
 
-<!-- <div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380"></div> -->
-![](http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="550"></div>
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
 
 **只有当解锁脚本与锁定脚本的设定条件相匹配时，执行组合验证脚本时才会显示结果为真（TRUE）。**
