@@ -787,7 +787,7 @@ P2SH脚本的引入简化了多重签名的使用，让多重签名更加简单�
 **SPV强调的是验证支付，不是验证交易。** 这两个概念是不同的。验证支付，比较简单，只需要判断用于支付的那笔交易是否被验证过，以及得到网络多少次确认（即有多少个区块叠加）。而交易验证则复杂的多，需要验证账户余额是否足够支出、是否存在双重支付、交易脚本是否通过等问题，一般这个操作是由全节点的矿工来完成。
 
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
-<img src="http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" align="right" width="380">
+<img src="http://upload-images.jianshu.io/upload_images/1785959-817619842883f9f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="380">
 
 SPV节点使用getheaders消息替代getblocks消息，收到请求的节点将用一条headers消息发送2000个区块头给请求节点，不断循环直到区块头同步完毕。
 
