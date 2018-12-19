@@ -613,9 +613,9 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 将解锁脚本与锁定脚本拼接后组成**组合脚本**： 
 
-<!-- <div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="580"></div> -->
+<div align="center"><img src="http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="680"></div>
 
-![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<!-- ![](http://upload-images.jianshu.io/upload_images/1785959-e4060555d14bcd28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
     解锁脚本：<Sig> <PubKey>
 
@@ -625,8 +625,8 @@ P2PKH是最基本的交易类型，付款对象是公钥哈希。
 
 锁定脚本是由一连串**堆栈命令**和**公钥哈希**组成，公钥哈希即RIPEMD160(SHA256(公钥))，大小20字节，必须拥有该地址的私钥才能将锁定脚本解锁。
 
-<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0605.png" width="550"></div>
-<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0606.png" width="550"></div>
+<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0605.png" width="680"></div>
+<div align="center"><img src="https://github.com/yjjnls/bitcoinbook/blob/develop/images/mbc2_0606.png" width="680"></div>
 <!-- ![](http://upload-images.jianshu.io/upload_images/1785959-df262c9f279a046c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![](http://upload-images.jianshu.io/upload_images/1785959-86488f10788e53bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) -->
 
