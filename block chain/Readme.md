@@ -126,7 +126,7 @@ http://blockgeek.org/t/topic/301 和微信里面的比较一下
 # 密码学
 
 -   [x] [什么是椭圆曲线加密（ECC）](https://link.zhihu.com/?target=http%3A//8btc.com/article-138-1.html)
--   [ ] [！！比特币背后的密码学原理（看完比特币以后添加到crypto里面）](https://link.zhihu.com/?target=http%3A//www.jianshu.com/p/225ff9439132)
+-   [x] [！！比特币背后的密码学原理（看完比特币以后添加到crypto里面）](https://link.zhihu.com/?target=http%3A//www.jianshu.com/p/225ff9439132)
 -   [x] [密码学一小时必知](https://link.zhihu.com/?target=https%3A//blog.helong.info/blog/2015/04/12/translate-Everything-you-need-to-know-about-cryptgraphy-in-1-hour/)
 -   [x] [现代密码学实践指南](https://blog.helong.info/blog/2015/06/06/modern-crypto/)
 
@@ -263,7 +263,7 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 - [ ] https://github.com/Xel/Blockchain-stuff 整理
 - [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
 - [ ] 密码学完善
-  - [ ] （比特币背后的密码学原理（看完比特币以后添加到crypto里面））
+  - [x] （比特币背后的密码学原理（看完比特币以后添加到crypto里面））
   - [ ] （https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
   - [ ] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
 - [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分

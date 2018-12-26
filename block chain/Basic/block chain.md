@@ -153,7 +153,9 @@ public:
 ## 6. 工作量证明（Proof-of-Work）
 >在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。  
 
-区块中的随机数会影响生成的区块的hash值，而只有当这个hash值的前10位都是0时，才是有效的。需要耗费大量的cpu（随机碰撞）才能找到满足hash条件的随机数，这就是工作量。
+    SHA256(SHA256(nVersion , hashPrevBlock , hashMerkleRoot , nTime , nBits, nNonce))
+
+区块中的随机数会影响生成的区块的hash值，而只有当这个hash值的前N位都是0时，才是有效的。需要耗费大量的cpu（随机碰撞）才能找到满足hash条件的随机数，这就是工作量。
 
 >由于之后的区块是链接在该区块之后的，所以**想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量**。  
 
@@ -289,7 +291,15 @@ $ bitcoin-cli createrawtransaction '[{"txid" : "9ca8f969bd3ef5ec2a8685660fdbf7a8
 
 **由于加密计算都是单向的，所以保证了唯一性。**
 
+Base58编码是不含校验信息的，而Base58Check是一种常用在比特币中的Base58编码格式。用来编码的源数据通常由3各部分组成：前缀、数据和校验码。前缀用来明确需要编码的数据的类型。例如，比特币地址的前缀是0（十六进制是0x00），而对私钥编码时前缀是128（十六进制是0x80）。 而校验码则采用双哈希的方式生成：
 
+   checksum = SHA256(SHA256(prefix+data))
+
+在产生的长32个字节的哈希值（两次哈希运算）中，只取前4个字节，这4个字节就作为校验码。
+而生成的比特币地址还要经过Base58Check编码，其过程如下图所示：
+
+<!-- ![](https://upload-images.jianshu.io/upload_images/1367447-cec18209043969fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp) -->
+<div align="center"><img src="https://upload-images.jianshu.io/upload_images/1367447-cec18209043969fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" width="580"></div>
 
 可以参考 [How to create Bitcoin Address](https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses#How_to_create_Bitcoin_Address)
 
@@ -368,7 +378,7 @@ DK = PBKDF2(PRF, Password, Salt, c, dkLen)
 ```
 
 ### 3.3 从根种子中创造HD钱包
-前文所述，HD钱包用树状结构来存储秘钥链，所以从助记词来推导出整个HD钱包的过程就是不断由父秘钥推导子秘钥的过程。
+前文所述，**HD钱包用树状结构来存储秘钥链**，所以**从助记词来推导出整个HD钱包的过程就是不断`由父秘钥推导子秘钥`的过程**。
 
 #### 3.3.1 主私钥和主链码  
 
