@@ -221,7 +221,7 @@ PoS是残次品，我把它比作Vista。两种DPoS和SPoS都比纯PoS好，PoS�
 [Taireum 一种兼容以太坊的企业级分布式账本与智能合约平台](http://www.codeorg.cn/article/detail/blockchain/517)  
 https://github.com/taireum/go-taireum
 
-- [ ][关于Tangle](https://www.jianshu.com/p/5d932cecce3a)
+- [x][关于Tangle](https://www.jianshu.com/p/5d932cecce3a)
 
 !!! 每一部分研究都可以参考 https://github.com/yjjnls/awesome-blockchain-cn 里面的部分
 
@@ -238,10 +238,10 @@ ERC20
 todo 一个区块包含多少条交易，是否有限制？
 gas price是多少Gwei，那Gwei和Ether怎么换算？
 
-ethereum 查询网站
-[etherscan](https://etherscan.io/blocks)
-[EthStats.net](https://ethstats.net/)  
-https://ethgasstation.info/
+- [x] ethereum 查询网站
+  - [x] [etherscan](https://etherscan.io/blocks)
+  - [x] [EthStats.net](https://ethstats.net/)  
+  - [x] https://ethgasstation.info/
 
 根据地址查看合约
 https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
@@ -266,7 +266,7 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
   - [x] （比特币背后的密码学原理（看完比特币以后添加到crypto里面））
   - [ ] （https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
   - [ ] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
-- [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分
+- [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分 http://www.sohu.com/a/247540268_100222281
 - [ ] 比特币部分整理
 - [ ] 以太坊部分整理
 - [ ] 所有可以跟进的项目，应用整理，仿照着做几个也可以
