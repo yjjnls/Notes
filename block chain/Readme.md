@@ -98,7 +98,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 
 以太坊部分基本流程：
-1. 白皮书等基本概念整理好
+1. 白皮书等基本概念整理好 [精通以太坊](https://github.com/ethereumbook/ethereumbook)和精通比特币一样整理
 2. 源码分析整理好
 3. solidity基本概念整理好
 4. Dapp开发整理（合约、web3、truffle）
