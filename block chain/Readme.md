@@ -98,7 +98,9 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 
 
 以太坊部分基本流程：
-1. 白皮书等基本概念整理好 [精通以太坊](https://github.com/ethereumbook/ethereumbook)和精通比特币一样整理
+1. 白皮书等基本概念整理好 
+   那篇入门的文章
+   [精通以太坊](https://github.com/ethereumbook/ethereumbook)和精通比特币一样整理
 2. 源码分析整理好
 3. solidity基本概念整理好
 4. Dapp开发整理（合约、web3、truffle）
@@ -261,12 +263,18 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 - [x] iota、menero、eos的awesome整理好
 - [ ] http://blockgeek.org/t/topic/1795 里面的目录整理进去
 - [ ] https://github.com/Xel/Blockchain-stuff 整理
+- [ ] 先实现一些较为简单的链，有个感性理性直观认识
+  - [ ] 极客时间课程最后一部分
+  - [ ] build your own blockchain里面一些简单的但是不同语言的实现（先跟着实现几个）
 - [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
 - [ ] 密码学完善
   - [x] （比特币背后的密码学原理（看完比特币以后添加到crypto里面））
-  - [ ] （https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
+  - [ ] 环签名、盲签名（https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
   - [ ] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
-- [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分 http://www.sohu.com/a/247540268_100222281
+- [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分 http://www.sohu.com/a/247540268_100222281 ！！！！最好有代码！！！！！！！
+  - [ ] 比特币中的MT
+  - [ ] 以太坊中的MPT
+  - [ ] DAG的应用
 - [ ] 比特币部分整理
 - [ ] 以太坊部分整理
 - [ ] 所有可以跟进的项目，应用整理，仿照着做几个也可以
