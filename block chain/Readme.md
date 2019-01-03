@@ -272,7 +272,7 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
   - [x] 环签名、盲签名（https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
   - [ ] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
 - [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分 http://www.sohu.com/a/247540268_100222281 ！！！！最好有代码！！！！！！！
-  - [ ] 比特币中的MT （零知识证明，SPV验证）
+  - [ ] 比特币中的MT （零知识证明 Merkle tree in blockchain里面的部分，SPV验证）
   - [ ] 以太坊中的MPT
   - [ ] DAG的应用
 - [ ] 比特币部分整理
