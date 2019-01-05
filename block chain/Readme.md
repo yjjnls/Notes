@@ -208,6 +208,7 @@ HelloZeroNet / ZeroNet
 ！！！ go搭建blockchain https://jeiwan.cc/tags/bitcoin/   
 [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
 ！！！[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md)
+[go实现merkle树和pow](http://blockgeek.org/t/topic/3020)
 
 (https://github.com/anders94/blockchain-demo/) A web-based demonstration of blockchain concepts
 
@@ -262,6 +263,8 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 
 - [x] iota、menero、eos的awesome整理好
 - [ ] http://blockgeek.org/t/topic/1795 里面的目录整理进去
+  - [x] 比特币部分
+  - [ ] 以太坊部分
 - [ ] https://github.com/Xel/Blockchain-stuff 整理
 - [ ] 先实现一些较为简单的链，有个感性理性直观认识
   - [ ] 极客时间课程最后一部分
