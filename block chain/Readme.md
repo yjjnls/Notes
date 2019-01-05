@@ -268,6 +268,9 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
 - [ ] https://github.com/Xel/Blockchain-stuff 整理
 - [ ] 先实现一些较为简单的链，有个感性理性直观认识
   - [ ] 极客时间课程最后一部分
+    - [ ] https://time.geekbang.org/column/article/9273?utm_source=infoq&utm_medium=sitenavigation
+    - [ ] https://learnblockchain.cn/2017/10/27/build_blockchain_by_python/
+    - [ ] http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/
   - [ ] build your own blockchain里面一些简单的但是不同语言的实现（先跟着实现几个）
 - [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
 - [ ] 密码学完善
