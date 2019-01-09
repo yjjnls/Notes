@@ -273,10 +273,10 @@ https://etherscan.io/address/0x38c6a68304cdefb9bec48bbfaaba5c5b47818bb2#code
     - [ ] http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/
   - [ ] build your own blockchain里面一些简单的但是不同语言的实现（先跟着实现几个）
 - [ ] 共识那一部分整理好（最好添加对应代码）（浅谈区块链共识机制与分布式一致性算法，《Nodejs开发加密货币》之二十四：DPOS机制（分布式共识算法），Dpos的补充，整理到共识机制里面去，干货 | 权益证明 FAQ（完整版））
-- [ ] 密码学完善
+- [x] 密码学完善
   - [x] （比特币背后的密码学原理（看完比特币以后添加到crypto里面））
   - [x] 环签名、盲签名（https://blog.csdn.net/baidu_17508977/article/details/80930889  https://www.jianshu.com/p/feb97fa6dd8c）
-  - [ ] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
+  - [x] (http://book.8btc.com/books/6/masterbitcoin2cn/_book/ch06.html 数字签名那一部分)
 - [ ] DAG， merkle tree以及以太坊结构整理好，这也属于密码学部分 http://www.sohu.com/a/247540268_100222281 ！！！！最好有代码！！！！！！！
   - [ ] 比特币中的MT （零知识证明 Merkle tree in blockchain里面的部分，SPV验证）
   - [ ] 以太坊中的MPT
