@@ -196,7 +196,9 @@ public:
 
 节点也可能先收到`#5236B`，此时节点会将`#5236B`保存在孤矿池中，当收到`#5235B`时再将`#5236B`取出与`#5235B`连接。
 
+以下为示意图
 
+![](http://adilmoujahid.com/images/blockchain-the-longest-chain-wins.png)
 
 # 《精通比特币》相关要点整理
 - [ ] 区块链原理、设计与应用 第6章
