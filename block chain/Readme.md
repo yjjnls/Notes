@@ -58,6 +58,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [比特币源码分析](https://www.jianshu.com/u/30081a05cf95)
 -   [ ] [比特币网络源代码分析](https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf)
 -   [ ] [一文看懂怎样用 Python 创建比特币交易](https://mp.weixin.qq.com/s/3FTkvhu1k2t9KC_2009hTA)
+-   [ ] [Leaf-Node weakness in Bitcoin Merkle Tree Design](https://bitslog.wordpress.com/2018/06/09/leaf-node-weakness-in-bitcoin-merkle-tree-design/)
 
 [深入理解比特币交易的脚本](http://mp.weixin.qq.com/s/tbU9Pg0vQkA7JdKSgNyPAQ)
 
@@ -93,6 +94,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] ！！！[以太坊源码分析](https://github.com/ZtesoftCS/go-ethereum-code-analysis)
 -   [ ] [以太坊源码分析 中国人写的](https://blog.csdn.net/teaspring)
 -   [ ] [干货 | 以太坊分片：Overview and Finality](https://ethfans.org/posts/ethereum-sharding-and-finality)
+-   [ ] [以太坊分片](https://github.com/liuchengxu/blockchain-tutorial/blob/master/content/ethereum/ethereum-sharding-overview-and-finality.md)
 
 -   [x] [查看以太坊价格](http://blockgeek.org/t/topic/516)
 -   [ ] [锁定合约1](http://blockgeek.org/t/topic/338)
@@ -193,7 +195,7 @@ HelloZeroNet / ZeroNet
 
 <!-- -   [ ] [lets-build-a-blockchain](https://github.com/Haseeb-Qureshi/lets-build-a-blockchain) -->
 <!-- -   [ ] [Do-It-Yourself (DIY) - Build Your Own Blockchain(include talk notes)](https://github.com/openblockchains/awesome-blockchains#do-it-yourself-diy---build-your-own-blockchain) -->
--   [ ] [build-your-own-blockchain](https://github.com/danistefanovic/build-your-own-x#build-your-own-blockchain--cryptocurrency)
+<!-- -   [ ] [build-your-own-blockchain](https://github.com/danistefanovic/build-your-own-x#build-your-own-blockchain--cryptocurrency) -->
 <!-- -   [ ] [Python实现一条基于POS算法的区块链](https://learnblockchain.cn/2018/08/07/python-blockchain-with-pos/)  
 -   [ ] [用 Python 从零开始创建区块链](http://blockgeek.org/t/topic/498)
 -   [ ] [想学习区块链？那就用 Python 构建一个](http://python.jobbole.com/89246/) -->
@@ -206,13 +208,13 @@ HelloZeroNet / ZeroNet
 -   [x] [区块链reference](https://github.com/Blockchain-zju/references) 里面有算法分析以及一些资料
 <!-- -   [ ] [简历验证系统](https://github.com/Dearkano/ResumeVerification) -->
 <!-- -   [ ] [Nebulas上的一些项目](https://incentive.nebulas.io/dapps-board.html#5)  可以看看有哪些项目，以及一些项目的code   -->
--   [ ] ！！！ 各语言搭建blockchain <https://github.com/liuchengxu/blockchain-tutorial>   
+<!-- -   [ ] ！！！ 各语言搭建blockchain <https://github.com/liuchengxu/blockchain-tutorial>    -->
 <!-- -   [ ] ！！！ go搭建blockchain <https://jeiwan.cc/tags/bitcoin/>    -->
--   [ ] [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain)
+<!-- -   [ ] [Code for learning the blockchain data structure](https://github.com/seanjameshan/blockchain) -->
 <!-- -   [ ] ！！！[100个精品项目带你学会区块链](https://github.com/Fabsqrt/BitTigerLab/blob/master/Blockchain/README.md) -->
 <!-- -   [ ] [go实现merkle树和pow](http://blockgeek.org/t/topic/3020) -->
 
--   [ ] (<https://github.com/anders94/blockchain-demo/>) A web-based demonstration of blockchain concepts
+<!-- -   [ ] (<https://github.com/anders94/blockchain-demo/>) A web-based demonstration of blockchain concepts -->
 
 
 <!-- -   [ ] pow（js实现） <http://blockgeek.org/t/topic/558>  -->
