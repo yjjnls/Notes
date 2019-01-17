@@ -268,7 +268,7 @@ gas price是多少Gwei，那Gwei和Ether怎么换算？
 -   [ ] <http://blockgeek.org/t/topic/1795> 里面的目录整理进去
     -   [x] 比特币部分
     -   [ ] 以太坊部分
--   [ ] <https://github.com/Xel/Blockchain-stuff> 整理
+-   [ ] <https://github.com/Xel/Blockchain-stuff> 整理（以太坊的书再整理进去）
 -   [ ] 先实现一些较为简单的链，有个感性理性直观认识
     -   [ ] 极客时间课程最后一部分
         -   [ ] <https://time.geekbang.org/column/article/9273?utm_source=infoq&utm_medium=sitenavigation>
