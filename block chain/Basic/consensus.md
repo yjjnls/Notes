@@ -232,7 +232,7 @@ watermark存在的意义在于防止一个失效节点使用一个很大的序�
 
 下图展示了在没有发生主节点失效的情况下算法的正常执行流程，其中副本0是主节点，副本3是失效节点，而C是客户端。
 
-![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consesus3.jpg)   
+![consesus](https://github.com/yjjnls/Notes/blob/master/block%20chain/Basic/img/consesus3.png)   
 
 
 
