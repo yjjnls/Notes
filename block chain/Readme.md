@@ -52,9 +52,9 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 # bitcoin
 
 -   [x] 比特币白皮书
--   [ ] 精通比特币
--   [ ] [比特币可以跟进的项目](https://github.com/bitpay/bitcore)
--   [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)
+-   [x] 精通比特币
+~~-   [ ] [比特币可以跟进的项目](https://github.com/bitpay/bitcore)~~
+~~-   [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)~~
 -   [ ] [比特币源码分析](https://www.jianshu.com/u/30081a05cf95)
 -   [ ] [比特币网络源代码分析](https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf)
 -   [ ] [一文看懂怎样用 Python 创建比特币交易](https://mp.weixin.qq.com/s/3FTkvhu1k2t9KC_2009hTA)
