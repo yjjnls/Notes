@@ -57,7 +57,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 ~~-   [ ] [简单的比特币项目，可以看源码模仿着做一个](https://github.com/bitpay/bitcoind.js)~~
 -   [ ] [比特币源码分析](https://www.jianshu.com/u/30081a05cf95)
 -   [ ] [比特币网络源代码分析](https://github.com/wecodexyz/awesome-blockchain-articles/blob/master/book/%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.pdf)
--   [ ] [一文看懂怎样用 Python 创建比特币交易](https://mp.weixin.qq.com/s/3FTkvhu1k2t9KC_2009hTA)
+-   [x] [一文看懂怎样用 Python 创建比特币交易](https://mp.weixin.qq.com/s/3FTkvhu1k2t9KC_2009hTA)
 -   [ ] [Leaf-Node weakness in Bitcoin Merkle Tree Design](https://bitslog.wordpress.com/2018/06/09/leaf-node-weakness-in-bitcoin-merkle-tree-design/)
 
 [深入理解比特币交易的脚本](http://mp.weixin.qq.com/s/tbU9Pg0vQkA7JdKSgNyPAQ)
@@ -77,7 +77,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [简单的智能合约例子](https://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum)
 -   [ ] [★以太坊白皮书](http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6)
     英文版 [A Next Generation Smart Contract & Decentralized Application Platform](http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
--   [ ] [区块链100讲：从开发者的角度快速解读以太坊白皮书](https://blog.csdn.net/HiBlock/article/details/81297461)
+-   [x] [区块链100讲：从开发者的角度快速解读以太坊白皮书](https://blog.csdn.net/HiBlock/article/details/81297461)
 -   [ ] [\[以太坊源代码分析\] I.区块和交易，合约和虚拟机](http://blog.csdn.net/teaspring/article/details/75389151?locationNum=3&fps=1)
 -   [ ] [solidity语言学习](https://solidity.readthedocs.io/en/develop/)
 -   [ ] [solidity 开发](https://learnblockchain.cn/) 
@@ -87,7 +87,7 @@ POW [Bitcoin A Peer-to-Peer Electronic Cash System](http://www.8btc.com/wiki/bit
 -   [ ] [truffle框架](http://truffleframework.com/)
 
 -   [x] [BlockChain 与 Ethereum 介绍](https://jysperm.me/2016/05/blockchain-slides/)
--   [ ] [以太坊设计原理](https://ethfans.org/posts/510)
+-   [x] [以太坊设计原理](https://ethfans.org/posts/510)
 -   [ ] [智能合约案例](https://github.com/vczh2/solidityExample)
 
 -   [ ] ！！！★<https://github.com/xianfeng92/Love-Ethereum> 整理这里面的资源
