@@ -1,3 +1,13 @@
+- [Solidity](#solidity)
+    - [delete](#delete)
+    - [异常处理](#异常处理)
+      - [assert 和 require](#assert-和-require)
+      - [revert](#revert)
+    - [ABI](#abi)
+      - [Function](#function)
+      - [Event](#event)
+      - [例子](#例子)
+
 # Solidity
 Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言。这门语言受到了 C++，Python 和 Javascript 语言的影响，设计的目的是能在以太坊虚拟机（EVM）上运行。
 
@@ -101,9 +111,9 @@ revert的用法和throw很像，也会撤回所有的状态转变。但是它有
 调用起来就像这样子：
 
 ```
-revert(‘Something bad happened’);
+revert('Something bad happened');
 
-require(condition, ‘Something bad happened’);
+require(condition, 'Something bad happened');
 ```
 
 ref  
