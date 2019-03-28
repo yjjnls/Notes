@@ -75,4 +75,4 @@ docker login
 docker push ouruser/sinatra
 
 ## mount
-docker run -it -v /root/Desktop/test/conanos:/home/conan/mount yjjnls/emcc-docker /bin/bash
+docker run -it -v /root/Desktop/test/conanos:/home/conan/mount yjjnls/emcc-docker /bin/bash 
