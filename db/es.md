@@ -19,3 +19,37 @@ Elasticsearch -> Indices -> Types -> Documents -> Fields
 *   index中包含了很多类似的document：类似是什么意思，其实指的就是说，这些document的fields很大一部分是相同的，你说你放了3个document，每个document的fields都完全不一样，这就不是类似了，就不太适合放到一个index里面去了。
 *   索引名称必须是小写的，不能用下划线开头，不能包含逗号：product，website，blog
  
+
+# 查看集群健康状态
+curl -X GET "172.16.65.198:9200/_cat/health?v"
+
+# 查看索引
+curl -X GET "172.16.65.198:9200/_cat/indices?v"
+
+# 查询索引库index1中的类型type1
+curl -X GET "172.16.65.198:9200/index1/type1/_search?pretty"
+
+# 创建索引
+## PUT创建
+
+索引：blog，类型article，文档：doc1，-d后面的消息体中表示具体的field
+
+```sh
+curl -X PUT http://172.16.65.198:9200/blog/article/doc1 -d '
+{
+      "id": "1",
+      "title": "New version of Elasticsearch released!",
+      "content": "Version 1.0 released today!",
+      "priority": 10,
+      "tags": ["announce", "elasticsearch", "release"]
+}'
+
+{"_index":"blog","_type":"article","_id":"doc1","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"created":true}
+
+```
+
+PUT是更新类型，每次都要指定文档_id，每操作一次，_version+1。
+
+## POST创建
+
+用POST来创建数据可以指定_id，也可以不指定，此时如果存在相同数据则是修改，不指定id的话会随机生成id，且每次执行都会生成新数据。
