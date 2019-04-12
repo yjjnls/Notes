@@ -26,8 +26,7 @@ curl -X GET "172.16.65.198:9200/_cat/health?v"
 # 查看索引
 curl -X GET "172.16.65.198:9200/_cat/indices?v"
 
-# 查询索引库index1中的类型type1
-curl -X GET "172.16.65.198:9200/index1/type1/_search?pretty"
+
 
 # 创建索引
 ## PUT创建
@@ -61,3 +60,30 @@ PUT是更新类型，每次都要指定文档_id，每操作一次，_version+1�
 Put是等幂操作，即无论执行多少次结果都一样，例如DEL无论删除多少次索引库中的结果都一样，put只要指定了id且数据不变无论执行多少次索引库中的数据都不变，只有version会变化。
 
 Post每次执行都会产生新数据。
+
+# 查询
+## 查询类型中的所有文档
+查询索引库blog中的类型article，结果会显示article中所有的文档（即查询数据库blog中的表article，显示其所有行数据，行数据是类似的，但并不是像sql中完全一致的）。
+
+```sh
+curl -X GET "172.16.65.198:9200/blog/article/_search?pretty"
+```
+
+这里用到了`_search`关键词，同理，查询所有索引库：
+
+```sh
+curl -X GET "172.16.65.198:9200/_search?pretty"
+```
+
+查询索引中所有类型
+
+```sh
+curl -X GET "172.16.65.198:9200/blog/_search?pretty"
+```
+
+## 查询指定文档
+查询blog中article类型中，_id为doc1的文档
+
+```sh
+curl -X GET "172.16.65.198:9200/blog/article/doc1?pretty"
+```
