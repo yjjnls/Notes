@@ -47,9 +47,11 @@ curl -X PUT http://172.16.65.198:9200/blog/article/doc1 -d '
 
 ```
 
-PUT是更新类型，每次都要指定文档_id，每操作一次，_version+1。
+PUT是更新类型，每次都要指定文档`_id`，每操作一次，_version+1。
 
-如果PUT操作中加上_create，那么就是指定为创建操作，如果两次_id一样，那么会报错。
+如果PUT操作中加上_create，那么就是指定为创建操作，如果两次`_id`一样，那么会报错。
+
+注意这里文档的id为`_id`，而`"id": "1"`是文档中的一个属性。
 
 ## POST创建
 
@@ -87,3 +89,41 @@ curl -X GET "172.16.65.198:9200/blog/_search?pretty"
 ```sh
 curl -X GET "172.16.65.198:9200/blog/article/doc1?pretty"
 ```
+
+## 根据条件查询
+查询blog索引、article类型中查询id为2的数据，这里是指文档中的具体数据
+
+```sh
+curl -X GET "172.16.65.198:9200/blog/article/_search?q=id:2&pretty"
+```
+
+查询文档编号为doc1的数据
+
+```sh
+curl -X GET "172.16.65.198:9200/blog/article/_search?q=_id:doc1&pretty"
+```
+
+**查询id为2的数据时，es用倒排索引来查询，而sql把id作为B+树的索引来查询。**
+
+# 更新数据
+## 局域更新
+
+## 全局更新
+
+```sh
+curl -X POST http://172.16.65.198:9200/blog/article/doc1 -d '
+{
+      "id": "2"
+}'
+
+curl -X PUT http://172.16.65.198:9200/blog/article/doc1 -d '
+{
+      "id": "2"
+}'
+
+```
+覆盖原来的文档，直接生成一个新的doc
+
+全部更新，是直接把之前的老数据，标记为删除状态，然后，再添加一条更新的。
+
+局域更新，只是修改某个字段。
