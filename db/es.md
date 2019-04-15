@@ -144,3 +144,137 @@ curl -X DELETE "http://172.16.65.198:9200/blog/article/1"
 curl -X DELETE "http://172.16.65.198:9200/blog/article/_query?q=id:2&pretty"
 
 ```
+
+
+```sh
+POST twitter/_delete_by_query
+{
+  "query": { 
+    "match": {
+      "message": "some message"
+    }
+  }
+}
+
+```
+
+```sh
+curl -X POST http://172.16.65.198:9200/blog/article/_delete_by_query -d '
+{
+    "query":{
+        "bool":{
+            "should":[
+               {"match":{"prioritys": 10}} 
+            ]
+        }
+    }
+}'
+
+{"took":62,"timed_out":false,"total":1,"deleted":1,"batches":1,"version_conflicts":0,"noops":0,"retries":{"bulk":0,"search":0},"throttled_millis":0,"requests_per_second":-1.0,"throttled_until_millis":0,"failures":[]}
+# 再次运行
+{"took":1,"timed_out":false,"total":0,"deleted":0,"batches":0,"version_conflicts":0,"noops":0,"retries":{"bulk":0,"search":0},"throttled_millis":0,"requests_per_second":-1.0,"throttled_until_millis":0,"failures":[]}
+```
+
+query匹配语句：https://blog.csdn.net/HaixWang/article/details/80207769
+
+# 批量操作
+## bulk的格式
+*   action：index/create/update/delete
+*   metadata：_index, _type, _id
+*   request body：_source (删除操作不需要加request body)
+                   { action: { metadata }}
+                   { request body        }
+
+## create 和index的区别
+　　如果数据存在，使用create操作失败，会提示文档已经存在，使用index则可以成功执行。
+
+## bulk一次最大处理多少数据量？
+　　bulk会把将要处理的数据载入内存中，所以数据量是有限制的，最佳的数据量不是一个确定的数值，它取决于你的硬件，你的文档大小以及复杂性，你的索引以及搜索的负载。    
+　　一般建议是1000-5000个文档，如果你的文档很大，可以适当减少队列，大小建议是5-15MB，默认不能超过100M，可以在es的配置文件（即$ES_HOME下的config下的elasticsearch.yml）中。
+
+
+```sh
+curl -X POST "http://172.16.65.198:9200/blog/_bulk" -H 'Content-Type: application/json' -d'
+{ "index" : { "_type" : "test", "_id" : "1" } }
+{ "field1" : "value1" }
+'
+
+{"took":75,"errors":false,"items":[{"index":{"_index":"blog","_type":"test","_id":"1","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"created":true,"status":201}}]}
+# 第二次执行
+{"took":58,"errors":false,"items":[{"index":{"_index":"blog","_type":"test","_id":"1","_version":2,"result":"updated","_shards":{"total":2,"successful":1,"failed":0},"created":false,"status":200}}]}
+```
+
+```sh
+curl -X POST "http://172.16.65.198:9200/blog/_bulk" -H 'Content-Type: application/json' -d'
+{ "create" : { "_type" : "test", "_id" : "1" } }
+{ "field1" : "value1" }
+
+{"took":0,"errors":true,"items":[{"create":{"_index":"blog","_type":"test","_id":"1","status":409,"error":{"type":"version_conflict_engine_exception","reason":"[test][1]: version conflict, document already exists (current version [2])","index_uuid":"dpaC9p1IR4iP5k7mMKy14g","shard":"3","index":"blog"}}}]}
+```
+
+**document already exists (current version [2])**
+
+```sh
+curl -X POST http://172.16.65.198:9200/blog/_bulk?pretty  -d '
+{ "index":{ "_type": "article", "_id": "doc6" } }
+{ "id": "6", "title": "New version of Elasticsearch released!", "content": "Version 1.0 released today!", "priority": 10, "tags": ["announce", "elasticsearch", "release"] }
+{ "create":{ "_type": "article", "_id": "doc6" } }
+{ "id": "6", "title": "New version of Elasticsearch released!", "content": "Version 1.0 released today!", "priority": 10, "tags": ["announce", "elasticsearch", "release"] }
+{ "index":{ "_type": "article", "_id": "doc6" } }
+{ "id": "6", "title": "New version of Elasticsearch released!", "content": "Version 1.0 released today!", "priority": 10, "tags": ["announce", "elasticsearch", "release"] }
+'
+
+{
+  "took" : 63,
+  "errors" : true,
+  "items" : [
+    {
+      "index" : {
+        "_index" : "blog",
+        "_type" : "article",
+        "_id" : "doc6",
+        "_version" : 16,
+        "result" : "updated",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "created" : false,
+        "status" : 200
+      }
+    },
+    {
+      "create" : {
+        "_index" : "blog",
+        "_type" : "article",
+        "_id" : "doc6",
+        "status" : 409,
+        "error" : {
+          "type" : "version_conflict_engine_exception",
+          "reason" : "[article][doc6]: version conflict, document already exists (current version [16])",
+          "index_uuid" : "dpaC9p1IR4iP5k7mMKy14g",
+          "shard" : "4",
+          "index" : "blog"
+        }
+      }
+    },
+    {
+      "index" : {
+        "_index" : "blog",
+        "_type" : "article",
+        "_id" : "doc6",
+        "_version" : 17,
+        "result" : "updated",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "created" : false,
+        "status" : 200
+      }
+    }
+  ]
+}
+```
