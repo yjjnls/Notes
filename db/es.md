@@ -169,7 +169,7 @@ curl -X POST http://172.16.65.198:9200/blog/article/_delete_by_query -d '
         }
     }
 }'
-
+# _delete_by_query只会有一条回复
 {"took":62,"timed_out":false,"total":1,"deleted":1,"batches":1,"version_conflicts":0,"noops":0,"retries":{"bulk":0,"search":0},"throttled_millis":0,"requests_per_second":-1.0,"throttled_until_millis":0,"failures":[]}
 # 再次运行
 {"took":1,"timed_out":false,"total":0,"deleted":0,"batches":0,"version_conflicts":0,"noops":0,"retries":{"bulk":0,"search":0},"throttled_millis":0,"requests_per_second":-1.0,"throttled_until_millis":0,"failures":[]}
